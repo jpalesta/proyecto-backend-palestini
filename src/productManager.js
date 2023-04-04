@@ -12,8 +12,8 @@ class ProductManager {
         try {
             const data = await fs.readFile(this.path, 'utf-8')
             this.products = JSON.parse(data)
-            // console.log('clg read', this.products)
-            // return this.products
+            // console.log(this.products)
+            return this.products
         } catch (error) {
             this.products = []
         }
@@ -55,7 +55,7 @@ class ProductManager {
     
     getProducts = async () => {
         await this.read()
-        console.log(this.products)
+        // console.log(this.products)
         return this.products
     }
 
@@ -67,7 +67,7 @@ class ProductManager {
         if (!product) {
             throw 'Product not found'
         } else {
-            console.log(product)
+            // console.log(product)
             return product
         }
     }
@@ -101,7 +101,7 @@ class ProductManager {
 
 const product = new ProductManager();
 
-// product.getProducts()
+// product.getProductsById(4)
 
 // product.addProducts({
 //     title: "Décimo Producto",
