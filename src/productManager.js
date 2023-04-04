@@ -5,17 +5,16 @@ class ProductManager {
 
     constructor() {
         this.products = []
-        this.path = '../products.json'
+        this.path = './products.json'
     }
 
     read = async () => {
         try {
             const data = await fs.readFile(this.path, 'utf-8')
             this.products = JSON.parse(data)
-            // console.log(this.products)
             return this.products
         } catch (error) {
-            this.products = []
+            this.products 
         }
     }
 
@@ -55,7 +54,6 @@ class ProductManager {
     
     getProducts = async () => {
         await this.read()
-        // console.log(this.products)
         return this.products
     }
 
