@@ -33,7 +33,7 @@ class ProductManager {
             !newProduct.thumbnail ||
             !newProduct.code ||
             !newProduct.stock) {
-            throw 'todos los campos son necesarios'
+            throw 'all fields must be completed'
         }
 
         let product = this.products.find(prod => prod.code === newProduct.code)
