@@ -12,12 +12,12 @@ router.get('/', async (req, res) => {
         if (!limit) {
             return res.send({
                 status: 'success',
-                result: products
+                payload: products
             })
         }
         return res.send({
             status: 'success',
-            result: products.slice(0, limit)
+            payload: products.slice(0, limit)
         })
 
     } catch (error) {
@@ -28,11 +28,14 @@ router.get('/', async (req, res) => {
 router.get('/:pid', async (req, res) => {
     try {
         const { pid } = req.params
-        const productDb = await product.getProductsById(parseInt(pid))
-        if (!productDb) {
+        const productById = await product.getProductsById(parseInt(pid))
+        if (!productById) {
             return res.send({ status: 'error', error: 'product not found' })
         }
-        res.send({ productDb })
+        res.send({
+            status: 'success',
+            payload: productById
+        })
     } catch (error) {
         console.log(error)
         return res.send({ status: 'error', error: 'product not found' })
@@ -46,7 +49,7 @@ router.post('/', async (req, res) => {
         res.send({
             status: 'success',
             message: 'producto agregado correctamente',
-            newProduct
+            payload: newProduct
         })
     } catch (error) {
         res.status(400).send({
@@ -61,7 +64,6 @@ router.put('/:pid', async (req, res) => {
     try {
         const { pid } = req.params
         const update = req.body
-        console.log(update)
         await product.updateProduct(parseInt(pid), update)
         res.send({
             status: 'success',
