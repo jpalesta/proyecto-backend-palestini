@@ -5,7 +5,7 @@ class ProductManager {
 
     constructor() {
         this.products = []
-        this.path = './products.json'
+        this.path = './assets/products.json'
     }
 
     read = async () => {
@@ -77,7 +77,7 @@ class ProductManager {
         const productIndex = this.products.findIndex((product) => product.id === id)
         if (productIndex !== -1) {
             this.products[productIndex] = { ...this.products[productIndex], ...update }
-            this.write()
+            await this.write()  
         } else {
             throw 'Product to update not found'
         }

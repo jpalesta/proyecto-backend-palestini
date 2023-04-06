@@ -40,46 +40,42 @@ router.get('/:pid', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-        try{
-            let newProduct = req.body
+    try {
+        let newProduct = req.body
         await product.addProducts(newProduct)
-res.send({
-    status: 'success',
-    message: 'producto agregado correctamente',
-    newProduct
+        res.send({
+            status: 'success',
+            message: 'producto agregado correctamente',
+            newProduct
+        })
+    } catch (error) {
+        res.status(400).send({
+            status: 'error',
+            message: error
+        })
+        return console.log(error)
+    }
 })
-        } catch (error) {
-            res.status(400).send({status: 'error',
-            message: error})
-            return console.log(error)
-        }
-    //     let products = await product.read
-    //     if (!newProduct.title ||
-    //         !newProduct.description ||
-    //         !newProduct.price ||
-    //         !newProduct.thumbnail ||
-    //         !newProduct.code ||
-    //         !newProduct.stock) {
-    //         return res.status(400).send({ status: 'error', error: 'all fields must be completed' })
-    //     }
-    //     let productCode = this.products.find(prod => prod.code === newProduct.code)
 
-    //     if (productCode) {
-    //         return res.send({status: "error", error: 'This product already exist'}) 
-    //     }
-    //     if (this.products.length === 0) {
-    //         this.products.push({ id: 1, ...newProduct })
-    //     } else {
-    //         this.products.push({
-    //             id: this.products[this.products.length - 1].id + 1, ...newProduct
-    //         })
-    //         await product.write
-    //        return res.status(200).send({ newProduct })
-    //     }
-    // } catch (error) {
-    //     return console.log(error)
-    // }
+router.put('/:pid', async (req, res) => {
+    try {
+        const { pid } = req.params
+        const update = req.body
+        console.log(update)
+        await product.updateProduct(parseInt(pid), update)
+        res.send({
+            status: 'success',
+            message: 'producto modificado correctamente'
+        })
+    } catch (error) {
+        res.status(400).send({
+            status: 'error',
+            message: error
+        })
+        return console.log(error)
+    }
 })
+
 
 router.delete('/:pid', async (req, res) => {
     try {
