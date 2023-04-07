@@ -38,7 +38,6 @@ class CartManager {
     
     getCarts = async () => {
         await this.read()
-        console.log('clg getCarts', this.carts)
         return this.carts
     }
 
@@ -50,22 +49,47 @@ class CartManager {
         if (!cartId) {
             throw 'Cart not found'
         } else {
-            console.log(cartId)
             return cartId
         }
     }
 
-    updateCart = async (id, update) => {
+    // updateCart = async (id, update) => {
+
+    //     await this.read()
+
+    //     const cartIndex = this.carts.findIndex((cart) => cart.id === id)
+    //     if (cartIndex !== -1) {
+    //         this.carts[cartIndex] = { ...this.carts[cartIndex], ...update }
+    //         await this.write()  
+    //     } else {
+    //         throw 'Cart to update not found'
+    //     }
+    // }
+    updateCart = async (id, idUpdate ) => {
 
         await this.read()
 
-        const cartIndex = this.carts.findIndex((cart) => cart.id === id)
-        if (cartIndex !== -1) {
-            this.carts[cartIndex] = { ...this.carts[cartIndex], ...update }
+        const cartToUpdate = this.carts.find((cart) => cart.id === id)
+console.log(cartToUpdate)
+        const productIndex = cartToUpdate.products.find((prod) => prod.id === idUpdate)
+            console.log(productIndex)
+        if(!productIndex){
+            this.carts[id] = [...cartToUpdate.products, {id: idUpdate, quantity: 1}]
+            console.log(cart)
             await this.write()  
-        } else {
-            throw 'Cart to update not found'
         }
+        //  else{
+        //     console.log('+1')
+        // }
+
+        await this.write
+
+        // if (cartIndex !== -1) {
+        //     this.carts[cartIndex] = { ...this.carts[cartIndex], ...update }
+        //     await this.write()  
+        // } else {
+        //     throw 'Cart to update not found'
+        // }
     }
 
     deleteCart = async (id) => {
@@ -90,7 +114,7 @@ const cart = new CartManager();
 
 // cart.getCartsById(3)
 
-// cart.updateCart(3,{products: [{product: 1, quantity: 1}]})
+cart.updateCart(5,1)
 
 // cart.deleteCart(1)
 

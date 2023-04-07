@@ -19,7 +19,6 @@ router.get('/', async (req, res) => {
             status: 'success',
             payload: products.slice(0, limit)
         })
-
     } catch (error) {
         console.log(error)
     }
@@ -77,7 +76,6 @@ router.put('/:pid', async (req, res) => {
         return console.log(error)
     }
 })
-
 
 router.delete('/:pid', async (req, res) => {
     try {
