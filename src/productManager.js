@@ -32,7 +32,9 @@ class ProductManager {
             !newProduct.price ||
             !newProduct.thumbnail ||
             !newProduct.code ||
-            !newProduct.stock) {
+            !newProduct.stock ||
+            !newProduct.category ||
+            !newProduct.status) {
             throw 'all fields must be completed'
         }
 

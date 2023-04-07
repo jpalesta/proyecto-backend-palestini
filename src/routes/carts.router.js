@@ -6,75 +6,90 @@ const router = Router()
 const cart = new CartManager()
 const product = new ProductManager()
 
+//chequeado OK
 router.post('/', async (req, res) => {
     try {
         await cart.addCarts()
+        let newCartArray = await cart.getCarts()
         res.send({
             status: 'success',
             message: 'carrito agregado correctamente',
+            payload: newCartArray
         })
     } catch (error) {
         res.status(400).send({
             status: 'error',
             message: error
         })
-        return console.log(error)
     }
 })
-
+//chequeado OK
 router.get('/:cid', async (req, res) => {
     try {
         const { cid } = req.params
         const cartById = await cart.getCartsById(parseInt(cid))
         if (!cartById) {
-            return res.send({ status: 'error', error: 'cart not found' })
+            return res.send({
+                status: 'error',
+                error: 'cart not found'
+            })
         }
         res.send({
             status: 'success',
             payload: cartById
         })
     } catch (error) {
-        console.log(error)
-        return res.send({ status: 'error', error: 'cart not found' })
+        return res.send({
+            status: 'error',
+            error: 'cart not found'
+        })
     }
 })
-
+//chequeado OK
 router.post('/:cid/products/:pid', async (req, res) => {
     try {
-        const { cid } = req.params
+        const { cid, pid } = req.params
         const cartById = await cart.getCartsById(parseInt(cid))
         if (!cartById) {
-            console.log(cartById)
-            return res.send({ status: 'error', error: 'cart not found' })
-        }
-        const { pid } = req.params
-        const productById = await product.getProductsById(parseInt(pid))
-        if (!productById) {
-            return res.send({ status: 'error', error: 'product not found' })
-        }
-
-        console.log(cartById.products)
-        console.log(productById.id)
-        console.log(pid)
-
-        const productToUpdate = cartById.products.find(prod => prod.id === parseInt(pid))
-        console.log(productToUpdate)
-        if (!productToUpdate) {
-            cartById.products.push({id:pid, quantity: 1})
+            return res.send({
+                status: 'error',
+                error: 'cart not found'
+            })
         } else {
-            console.log('tengo que capturar cant')
+            const productById = await product.getProductsById(parseInt(pid))
+            if (!productById) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'Product not found'
+                })
+            } else {
+                let productToAdd = cartById.products.find(prod => prod.id === parseInt(pid))
+                if (productToAdd) {
+                    productToAdd.quantity++
+                    await cart.updateCart(cid, cartById)
+                    res.status(200).send({
+                        status: 'success',
+                        message: 'product increased +1 ok',
+                        payload: cartById
+                    })
+                } else {
+                    productToAdd = { id: parseInt(pid), quantity: 1 }
+                    cartById.products.push(productToAdd)
+                    await cart.updateCart(cid, cartById)
+                    res.status(200).send({
+                        status: 'success',
+                        message: 'product added ok',
+                        payload: cartById
+                    })
+                }
+            }
         }
-        //     await cart.updateCart(parseInt(cid), {id: parseInt(pid), quantity: 1})
-        // } if (productIndex !== -1) {
-        //     cartById.products.push({ id : pid, quantity: 2 })
-        // no estoy grabando en el archivo, tengo que usar el método update
-        // }
     } catch (error) {
-        return console.log(error
-        )
+        return res.status(400).send({
+            status: 'error',
+            error: 'cart or product not found'
+        })
     }
-
 })
-
 
 module.exports = router

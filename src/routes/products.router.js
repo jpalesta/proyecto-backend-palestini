@@ -4,7 +4,7 @@ const ProductManager = require('../productManager')
 const router = Router()
 const product = new ProductManager()
 
-
+//chequeado OK
 router.get('/', async (req, res) => {
     try {
         const { limit } = req.query
@@ -21,15 +21,22 @@ router.get('/', async (req, res) => {
         })
     } catch (error) {
         console.log(error)
+        return res.send({
+            status: 'error',
+            error: 'something was wrong'
+        })
     }
 })
-
+//chequeado OK
 router.get('/:pid', async (req, res) => {
     try {
         const { pid } = req.params
         const productById = await product.getProductsById(parseInt(pid))
         if (!productById) {
-            return res.send({ status: 'error', error: 'product not found' })
+            return res.send({
+                status: 'error',
+                error: 'product not found'
+            })
         }
         res.send({
             status: 'success',
@@ -40,25 +47,24 @@ router.get('/:pid', async (req, res) => {
         return res.send({ status: 'error', error: 'product not found' })
     }
 })
-
+//chequeado OK
 router.post('/', async (req, res) => {
     try {
         let newProduct = req.body
         await product.addProducts(newProduct)
         res.send({
             status: 'success',
-            message: 'producto agregado correctamente',
+            message: 'product added OK',
             payload: newProduct
         })
     } catch (error) {
-        res.status(400).send({
+        return res.status(400).send({
             status: 'error',
             message: error
         })
-        return console.log(error)
     }
 })
-
+//chequeado OK
 router.put('/:pid', async (req, res) => {
     try {
         const { pid } = req.params
@@ -66,14 +72,13 @@ router.put('/:pid', async (req, res) => {
         await product.updateProduct(parseInt(pid), update)
         res.send({
             status: 'success',
-            message: 'producto modificado correctamente'
+            message: 'product modified OK'
         })
     } catch (error) {
-        res.status(400).send({
+        return res.status(400).send({
             status: 'error',
             message: error
         })
-        return console.log(error)
     }
 })
 
@@ -83,11 +88,14 @@ router.delete('/:pid', async (req, res) => {
         await product.deleteProduct(parseInt(pid))
         res.send({
             status: 'success',
-            message: 'Producto eliminado correctamente'
+            message: 'product deleted OK'
         })
     } catch (error) {
-        console.log(error)
-        return res.send({ status: 'error', error: 'product not found' })
+
+        return res.send({
+            status: 'error',
+            error: 'product to delete not found'
+        })
     }
 })
 
