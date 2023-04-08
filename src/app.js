@@ -6,6 +6,7 @@ const cartsRouter = require('./routes/carts.router.js')
 const app = express()
 const port = 8080
 
+
 //configuración y prueba de handlebars
 // const handlebars = require('express-handlebars')
 // app.engine( 'handlebars', handlebars.engine())
@@ -21,6 +22,8 @@ const port = 8080
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use('/static',express.static(__dirname+'/public'))
 
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)

@@ -59,6 +59,7 @@ class CartManager {
 
         const cartIndex = this.carts.findIndex((cart) => cart.id === parseInt(id))
         if (cartIndex !== -1) {
+            
             this.carts[cartIndex] = { ...this.carts[cartIndex], ...update }
             await this.write()
         } else {

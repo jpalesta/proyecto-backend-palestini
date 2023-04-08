@@ -78,7 +78,11 @@ class ProductManager {
 
         const productIndex = this.products.findIndex((product) => product.id === id)
         if (productIndex !== -1) {
-            this.products[productIndex] = { ...this.products[productIndex], ...update }
+            const updatedProduct =this.products[productIndex] = { ...this.products[productIndex], ...update }
+            if (updatedProduct.id !== id){
+                throw 'field product ID can not be modified'
+            }
+            this.products[productIndex]= updatedProduct
             await this.write()  
         } else {
             throw 'Product to update not found'
