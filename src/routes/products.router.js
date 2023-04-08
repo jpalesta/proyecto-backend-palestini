@@ -52,16 +52,19 @@ router.post('/', async (req, res) => {
     try {
         let newProduct = req.body
         await product.addProducts(newProduct)
-        res.send({
+        let lastProductIndex = product.products.length-1
+        let lastProductAdded = product.products[lastProductIndex]
+            res.send({
             status: 'success',
             message: 'product added OK',
-            payload: newProduct
+            payload: lastProductAdded
         })
     } catch (error) {
         return res.status(400).send({
             status: 'error',
             message: error
         })
+        console.log(productAdded)
     }
 })
 //chequeado OK

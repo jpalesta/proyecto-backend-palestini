@@ -92,7 +92,7 @@ class ProductManager {
         const productIndex = this.products.findIndex((product) => product.id === id)
         if (productIndex !== -1) {
             this.products.splice(productIndex, 1)
-            this.write()
+            await this.write()
         } else {
             throw 'Product to delete not found'
         }
