@@ -1,3 +1,8 @@
 <div>
-    <h1>Hola {{name}} que bueno verte !!</h1>
+  <h1>Listado de productos</h1>
+  {{#each products}}
+    <div>
+      <p>{{this.title}}</p>
+    </div>
+  {{/each}}
 </div>

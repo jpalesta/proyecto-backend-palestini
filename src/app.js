@@ -2,32 +2,35 @@ const express = require('express')
 
 const productsRouter = require('./routes/products.router.js')
 const cartsRouter = require('./routes/carts.router.js')
-const uploader = require('./utils.js')
+const viewsRouter = require('./routes/views.router.js')
+const uploader = require('./utils/multer.js')
+const handlebars = require('express-handlebars')
+const { Server } = require('socket.io')
 
+//configuracion express + socketserver
 const app = express()
 const port = 8080
-
+const httpServer = app.listen(port, () => {
+    console.log(`escuchando el puerto ${port}`)
+})
+const socketServer = new Server(httpServer)
 
 //configuración y prueba de handlebars
-// const handlebars = require('express-handlebars')
-// app.engine( 'handlebars', handlebars.engine())
-// app.set('views', __dirname+'/views')
-// app.set('view engine', 'handlebars')
-// app.get('/vista', (req, res) =>{
+app.engine( 'handlebars', handlebars.engine())
+app.set('views', __dirname+'/views')
+app.set('view engine', 'handlebars')
 
-//     let testUser = {
-//         name: 'toto'
-//     }
-//     res.render('index', testUser)
-// })
-
+//configuracion para que express reconozca formatos
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+//configuracion de carpeta public
 app.use('/static',express.static(__dirname+'/public'))
 
+//configuracion de routers
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
+app.use('/', viewsRouter)
 
 //Prueba de Multer
 app.post('/single', uploader.single('product.file'), (req, res) =>{
@@ -41,7 +44,3 @@ app.use((err, req, res ,next)=>{
     res.status(500).send('something is wrong')
 })
 
-
-app.listen(port, () => {
-    console.log(`escuchando el puerto ${port}`)
-})
