@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
 router.get('/realtimeproducts', (req, res) => {
     let testUser = {
-        title: 'prueba'
+        title: 'Listado de Productos dinámico'
     }
     res.render('realTimeProducts', testUser)
 })

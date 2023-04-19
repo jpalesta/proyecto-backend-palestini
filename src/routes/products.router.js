@@ -1,8 +1,9 @@
 const { Router } = require('express')
 const ProductManager = require('../productManager')
-
 const router = Router()
 const product = new ProductManager()
+const io = require("socket.io-client")
+
 
 //chequeado OK
 router.get('/', async (req, res) => {
@@ -52,9 +53,10 @@ router.post('/', async (req, res) => {
     try {
         let newProduct = req.body
         await product.addProducts(newProduct)
-        let lastProductIndex = product.products.length-1
+        let lastProductIndex = product.products.length - 1
         let lastProductAdded = product.products[lastProductIndex]
-            res.send({
+        await emitProductsUpdate()
+        res.send({
             status: 'success',
             message: 'product added OK',
             payload: lastProductAdded
@@ -64,7 +66,6 @@ router.post('/', async (req, res) => {
             status: 'error',
             message: error
         })
-        console.log(productAdded)
     }
 })
 //chequeado OK
@@ -73,6 +74,7 @@ router.put('/:pid', async (req, res) => {
         const { pid } = req.params
         const update = req.body
         await product.updateProduct(parseInt(pid), update)
+        await emitProductsUpdate()
         res.send({
             status: 'success',
             message: 'product modified OK'
@@ -89,6 +91,7 @@ router.delete('/:pid', async (req, res) => {
     try {
         const { pid } = req.params
         await product.deleteProduct(parseInt(pid))
+        await emitProductsUpdate()
         res.send({
             status: 'success',
             message: 'product deleted OK'
@@ -102,5 +105,11 @@ router.delete('/:pid', async (req, res) => {
     }
 })
 
+//funcion que actualiza la lista de productos y emite el evento productsUpdated
+async function emitProductsUpdate() {
+    const socket = io("ws://localhost:8080")
+    const products = await product.getProducts()
+    socket.emit('productsUpdated', products)
+}
 
 module.exports = router

@@ -1,10 +1,8 @@
 <h1>{{title}}</h1>
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io()
+<ul id="updatedProductsList"></ul>
 
-    socket.on('products', data => {
-        console.log(data)
-    })
-</script>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/static/js/realTimeProducts.js"></script>
