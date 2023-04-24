@@ -7,6 +7,16 @@ const uploader = require('./utils/multer.js')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 
+import userRouter from './routes/users.router.js'
+import mongoose from 'mongoose'
+
+mongoose.connect('mongodb+srv://josepalestini:<password>@cluster0.cfmd9ai.mongodb.net/?retryWrites=true&w=majority', (error) => {
+if (error) {
+    console.log('cannot connect to database:' + error)
+    process.exit}
+})
+
+
 //configuracion express + socketserver
 const app = express()
 const port = 8080
