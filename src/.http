@@ -1,0 +1,28 @@
+//Products
+### GET
+get http://localhost:8080/api/products
+
+### GET
+get http://localhost:8080/api/products/id
+
+### POST
+post http://localhost:8080/api/products
+
+Content-Type: application/json
+
+{
+"title": "Título Producto Modelo 2" ,
+"description": "Descripción Producto Modelo 2"  ,
+"price": 1000 ,
+"thumbnail": "" ,
+"code": "A002",
+"stock": 5000,
+"category": "Categoría Modelo",
+"status": true
+}
+
+### PUT
+put http://localhost:8080/api/products/id
+
+### DELETE
+delete http://localhost:8080/api/products/id

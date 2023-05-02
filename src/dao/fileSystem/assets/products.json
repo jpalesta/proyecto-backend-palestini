@@ -1,0 +1,9 @@
+[{"id":1,"title":"Primer Producto",
+"description":"Descripción Primer Producto"
+,"price":5000
+,"thumbnail":[]
+,"code":"A01"
+,"stock":1000
+,"category":"a definir"
+,"status":true},
+{"id":2,"title":"Segundo Producto","description":"Descripción Segundo Producto","price":5000,"thumbnail":[],"code":"A02","stock":1000,"category":"a definir","status":true},{"id":3,"title":"Tercer Producto","description":"Descripción Tercer Producto","price":5000,"thumbnail":[],"code":"A03","stock":1000,"category":"a definir","status":true},{"id":4,"title":"Cuarto Producto","description":"Descripción Cuarto Producto","price":5000,"thumbnail":[],"code":"A04","stock":1000,"category":"a definir","status":true},{"id":5,"title":"Quinto Producto","description":"Descripción Quinto Producto","price":5000,"thumbnail":[],"code":"A05","stock":1000,"category":"a definir","status":true},{"id":6,"title":"Sexto Producto","description":"Descripción Sexto Producto","price":5000,"thumbnail":[],"code":"A06","stock":1000,"category":"a definir","status":true},{"id":7,"title":"Séptimo Producto","description":"Descripción Séptimo Producto","price":5000,"thumbnail":[],"code":"A07","stock":1000,"category":"a definir","status":true},{"id":8,"title":"Octavo Producto","description":"Descripción Octavo Producto","price":5000,"thumbnail":[],"code":"A08","stock":1000,"category":"a definir","status":true},{"id":9,"title":"Noveno Producto","description":"Descripción Noveno Producto","price":5000,"thumbnail":[],"code":"A09","stock":1000,"category":"a definir","status":true},{"id":10,"title":"Décimo Producto","description":"Descripción Décimo Producto","price":5000,"thumbnail":[],"code":"A10","stock":1000},{"id":11,"title":"Décimo Producto","description":"Descripción Décimo Producto","price":5000,"thumbnail":[],"code":"A75","stock":5000,"status":true,"category":"a definir"}]

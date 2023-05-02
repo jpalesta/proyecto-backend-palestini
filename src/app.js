@@ -1,21 +1,14 @@
 const express = require('express')
 
-const productsRouter = require('./routes/products.router.js')
-const cartsRouter = require('./routes/carts.router.js')
-const viewsRouter = require('./routes/views.router.js')
+const routerApp = require ('./routes')
+
 const uploader = require('./utils/multer.js')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
+const objectConfig = require('./config/objectConfig.js')
 
-import userRouter from './routes/users.router.js'
-import mongoose from 'mongoose'
-
-mongoose.connect('mongodb+srv://josepalestini:<password>@cluster0.cfmd9ai.mongodb.net/?retryWrites=true&w=majority', (error) => {
-if (error) {
-    console.log('cannot connect to database:' + error)
-    process.exit}
-})
-
+//conexión DB Mogoose
+objectConfig.connectDB()
 
 //configuracion express + socketserver
 const app = express()
@@ -24,13 +17,16 @@ const server = app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
 const io = new Server(server)
-
 io.on('connection', (socket) => {
     console.log('new client connect')
     socket.on('productsUpdated', (data) => {
         io.emit('updatedProductsUi', data)
     })
 })
+
+//importacion de rutas de index routes
+app.use(routerApp)
+
 //configuración y prueba de handlebars
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
@@ -42,11 +38,6 @@ app.use(express.urlencoded({ extended: true }))
 
 //configuracion de carpeta public
 app.use('/static', express.static(__dirname + '/public'))
-
-//configuracion de routers
-app.use('/api/products', productsRouter)
-app.use('/api/carts', cartsRouter)
-app.use('/', viewsRouter)
 
 //Prueba de Multer
 app.post('/single', uploader.single('product.file'), (req, res) => {
