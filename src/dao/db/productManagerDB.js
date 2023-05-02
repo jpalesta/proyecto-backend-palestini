@@ -10,7 +10,14 @@ class ProductManagerDB {
         }
     }
 
-    async getProductById() {}
+    async getProductById(pid) {
+        try{
+        return await productsModel.findOne({_id: pid})
+    } catch (error){
+        return new Error(error)
+    }
+}
+
 
     async addProduct(newProduct) {
         try{

@@ -1,13 +1,12 @@
 //Products
 ### GET
-get http://localhost:8080/api/products
+GET http://localhost:8080/api/products
 
 ### GET
-get http://localhost:8080/api/products/6451557b419a8e3be8ade964
+GET  http://localhost:8080/api/products/64516faf23101b917e226fbc
 
 ### POST
-post http://localhost:8080/api/products
-
+POST  http://localhost:8080/api/products
 Content-Type: application/json
 
 {

@@ -4,6 +4,7 @@ const router = Router()
 //Manager de Mongo DB
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
 
+
 //Manager de file
 // const ProductManager = require('../dao/fileSystem/productManager')
 // const product = new ProductManager()
@@ -22,26 +23,37 @@ router.get('/', async (req, res) => {
         console.log(error)
     }
 })
-router.get('/:pid', async (req, res) => {
-    res.status(200).send('get product by ID')
 
-})
-router.post('/', async (req, res) => {
+router.get('/:pid', async (req, res) => {
     try {
-        const newProduct = req.body
-        let createdProduct = await ProductManagerDB.addProduct(newProduct)
-        console.log('clg newProduct', newProduct)
+        const pid = req.params
+        const product = await ProductManagerDB.getProductById(pid)
         res.status(200).send({
             status: 'success',
-            payload: createdProduct
+            payload: product
         })
     } catch (error) {
         console.log(error)
     }
 })
+
+router.post('/', async (req, res) => {
+    try {
+        const newProduct = req.body
+        console.log('clg NewProd apenas viene', newProduct)
+        product = await ProductManagerDB.addProduct(newProduct)
+        console.log('clg newProduct', newProduct)
+        res.status(200).send({
+            status: 'success',
+            payload: product
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 router.put('/:pid', async (req, res) => {
     res.status(200).send('update product')
-
 })
 
 router.delete('/:pid', async (req, res) => {

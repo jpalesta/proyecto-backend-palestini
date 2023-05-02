@@ -50,3 +50,4 @@ app.use((err, req, res, next) => {
     console.log('clg error en app', err)
     res.status(500).send('something is wrong')
 })
+
