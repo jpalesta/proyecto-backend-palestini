@@ -3,7 +3,7 @@
 get http://localhost:8080/api/products
 
 ### GET
-get http://localhost:8080/api/products/id
+get http://localhost:8080/api/products/6451557b419a8e3be8ade964
 
 ### POST
 post http://localhost:8080/api/products

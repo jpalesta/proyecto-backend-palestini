@@ -14,6 +14,7 @@ class ProductManagerDB {
 
     async addProduct(newProduct) {
         try{
+            console.log('clg newProduct add', newProduct)
         return await productsModel.create(newProduct)
     } catch (error){
         return new Error(error)
