@@ -10,7 +10,7 @@ const ProductManagerDB = require('../dao/db/productManagerDB.js')
 // const product = new ProductManager()
 
 //Socket
-const io = require("socket.io-client")
+// const io = require("socket.io-client")
 
 router.get('/', async (req, res) => {
     try {
@@ -27,7 +27,9 @@ router.get('/', async (req, res) => {
 router.get('/:pid', async (req, res) => {
     try {
         const pid = req.params
+        console.log('pid', pid)
         const product = await ProductManagerDB.getProductById(pid)
+        console.log('product', product)
         res.status(200).send({
             status: 'success',
             payload: product

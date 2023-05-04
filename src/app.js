@@ -13,6 +13,23 @@ objectConfig.connectDB()
 //configuracion express + socketserver
 const app = express()
 const port = 8080
+
+//configuracion para que express reconozca formatos
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+//importacion de rutas de index routes
+app.use(routerApp)
+
+//configuración y prueba de handlebars
+app.engine('handlebars', handlebars.engine())
+app.set('views', __dirname + '/views')
+app.set('view engine', 'handlebars')
+
+
+//configuracion de carpeta public
+app.use('/static', express.static(__dirname + '/public'))
+
 const server = app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
@@ -23,22 +40,6 @@ io.on('connection', (socket) => {
         io.emit('updatedProductsUi', data)
     })
 })
-
-//importacion de rutas de index routes
-app.use(routerApp)
-
-//configuración y prueba de handlebars
-app.engine('handlebars', handlebars.engine())
-app.set('views', __dirname + '/views')
-app.set('view engine', 'handlebars')
-
-//configuracion para que express reconozca formatos
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-//configuracion de carpeta public
-app.use('/static', express.static(__dirname + '/public'))
-
 //Prueba de Multer
 app.post('/single', uploader.single('product.file'), (req, res) => {
     res.status(200).send({

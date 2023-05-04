@@ -3,7 +3,7 @@
 GET http://localhost:8080/api/products
 
 ### GET
-GET  http://localhost:8080/api/products/64516faf23101b917e226fbc
+GET  http://localhost:8080/api/products/64516f8c23101b917e226fbb
 
 ### POST
 POST  http://localhost:8080/api/products
@@ -14,7 +14,7 @@ Content-Type: application/json
 "description": "Descripción Producto Modelo 2"  ,
 "price": 1000 ,
 "thumbnail": "" ,
-"code": "A002",
+"code": "A010",
 "stock": 5000,
 "category": "Categoría Modelo",
 "status": true
