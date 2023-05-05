@@ -21,7 +21,13 @@ Content-Type: application/json
 }
 
 ### PUT
-put http://localhost:8080/api/products/id
+put http://localhost:8080/api/products/64516f8c23101b917e226fbb
+Content-Type: application/json
+
+{
+    "title": "ahora si ",
+     "stock": 8000
+}
 
 ### DELETE
-delete http://localhost:8080/api/products/id
+delete http://localhost:8080/api/products/64516faf23101b917e226fbc

@@ -53,11 +53,30 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/:pid', async (req, res) => {
-    res.status(200).send('update product')
+try{
+    const pid = req.params.pid
+    const update = req.body
+    const productUpdated = await ProductManagerDB.updateProduct(pid, update)
+    res.status(200).send({
+        status: 'success',
+        payload: productUpdated
+    })
+} catch (error) {
+    console.log(error)
+}
 })
 
 router.delete('/:pid', async (req, res) => {
-    res.status(200).send('delete product')
+    try {
+        const pid = req.params.pid
+        const product = await ProductManagerDB.deleteProduct({_id: pid})
+        res.status(200).send({
+            status: 'success',
+            payload: product
+        })
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 //funcion que actualiza la lista de productos y emite el evento productsUpdated
