@@ -26,10 +26,8 @@ router.get('/', async (req, res) => {
 
 router.get('/:pid', async (req, res) => {
     try {
-        const pid = req.params
-        console.log('pid', pid)
-        const product = await ProductManagerDB.getProductById(pid)
-        console.log('product', product)
+        const pid = req.params.pid
+        const product = await ProductManagerDB.getProductById({_id: pid})
         res.status(200).send({
             status: 'success',
             payload: product

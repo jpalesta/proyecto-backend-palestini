@@ -1,4 +1,6 @@
+const { ObjectId } = require('mongoose');
 const productsModel = require("./models/product.model")
+
 
 class ProductManagerDB {
 
@@ -12,7 +14,7 @@ class ProductManagerDB {
 
     async getProductById(pid) {
         try{
-        return await productsModel.findOne({_id: pid})
+        return await productsModel.findOne(pid)
     } catch (error){
         return new Error(error)
     }
