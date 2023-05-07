@@ -5,12 +5,8 @@ const router = Router()
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
 
 
-//Manager de file
-// const ProductManager = require('../dao/fileSystem/productManager')
-// const product = new ProductManager()
-
 //Socket
-// const io = require("socket.io-client")
+const io = require("socket.io-client")
 
 router.get('/', async (req, res) => {
     try {
@@ -27,7 +23,7 @@ router.get('/', async (req, res) => {
 router.get('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
-        const product = await ProductManagerDB.getProductById({_id: pid})
+        const product = await ProductManagerDB.getProductById({ _id: pid })
         res.status(200).send({
             status: 'success',
             payload: product
@@ -43,6 +39,7 @@ router.post('/', async (req, res) => {
         console.log('clg NewProd apenas viene', newProduct)
         product = await ProductManagerDB.addProduct(newProduct)
         console.log('clg newProduct', newProduct)
+        await emitProductsUpdate()
         res.status(200).send({
             status: 'success',
             payload: product
@@ -53,23 +50,25 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/:pid', async (req, res) => {
-try{
-    const pid = req.params.pid
-    const update = req.body
-    const productUpdated = await ProductManagerDB.updateProduct(pid, update)
-    res.status(200).send({
-        status: 'success',
-        payload: productUpdated
-    })
-} catch (error) {
-    console.log(error)
-}
+    try {
+        const pid = req.params.pid
+        const update = req.body
+        const productUpdated = await ProductManagerDB.updateProduct(pid, update)
+        await emitProductsUpdate()
+        res.status(200).send({
+            status: 'success',
+            payload: productUpdated
+        })
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 router.delete('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
-        const product = await ProductManagerDB.deleteProduct({_id: pid})
+        const product = await ProductManagerDB.deleteProduct({ _id: pid })
+        await emitProductsUpdate()
         res.status(200).send({
             status: 'success',
             payload: product
@@ -80,14 +79,18 @@ router.delete('/:pid', async (req, res) => {
 })
 
 //funcion que actualiza la lista de productos y emite el evento productsUpdated
-// async function emitProductsUpdate() {
-//     const socket = io("ws://localhost:8080")
-//     const products = await product.getProducts()
-//     socket.emit('productsUpdated', products)
-// }
+async function emitProductsUpdate() {
+    const socket = io("ws://localhost:8080")
+    const products = await product.getProducts()
+    socket.emit('productsUpdated', products)
+}
 
 module.exports = router
 
+
+//Manager de file
+// const ProductManager = require('../dao/fileSystem/productManager')
+// const product = new ProductManager()
 
 //RUTAS CON PERSISTENCIA EN FILE
 
@@ -107,10 +110,10 @@ module.exports = router
 //             payload: products.slice(0, limit)
 //         })
 //     } catch (error) {
-//         console.log(error)
+    //         console.log(error)
 //         return res.send({
-//             status: 'error',
-//             error: 'something was wrong'
+    //             status: 'error',
+    //             error: 'something was wrong'
 //         })
 //     }
 // })

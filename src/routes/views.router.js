@@ -1,12 +1,12 @@
 const { Router } = require('express')
 const router = Router()
 
-const ProductManager = require('../dao/fileSystem/productManager')
-const product = new ProductManager()
+const ProductManagerDB = require('../dao/db/productManagerDB')
+
 
 router.get('/', async (req, res) => {
     try {
-        const products = await product.getProducts()
+        const products = await ProductManagerDB.getProducts()
         let testUser = {
             title: 'Lista de Productos',
             products: products
@@ -25,4 +25,7 @@ router.get('/realtimeproducts', (req, res) => {
     res.render('realTimeProducts', testUser)
 })
 
+router.get('/chat', (req, res) =>{
+    res.render('chat', {})
+})
 module.exports = router

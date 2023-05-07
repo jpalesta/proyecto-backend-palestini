@@ -1,7 +1,6 @@
-const { ObjectId } = require('mongoose');
 const productsModel = require("./models/product.model")
 
-
+ 
 class ProductManagerDB {
 
     async getProducts() {

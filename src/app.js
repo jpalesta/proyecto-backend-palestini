@@ -1,6 +1,6 @@
 const express = require('express')
 
-const routerApp = require ('./routes')
+const routerApp = require('./routes')
 
 const uploader = require('./utils/multer.js')
 const handlebars = require('express-handlebars')
@@ -18,6 +18,7 @@ const port = 8080
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+
 //importacion de rutas de index routes
 app.use(routerApp)
 
@@ -30,6 +31,21 @@ app.set('view engine', 'handlebars')
 //configuracion de carpeta public
 app.use('/static', express.static(__dirname + '/public'))
 
+//Prueba de Multer
+app.post('/single', uploader.single('product.file'), (req, res) => {
+    res.status(200).send({
+        status: 'success',
+        message: 'product loaded ok'
+    })
+})
+
+//middleware de manejo de errores
+app.use((err, req, res, next) => {
+    console.log('clg error en app', err)
+    res.status(500).send('something is wrong')
+})
+
+//configuración de socke.io
 const server = app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
@@ -39,16 +55,14 @@ io.on('connection', (socket) => {
     socket.on('productsUpdated', (data) => {
         io.emit('updatedProductsUi', data)
     })
-})
-//Prueba de Multer
-app.post('/single', uploader.single('product.file'), (req, res) => {
-    res.status(200).send({
-        status: 'success',
-        message: 'product loaded ok'
+    socket.on('newUserConnected', data =>{
+        socket.broadcast.emit('newUserConnectedToast', data)
     })
-})
-app.use((err, req, res, next) => {
-    console.log('clg error en app', err)
-    res.status(500).send('something is wrong')
+    let logs = []
+    socket.on('newMessage', data => {
+        logs.push(data)
+        io.emit('completeLogs', logs)
+        console.log(logs)
+    })
 })
 
