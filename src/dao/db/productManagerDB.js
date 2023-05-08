@@ -1,6 +1,6 @@
 const productsModel = require("./models/product.model")
 
- 
+
 class ProductManagerDB {
 
     async getProducts() {
@@ -30,7 +30,7 @@ class ProductManagerDB {
 
     async updateProduct(pid, update) {
         try {
-            const product = await productsModel.updateOne({_id: pid}, { $set: update })
+            const product = await productsModel.updateOne({ _id: pid }, { $set: update })
             if (!product) {
                 throw new Error(`Product with ID ${pid} not found`)
             }

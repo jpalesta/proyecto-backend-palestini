@@ -1,15 +1,15 @@
-console.log('chat socket')
-
 const socket = io()
 
 swal.fire({
     title: 'Identificate',
-    input: 'text',
-    text: 'Ingresá tu nombre de usuario',
+    input: 'email',
+    text: 'Ingresá tu dirección de mail',
+    allowOutsideClick: false,
     inputValidator: (value) => {
-        return !value && 'El nombre de usuario es obligatorio'
-    },
-    allowOutsideClick: false
+        if (!value){'La dirección de correo electrónico es obligatoria'}
+        if (!/\S+@\S+\.\S+/.test(value)) {
+            return 'La dirección de correo electrónico es inválida'}
+        }
 }).then(result => {
     user = result.value
     socket.emit('newUserConnected', user)
@@ -32,7 +32,7 @@ const newMessage = document.getElementById('newMessage')
 const messagesList = document.getElementById('messagesList')
 let user
 
-newMessage.addEventListener('keyup', evt => {
+newMessage.addEventListener('keyup', async evt => {
     if (evt.key == 'Enter') {
         if (newMessage.value.trim().length > 0) {
             socket.emit('newMessage', {
@@ -43,11 +43,11 @@ newMessage.addEventListener('keyup', evt => {
     }
 })
 
-socket.on('completeLogs', data => {
+socket.on('completeLogs', logs => {
     let messageList = ''
-    console.log('clg data recibida de complete logs', data)
-    data.forEach(({ user, message }) => {
-        messageList += `<li>${user} dice: ${message}</li>`
+    console.log('clg data recibida de complete logs', logs)
+    logs.forEach((log) => {
+        messageList += `<li>${log.user} dice: ${log.message}</li>`
     })
     messagesList.innerHTML = messageList
 })

@@ -67,7 +67,6 @@ class ProductManager {
         if (!product) {
             throw 'Product not found'
         } else {
-            // console.log(product)
             return product
         }
     }

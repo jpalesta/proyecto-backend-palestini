@@ -6,6 +6,7 @@ const uploader = require('./utils/multer.js')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 const objectConfig = require('./config/objectConfig.js')
+const chatManagerDB = require('./dao/db/chatManagerDB')
 
 //conexión DB Mogoose
 objectConfig.connectDB()
@@ -55,14 +56,15 @@ io.on('connection', (socket) => {
     socket.on('productsUpdated', (data) => {
         io.emit('updatedProductsUi', data)
     })
-    socket.on('newUserConnected', data =>{
+    socket.on('newUserConnected', data => {
         socket.broadcast.emit('newUserConnectedToast', data)
     })
-    let logs = []
-    socket.on('newMessage', data => {
-        logs.push(data)
+    socket.on('newMessage', async newMessage => {
+        console.log('clg newMessage', newMessage)
+        await chatManagerDB.addMessage(newMessage)
+        logs = await chatManagerDB.getmessages()
         io.emit('completeLogs', logs)
-        console.log(logs)
+        console.log('logs',logs)
     })
 })
 
