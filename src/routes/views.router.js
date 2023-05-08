@@ -7,6 +7,7 @@ const ProductManagerDB = require('../dao/db/productManagerDB')
 router.get('/', async (req, res) => {
     try {
         const products = await ProductManagerDB.getProducts()
+        console.log('productos fijo',products)
         let testUser = {
             title: 'Lista de Productos',
             products: products
