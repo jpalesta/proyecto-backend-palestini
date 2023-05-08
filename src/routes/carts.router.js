@@ -3,15 +3,60 @@ const { Router } = require('express')
 const router = Router()
 
 const CartManagerDB = require('../dao/db/cartManagerDB.js')
-const ProductManagerDB = require('../dao/db/productManagerDB.js')
 
+router.get('/', async (req, res) => {
+    try {
+        const carts = await CartManagerDB.getCarts()
+        res.status(200).send({
+            status: 'success',
+            payload: carts
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
+router.get('/:pid', async (req, res) => {
+    try {
+        const pid = req.params.pid
+        const cart = await CartManagerDB.getCartById({ _id: pid })
+        res.status(200).send({
+            status: 'success',
+            payload: cart
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
+router.post('/', async (req, res) => {
+    try {
+        const newCart = req.body
+        console.log('clg NewCart apenas viene', newCart)
+        cart = await CartManagerDB.addCart(newCart)
+        console.log('clg newCart', newCart)
+        res.status(200).send({
+            status: 'success',
+            payload: cart
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
-
-
-
-
+router.put('/:pid', async (req, res) => {
+    try {
+        const pid = req.params.pid
+        const update = req.body
+        const cartUpdated = await CartManagerDB.updateCart(pid, update)
+        res.status(200).send({
+            status: 'success',
+            payload: cartUpdated
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 module.exports = router
 

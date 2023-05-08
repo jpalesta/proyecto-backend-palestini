@@ -19,7 +19,6 @@ class CartManagerDB {
         }
     }
 
-
     async addCart(newCart) {
         try {
             return await cartsModel.create(newCart)
