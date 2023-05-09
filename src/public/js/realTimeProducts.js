@@ -2,11 +2,13 @@ console.log('realTimeProducts.js')
 
 const socket = io()
 
-socket.on('updatedProductsUi', data => {
-    let updatedProductsList = document.getElementById('updatedProductsList')
+let updatedProductsList = document.getElementById('updatedProductsList')
+
+socket.on('updatedProductsUi', async data => {
     let productsList = ''
-    data.forEach((product) => {
+    await data.forEach((product) => {
         productsList += `<li>${product.title}</li>`
     })
     updatedProductsList.innerHTML = productsList
+    console.log('productList', productsList)
 })

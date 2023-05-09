@@ -78,7 +78,7 @@ router.delete('/:pid', async (req, res) => {
     }
 })
 
-//funcion que actualiza la lista de productos y emite el evento productsUpdated
+//funcion que actualiza la lista de productos y emite el evento 
 async function emitProductsUpdate() {
     const socket = io("ws://localhost:8080")
     const products = await ProductManagerDB.getProducts()
@@ -194,7 +194,7 @@ module.exports = router
 //     }
 // })
 
-// //funcion que actualiza la lista de productos y emite el evento productsUpdated
+// //funcion que actualiza la lista de productos y emite el evento 
 // async function emitProductsUpdate() {
 //     const socket = io("ws://localhost:8080")
 //     const products = await product.getProducts()

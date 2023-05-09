@@ -5,7 +5,8 @@ class ProductManagerDB {
 
     async getProducts() {
         try {
-            return await productsModel.find({})
+            const products =  await productsModel.find({})
+            return products.map(p => p.toObject())
         } catch (error) {
             return new Error(error)
         }

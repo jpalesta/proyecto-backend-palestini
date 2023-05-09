@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
     console.log('new client connect')
     socket.on('productsUpdated', (data) => {
         io.emit('updatedProductsUi', data)
+        console.log('productos enviados a realtime', data)
     })
     socket.on('newUserConnected', data => {
         socket.broadcast.emit('newUserConnectedToast', data)
