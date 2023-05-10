@@ -1,5 +1,4 @@
-//Products
-
+//PRODUCTS
 ### GET
 GET http://localhost:8080/api/products
 
@@ -15,43 +14,39 @@ Content-Type: application/json
 "description": "Descripción Producto Modelo 2"  ,
 "price": 1000 ,
 "thumbnail": "" ,
-"code": "A02",
+"code": "A03",
 "stock": 5000,
 "category": "Categoría Modelo",
 "status": true
 }
-
 ### PUT
 put http://localhost:8080/api/products/645931fbe9e1798b6e6f8414
 Content-Type: application/json
-
 {
     "title": "ahora si ",
     "stock": 8000
 }
-
 ### DELETE
 delete http://localhost:8080/api/products/64599e5c064d512f43f4c7ab
 
 
-
-
-//Carts
-
+//CARTS
 ### GET
 GET http://localhost:8080/api/carts/
-
 ### GET
-GET  http://localhost:8080/api/carts/6459346910224da18306b03a
-
+GET  http://localhost:8080/api/carts/645b8eca6e1b278c32b9e417
 ### POST
 POST  http://localhost:8080/api/carts
 Content-Type: application/json
 
 { 
-    "products": "prueba de carrito"
+"products": [
+        {
+            "product": "64599f776ff44088992d4857",
+            "quantity": 2
+        }
+    ]
 }
-
 ### PUT
 put http://localhost:8080/api/carts/645935c0a1d8ddbae7a461be
 Content-Type: application/json
@@ -60,5 +55,8 @@ Content-Type: application/json
     "products": "ahora si "
 }
 
+### POST CART PROD
+post http://localhost:8080/api/carts/645b8eca6e1b278c32b9e417/products/64599f776ff44088992d4857
+
 ### DELETE
-delete http://localhost:8080/api/products/64516faf23101b917e226fbc
+delete http://localhost:8080/api/products/645b8eca6e1b278c32b9e417

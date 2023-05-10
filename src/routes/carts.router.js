@@ -1,8 +1,10 @@
+const mongoose = require('mongoose')
 const { Router } = require('express')
 
 const router = Router()
 
 const CartManagerDB = require('../dao/db/cartManagerDB.js')
+const ProductManagerDB = require('../dao/db/productManagerDB.js')
 
 router.get('/', async (req, res) => {
     try {
@@ -58,9 +60,60 @@ router.put('/:pid', async (req, res) => {
     }
 })
 
+router.post('/:cid/products/:pid', async (req, res) => {
+    try {
+        const { cid, pid } = req.params
+        console.log('cid', cid)
+        console.log('pid', pid)
+        const cartById = await CartManagerDB.getCartById({ _id: cid })
+        console.log('cartById', cartById)
+        if (!cartById) {
+            return res.send({
+                status: 'error',
+                error: 'cart not found'
+            })
+        } else {
+            const productById = await ProductManagerDB.getProductById({ _id: pid })
+            console.log('productById', productById)
+            if (!productById) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'Product not found'
+                })
+            } else {
+                let productToAdd =  cartById.products.find(product => product._id.toString() === mongoose.Types.ObjectId(pid).toString())
+                console.log('cartById.products', cartById.products)
+                console.log('productToAdd', productToAdd)
+                if (productToAdd) {
+                    productToAdd.quantity++
+                    await cart.updateCart(cid, cartById)
+                    res.status(200).send({
+                        status: 'success',
+                        message: 'product increased +1 ok',
+                        payload: cartById
+                    })
+                } else {
+                    productToAdd = { _id: pid, quantity: 1 }
+                    cartById.products.push(productToAdd)
+                    await cart.updateCart(cid, cartById)
+                    res.status(200).send({
+                        status: 'success',
+                        message: 'product added ok',
+                        payload: cartById
+                    })
+                }
+            }
+        }
+    } catch (error) {
+        return res.status(400).send({
+            status: 'error',
+            error: 'cart or product not found'
+        })
+    }
+})
 module.exports = router
 
-//LÓGICA FILES 
+//LÓGICA FILES
 // const CartManager = require('../dao/fileSystem/cartManager')
 // const ProductManager = require('../dao/fileSystem/productManager')
 
