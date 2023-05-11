@@ -13,7 +13,7 @@ class CartManagerDB {
 
     async getCartById(pid) {
         try {
-            return await cartsModel.findOne(pid)
+            return await cartsModel.findById(pid)
         } catch (error) {
             return new Error(error)
         }

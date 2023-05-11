@@ -67,6 +67,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
         console.log('pid', pid)
         const cartById = await CartManagerDB.getCartById({ _id: cid })
         console.log('cartById', cartById)
+        console.log('cartById.products', cartById.products)
         if (!cartById) {
             return res.send({
                 status: 'error',
@@ -81,21 +82,20 @@ router.post('/:cid/products/:pid', async (req, res) => {
                     message: 'Product not found'
                 })
             } else {
-                let productToAdd =  cartById.products.find(product => product._id.toString() === mongoose.Types.ObjectId(pid).toString())
-                console.log('cartById.products', cartById.products)
+                let productToAdd = cartById.products.find((product) => product.toString() === pid)
                 console.log('productToAdd', productToAdd)
                 if (productToAdd) {
                     productToAdd.quantity++
-                    await cart.updateCart(cid, cartById)
+                    await cartById.save()
                     res.status(200).send({
                         status: 'success',
                         message: 'product increased +1 ok',
                         payload: cartById
                     })
                 } else {
-                    productToAdd = { _id: pid, quantity: 1 }
+                    productToAdd = { product: pid, quantity: 1 }
                     cartById.products.push(productToAdd)
-                    await cart.updateCart(cid, cartById)
+                    await cartById.save()
                     res.status(200).send({
                         status: 'success',
                         message: 'product added ok',

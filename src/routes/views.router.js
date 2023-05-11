@@ -29,4 +29,17 @@ router.get('/realtimeproducts', (req, res) => {
 router.get('/chat', (req, res) =>{
     res.render('chat', {})
 })
+
+router.get('/formcookies', (req, res) => {
+    let testUser = {
+        title: 'formcookies'
+        }
+    res.render('formcookies', testUser)
+})
+
+
+
+
+
+
 module.exports = router

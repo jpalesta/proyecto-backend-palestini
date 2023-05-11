@@ -7,6 +7,7 @@ const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 const objectConfig = require('./config/objectConfig.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
+const session = require('express-session')
 
 //conexión DB Mogoose
 objectConfig.connectDB()
@@ -19,6 +20,15 @@ const port = 8080
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+//configuración Sessión
+app.use(session({
+    secret: 'secretWord',
+    resave: true,
+    saveUninitialized: true
+}))
+
+//Inicialización cookie-parser
+// app.use(cookieParser())
 
 //importacion de rutas de index routes
 app.use(routerApp)
