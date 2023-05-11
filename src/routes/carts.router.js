@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const ObjectId = require('mongodb').ObjectId;
+
 const { Router } = require('express')
 
 const router = Router()
@@ -93,14 +95,15 @@ router.post('/:cid/products/:pid', async (req, res) => {
                         payload: cartById
                     })
                 } else {
-                    productToAdd = { product: pid, quantity: 1 }
-                    cartById.products.push(productToAdd)
-                    await cartById.save()
-                    res.status(200).send({
-                        status: 'success',
-                        message: 'product added ok',
-                        payload: cartById
-                    })
+                    console.log('agrega un nuevo producto')
+                    // productToAdd = { product: pid, quantity: 1 }
+                    // cartById.products.push(productToAdd)
+                    // await cartById.save()
+                    // res.status(200).send({
+                    //     status: 'success',
+                    //     message: 'product added ok',
+                    //     payload: cartById
+                    // })
                 }
             }
         }
