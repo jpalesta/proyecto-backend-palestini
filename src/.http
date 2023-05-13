@@ -10,12 +10,12 @@ POST  http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Título Producto Modelo 2" ,
-"description": "Descripción Producto Modelo 2"  ,
-"price": 1000 ,
+"title": "Título Producto Modelo 3" ,
+"description": "Descripción Producto Modelo 3"  ,
+"price": 3000 ,
 "thumbnail": "" ,
 "code": "A03",
-"stock": 5000,
+"stock": 30000,
 "category": "Categoría Modelo",
 "status": true
 }
@@ -42,8 +42,8 @@ Content-Type: application/json
 { 
 "products": [
         {
-            "product": "64599f776ff44088992d4857",
-            "quantity": 2
+            "product": "645fdc7b30fab603d13ba3f6",
+            "quantity": 10
         }
     ]
 }
@@ -56,7 +56,7 @@ Content-Type: application/json
 }
 
 ### POST CART PROD
-post http://localhost:8080/api/carts/645b8eca6e1b278c32b9e417/products/64599f776ff44088992d4857
+post http://localhost:8080/api/carts/645fdcce30fab603d13ba402/products/645fdc8a30fab603d13ba3f9
 
 ### DELETE
 delete http://localhost:8080/api/products/645b8eca6e1b278c32b9e417

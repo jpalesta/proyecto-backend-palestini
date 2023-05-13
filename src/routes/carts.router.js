@@ -64,7 +64,8 @@ router.put('/:pid', async (req, res) => {
 
 router.post('/:cid/products/:pid', async (req, res) => {
     try {
-        const { cid, pid } = req.params
+        const  cid = req.params.cid
+        const pid = req.params.pid
         console.log('cid', cid)
         console.log('pid', pid)
         const cartById = await CartManagerDB.getCartById({ _id: cid })
@@ -84,7 +85,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
                     message: 'Product not found'
                 })
             } else {
-                let productToAdd = cartById.products.find((product) => product.toString() === pid)
+                let productToAdd = cartById.products.find(p => p.product.toString() === pid)
                 console.log('productToAdd', productToAdd)
                 if (productToAdd) {
                     productToAdd.quantity++
@@ -95,15 +96,14 @@ router.post('/:cid/products/:pid', async (req, res) => {
                         payload: cartById
                     })
                 } else {
-                    console.log('agrega un nuevo producto')
-                    // productToAdd = { product: pid, quantity: 1 }
-                    // cartById.products.push(productToAdd)
-                    // await cartById.save()
-                    // res.status(200).send({
-                    //     status: 'success',
-                    //     message: 'product added ok',
-                    //     payload: cartById
-                    // })
+                    productToAdd = { product: pid, quantity: 1 }
+                    cartById.products.push(productToAdd)
+                    await cartById.save()
+                    res.status(200).send({
+                        status: 'success',
+                        message: 'product added ok',
+                        payload: cartById
+                    })
                 }
             }
         }
