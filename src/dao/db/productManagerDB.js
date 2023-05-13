@@ -3,10 +3,14 @@ const productsModel = require("./models/product.model")
 
 class ProductManagerDB {
 
-    async getProducts() {
+    async getProducts(page=1, limit=1) {
+        //ojo que hay que poner el limit en 10
         try {
-            const products =  await productsModel.find({})
-            return products.map(p => p.toObject())
+            return await productsModel.paginate({}, {
+                limit: limit,
+                page: page,
+                lean: true
+            })
         } catch (error) {
             return new Error(error)
         }

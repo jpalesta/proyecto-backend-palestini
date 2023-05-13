@@ -82,7 +82,7 @@ router.delete('/:pid', async (req, res) => {
 async function emitProductsUpdate() {
     const socket = io("ws://localhost:8080")
     const products = await ProductManagerDB.getProducts()
-    socket.emit('productsUpdated', products)
+    socket.emit('productsUpdated', products.docs)
 }
 
 module.exports = router

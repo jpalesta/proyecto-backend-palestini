@@ -22,4 +22,15 @@
   </tbody>
 </table>
 
+<nav class="d-grid gap-2 col-6 mx-auto" aria-label="Page navigation example">
+  <ul class="pagination">
+    {{#if hasPrevPage}}
+    <li class="page-item"><a class="page-link" href="/?page={{prevPage}}">Previous</a></li>
+    {{/if}}
+    {{#if hasNextPage}}
+    <li class="page-item"><a class="page-link" href="/?page={{nextPage}}">Next</a></li>
+    {{/if}}
+  </ul>
+</nav>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
