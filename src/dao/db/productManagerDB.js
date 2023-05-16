@@ -6,15 +6,14 @@ class ProductManagerDB {
 
     async getProducts(page, limit, sortOptions, query) {
         try {
-            return await productsModel.paginate({
-                category: query.category,
-                stock: ''
-            }, {
-                limit: limit,
-                page: page,
-                lean: true,
-                sort: sortOptions
-            })
+            return await productsModel.paginate(
+                query
+                , {
+                    limit: limit,
+                    page: page,
+                    lean: true,
+                    sort: sortOptions
+                })
         } catch (error) {
             return new Error(error)
         }

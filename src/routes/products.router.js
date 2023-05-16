@@ -1,9 +1,10 @@
-const { Router } = require('express')
+const { Router, json } = require('express')
 const router = Router()
 
 //Manager de Mongo DB
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
 
+const productsModel = require('../dao/db/models/product.model.js')
 
 //Socket
 const io = require("socket.io-client")
@@ -23,16 +24,20 @@ router.get('/', async (req, res) => {
         }
         const query = {}
         if (category) {
-            query.category = category
-
+            const existingCategory = await productsModel.distinct('category', { category });
+            if (existingCategory.length === 0) {
+                throw new Error('La categoría especificada no existe');
+            }
+            query.category = category;
         } if (availability === 'true') {
             query.stock = { $gt: 0 }
+        } else {
+            ''
         }
-        console.log('query', query)
-
         const products = await ProductManagerDB.getProducts(page, limit, sortOptions, query)
 
         const { docs, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products
+        
         let prevLink = ''
         let nextLink = ''
         if (hasPrevPage === false) {
