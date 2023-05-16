@@ -1,9 +1,9 @@
 //PRODUCTS
 ### GET
-GET http://localhost:8080/api/products
+GET http://localhost:8080/api/products/?page=1&limit=4&category=2&availability=true
 
 ### GET
-GET  http://localhost:8080/api/products/6459317545a2eba2c77444b7
+GET  http://localhost:8080/api/products/645fdcce30fab603d13ba402
 
 ### POST
 POST  http://localhost:8080/api/products
@@ -31,11 +31,11 @@ delete http://localhost:8080/api/products/64599e5c064d512f43f4c7ab
 
 
 //CARTS
-### GET
+### GET trae todos los carritos
 GET http://localhost:8080/api/carts/
-### GET
-GET  http://localhost:8080/api/carts/645b8eca6e1b278c32b9e417
-### POST
+### GET trae el carrito por ID
+GET  http://localhost:8080/api/carts/645fdcce30fab603d13ba402
+### POST crea un carrito por body
 POST  http://localhost:8080/api/carts
 Content-Type: application/json
 
@@ -47,16 +47,19 @@ Content-Type: application/json
         }
     ]
 }
-### PUT
-put http://localhost:8080/api/carts/645935c0a1d8ddbae7a461be
+### PUT actualiza un carrito por ID con un producto por body
+put http://localhost:8080/api/carts/6462272ed9cf3a62517025bf
 Content-Type: application/json
 
 {
-    "products": "ahora si "
+    "products":         {
+            "product": "645fdc8a30fab603d13ba3f9",
+            "quantity": 15
+        }
 }
 
-### POST CART PROD
+### POST CART PROD agrega un producto a un carrito por PID y CID 
 post http://localhost:8080/api/carts/645fdcce30fab603d13ba402/products/645fdc8a30fab603d13ba3f9
 
-### DELETE
-delete http://localhost:8080/api/products/645b8eca6e1b278c32b9e417
+### DELETE borra un carrito por ID
+delete http://localhost:8080/api/carts/646143f9286c97faef493739

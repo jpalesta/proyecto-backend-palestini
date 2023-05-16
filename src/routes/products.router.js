@@ -10,10 +10,49 @@ const io = require("socket.io-client")
 
 router.get('/', async (req, res) => {
     try {
-        const products = await ProductManagerDB.getProducts()
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
+        const sort = req.query.sort;
+        const category = req.query.category;
+        const availability = req.query.availability;
+        let sortOptions = ''
+        if (sort === 'asc') {
+            sortOptions = { price: 1 }
+        } else if (sort === 'desc') {
+            sortOptions = { price: -1 }
+        }
+        const query = {}
+        if (category) {
+            query.category = category
+
+        } if (availability === 'true') {
+            query.stock = { $gt: 0 }
+        }
+        console.log('query', query)
+
+        const products = await ProductManagerDB.getProducts(page, limit, sortOptions, query)
+
+        const { docs, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products
+        let prevLink = ''
+        let nextLink = ''
+        if (hasPrevPage === false) {
+            prevLink = null
+        } else { prevLink = `/?page=${prevPage}` }
+        if (hasNextPage === false) {
+            nextLink = null
+        } else { nextLink = `/?page=${nextPage}` }
+
         res.status(200).send({
             status: 'success',
-            payload: products
+            payload: docs,
+            totalPages,
+            prevPage,
+            nextPage,
+            page,
+            hasPrevPage,
+            hasNextPage,
+            prevLink,
+            nextLink
         })
     } catch (error) {
         console.log(error)
@@ -194,7 +233,7 @@ module.exports = router
 //     }
 // })
 
-// //funcion que actualiza la lista de productos y emite el evento 
+// //funcion que actualiza la lista de productos y emite el evento
 // async function emitProductsUpdate() {
 //     const socket = io("ws://localhost:8080")
 //     const products = await product.getProducts()

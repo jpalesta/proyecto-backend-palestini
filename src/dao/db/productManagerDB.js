@@ -1,15 +1,19 @@
+const { query } = require("express")
 const productsModel = require("./models/product.model")
 
 
 class ProductManagerDB {
 
-    async getProducts(page=1, limit=1) {
-        //ojo que hay que poner el limit en 10
+    async getProducts(page, limit, sortOptions, query) {
         try {
-            return await productsModel.paginate({}, {
+            return await productsModel.paginate({
+                category: query.category,
+                stock: ''
+            }, {
                 limit: limit,
                 page: page,
-                lean: true
+                lean: true,
+                sort: sortOptions
             })
         } catch (error) {
             return new Error(error)

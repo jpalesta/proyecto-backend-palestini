@@ -20,10 +20,10 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:pid', async (req, res) => {
+router.get('/:cid', async (req, res) => {
     try {
-        const pid = req.params.pid
-        const cart = await CartManagerDB.getCartById({ _id: pid })
+        const cid = req.params.cid
+        const cart = await CartManagerDB.getCartById({ _id: cid })
         res.status(200).send({
             status: 'success',
             payload: cart
@@ -112,6 +112,19 @@ router.post('/:cid/products/:pid', async (req, res) => {
             status: 'error',
             error: 'cart or product not found'
         })
+    }
+})
+
+router.delete('/:cid', async (req, res) => {
+    try {
+        const cid = req.params.cid
+        const cart = await CartManagerDB.deleteCartById({ _id: cid })
+        res.status(200).send({
+            status: 'success',
+            message: `El carrito ${cart._id} fue borrado correctamente `
+        })
+    } catch (error) {
+        console.log(error)
     }
 })
 module.exports = router

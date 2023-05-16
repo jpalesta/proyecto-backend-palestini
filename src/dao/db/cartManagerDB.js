@@ -39,9 +39,9 @@ class CartManagerDB {
         }
     }
 
-    async deleteCart(pid) {
+    async deleteCartById(cid) {
         try {
-            return await cartsModel.deleteOne(pid)
+            return await cartsModel.findOneAndDelete(cid)
         } catch (error) {
             return new Error(error)
         }
