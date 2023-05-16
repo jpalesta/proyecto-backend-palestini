@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const ObjectId = require('mongodb').ObjectId;
 
 const { Router } = require('express')
 
@@ -118,7 +117,32 @@ router.post('/:cid/products/:pid', async (req, res) => {
 router.delete('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
-        const cart = await CartManagerDB.deleteCartById({ _id: cid })
+        const cart = await CartManagerDB.deleteCartById(cid)
+        res.status(200).send({
+            status: 'success',
+            message: `The cart ${cart._id} was emptied successfully `
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.delete('/:cid/products/:pid', async (req, res) => {
+    try {
+        const cid = req.params.cid
+        const pid = req.params.pid
+        const cartById = await CartManagerDB.getCartById({ _id: cid })
+        if (!cartById) {
+            return res.send({
+                status: 'error',
+                error: 'cart not found'
+            })
+        } else {
+            const productById = await ProductManagerDB.getProductById({ _id: pid })
+            console.log('productById', productById)
+            
+            } 
+
         res.status(200).send({
             status: 'success',
             message: `El carrito ${cart._id} fue borrado correctamente `
@@ -127,6 +151,8 @@ router.delete('/:cid', async (req, res) => {
         console.log(error)
     }
 })
+
+
 module.exports = router
 
 //LÓGICA FILES

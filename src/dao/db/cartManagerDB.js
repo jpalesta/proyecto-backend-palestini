@@ -13,7 +13,7 @@ class CartManagerDB {
 
     async getCartById(pid) {
         try {
-            return await cartsModel.findById(pid)
+            return await cartsModel.findById(pid).populate('products.product')
         } catch (error) {
             return new Error(error)
         }
@@ -41,11 +41,17 @@ class CartManagerDB {
 
     async deleteCartById(cid) {
         try {
-            return await cartsModel.findOneAndDelete(cid)
+            const cart = await cartsModel.findOne({_id: cid})
+            console.log('cart',cart)
+            if (!cart) {
+                throw new Error(`Cart with ID ${cid} not found`)
+            }
+            return await cartsModel.findByIdAndUpdate({_id: cid}, { $set: {products: []} })
         } catch (error) {
             return new Error(error)
         }
     }
 }
+
 
 module.exports = new CartManagerDB
