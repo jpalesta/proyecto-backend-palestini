@@ -1,6 +1,6 @@
 //PRODUCTS
 ### GET
-GET http://localhost:8080/api/products/?page=1&limit=4&category=1&availability=true
+GET http://localhost:8080/api/products/?page=1&limit=4&category=2&availability=false
 ### GET
 GET  http://localhost:8080/api/products/645fdcce30fab603d13ba402
 
