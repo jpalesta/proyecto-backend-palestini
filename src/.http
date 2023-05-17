@@ -30,11 +30,14 @@ delete http://localhost:8080/api/products/64599e5c064d512f43f4c7ab
 
 
 //CARTS
+
 ### GET trae todos los carritos
 GET http://localhost:8080/api/carts/
-### GET trae el carrito por ID
-GET  http://localhost:8080/api/carts/6463f80382e127c9f63b12c6
-### POST crea un carrito por body
+
+### GET trae el carrito por ID con Populate por Id de producto
+GET  http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
+
+### POST crea un carrito con producto pasados por body
 POST  http://localhost:8080/api/carts
 Content-Type: application/json
 
@@ -46,19 +49,38 @@ Content-Type: application/json
         }
     ]
 }
-### PUT actualiza un carrito por ID con un producto por body
-put http://localhost:8080/api/carts/6462272ed9cf3a62517025bf
+
+### POST Agrega o incrementa un producto en un carrito, ambos pasan por params
+post http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b/products/64627fe1f01a831a08937d53
+
+### DELETE Vacía un carrito por id
+delete http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
+
+### DELETE borra un producto de un carrito por id de carrito e id de producto
+delete http://localhost:8080/api/carts/6464bf4aa2da8e243014ebcb/products/645fdc7b30fab603d13ba3f6
+
+### PUT actualiza un carrito por id con un producto por body
+put http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
 Content-Type: application/json
 
 {
-    "products":         {
+    "products":         [{
             "product": "645fdc8a30fab603d13ba3f9",
+            "quantity": 5
+        },
+        {
+            "product": "645fdc7b30fab603d13ba3f6",
+            "quantity": 3
+        },
+        {
+            "product": "64627f50f01a831a08937d33",
             "quantity": 15
-        }
+        }]
 }
+### PUT actualiza un carrito por id con un producto por body
+put http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b/products/645fdc7b30fab603d13ba3f6
+Content-Type: application/json
 
-### POST CART PROD agrega un producto a un carrito por PID y CID 
-post http://localhost:8080/api/carts/6462272ed9cf3a62517025bf/products/645fdc8a30fab603d13ba3f9
-
-### DELETE borra un carrito por ID
-delete http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
+{
+        "quantity": 10
+}

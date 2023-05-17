@@ -14,7 +14,7 @@ router.get('/', async(req,res) =>{
 
 router.post('/', async (req,res)=>{
     let {firstName, lastName, email} =req.body
-    if(!firstName || !lastName || !email) return res.send ({status: 'error', message:'debes completar todos los campos'})
+    if(!firstName || !lastName || !email) return res.send ({status: 'error', message:'You must complete all the fields'})
     let result = await usersModel.create({
         firstName,
         lastName,

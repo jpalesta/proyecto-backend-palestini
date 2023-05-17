@@ -80,9 +80,7 @@ router.get('/:pid', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const newProduct = req.body
-        console.log('clg NewProd apenas viene', newProduct)
         product = await ProductManagerDB.addProduct(newProduct)
-        console.log('clg newProduct', newProduct)
         await emitProductsUpdate()
         res.status(200).send({
             status: 'success',

@@ -7,6 +7,7 @@ const router = Router()
 const CartManagerDB = require('../dao/db/cartManagerDB.js')
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
 
+//Consulta de todos los corritos
 router.get('/', async (req, res) => {
     try {
         const carts = await CartManagerDB.getCarts()
@@ -18,11 +19,11 @@ router.get('/', async (req, res) => {
         console.log(error)
     }
 })
-
+//Consulta de un carrito con Populate por id de producto
 router.get('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
-        const cart = await CartManagerDB.getCartById({ _id: cid })
+        const cart = await CartManagerDB.getCartByIdPopulate({ _id: cid })
         res.status(200).send({
             status: 'success',
             payload: cart
@@ -31,13 +32,11 @@ router.get('/:cid', async (req, res) => {
         console.log(error)
     }
 })
-
+//Crea un carrito con productos pasados por body
 router.post('/', async (req, res) => {
     try {
         const newCart = req.body
-        console.log('clg NewCart apenas viene', newCart)
         cart = await CartManagerDB.addCart(newCart)
-        console.log('clg newCart', newCart)
         res.status(200).send({
             status: 'success',
             payload: cart
@@ -46,38 +45,19 @@ router.post('/', async (req, res) => {
         console.log(error)
     }
 })
-
-router.put('/:pid', async (req, res) => {
-    try {
-        const pid = req.params.pid
-        const update = req.body
-        const cartUpdated = await CartManagerDB.updateCart(pid, update)
-        res.status(200).send({
-            status: 'success',
-            payload: cartUpdated
-        })
-    } catch (error) {
-        console.log(error)
-    }
-})
-
+//Agrega o incrementa un producto en un carrito, ambos pasan por params
 router.post('/:cid/products/:pid', async (req, res) => {
     try {
-        const  cid = req.params.cid
+        const cid = req.params.cid
         const pid = req.params.pid
-        console.log('cid', cid)
-        console.log('pid', pid)
         const cartById = await CartManagerDB.getCartById({ _id: cid })
-        console.log('cartById', cartById)
-        console.log('cartById.products', cartById.products)
         if (!cartById) {
             return res.send({
                 status: 'error',
-                error: 'cart not found'
+                error: 'Cart not found'
             })
         } else {
             const productById = await ProductManagerDB.getProductById({ _id: pid })
-            console.log('productById', productById)
             if (!productById) {
                 return res.status(400).send({
                     status: 'error',
@@ -85,7 +65,6 @@ router.post('/:cid/products/:pid', async (req, res) => {
                 })
             } else {
                 let productToAdd = cartById.products.find(p => p.product.toString() === pid)
-                console.log('productToAdd', productToAdd)
                 if (productToAdd) {
                     productToAdd.quantity++
                     await cartById.save()
@@ -113,7 +92,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
         })
     }
 })
-
+//Vacía un carrito por id
 router.delete('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
@@ -126,7 +105,7 @@ router.delete('/:cid', async (req, res) => {
         console.log(error)
     }
 })
-
+//Borra un producto de un carrito por id de carrito e id de producto
 router.delete('/:cid/products/:pid', async (req, res) => {
     try {
         const cid = req.params.cid
@@ -137,20 +116,59 @@ router.delete('/:cid/products/:pid', async (req, res) => {
                 status: 'error',
                 error: 'cart not found'
             })
-        } else {
-            const productById = await ProductManagerDB.getProductById({ _id: pid })
-            console.log('productById', productById)
-            
-            } 
-
-        res.status(200).send({
-            status: 'success',
-            message: `El carrito ${cart._id} fue borrado correctamente `
-        })
+        }
+        {
+            const product = cartById.products.find(product => product.product._id.toString() === pid)
+            console.log('pid', pid)
+            console.log('cartById.products', cartById.products)
+            if (!product) {
+                return res.send({
+                    status: 'error',
+                    error: 'The product not found in cart'
+                })
+            }
+        }
+        {
+            await CartManagerDB.deleteProductInCart({ _id: cid }, { _id: pid })
+            res.status(200).send({
+                status: 'success',
+                message: `The cart ${cartById._id} was modified OK `
+            })
+        }
     } catch (error) {
         console.log(error)
     }
 })
+//Actualiza un carrito por id con un producto por body
+    router.put('/:cid', async (req, res) => {
+        try {
+            const cid = req.params.cid
+            const update = req.body
+            const cartUpdated = await CartManagerDB.updateCart(cid, update)
+            res.status(200).send({
+                status: 'success',
+                payload: cartUpdated
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    })
+//Actualiza la cantidad de un producto en un carrito 
+    router.put('/:cid/products/:pid', async (req, res) => {
+        try {
+            const cid = req.params.cid
+            const pid = req.params.pid
+            const quantity = req.body.quantity
+            const cartUpdated = await CartManagerDB.updateQuantityProductInCart(cid, pid,quantity)
+            res.status(200).send({
+                status: 'success',
+                payload: cartUpdated
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    })
+
 
 
 module.exports = router

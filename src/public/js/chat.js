@@ -45,7 +45,6 @@ newMessage.addEventListener('keyup', async evt => {
 
 socket.on('completeLogs', logs => {
     let messageList = ''
-    console.log('clg data recibida de complete logs', logs)
     logs.forEach((log) => {
         messageList += `<li>${log.user} dice: ${log.message}</li>`
     })

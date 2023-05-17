@@ -1,5 +1,3 @@
-console.log('realTimeProducts.js')
-
 const socket = io()
 
 let updatedProductsList = document.getElementById('updatedProductsList')
