@@ -26,38 +26,38 @@ Content-Type: application/json
     "stock": 8000
 }
 ### DELETE
-delete http://localhost:8080/api/products/64599e5c064d512f43f4c7ab
+delete http://localhost:8080/api/products/64622c96f3e73d823d6ddb4b
 
 
 //CARTS
 
-### GET trae todos los carritos
+### GET trae todos los carritos check ok
 GET http://localhost:8080/api/carts/
 
-### GET trae el carrito por ID con Populate por Id de producto
+### GET trae el carrito por ID con Populate por Id de producto check ok
 GET  http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
 
-### POST crea un carrito con producto pasados por body
+### POST crea un carrito con producto pasados por body check ok, falta ver porque se pueden modificar los rótulos "product" o "quantity" y no tira error
 POST  http://localhost:8080/api/carts
 Content-Type: application/json
 
 { 
 "products": [
         {
-            "product": "645fdc7b30fab603d13ba3f6",
+            "product": "645fdc7b0fab603d13ba3f6",
             "quantity": 10
         }
     ]
 }
 
-### POST Agrega o incrementa un producto en un carrito, ambos pasan por params
-post http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b/products/64627fe1f01a831a08937d53
+### POST Agrega o incrementa un producto en un carrito, ambos pasan por params check ok
+post http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b/products/64627fdaf01a831a08937d4f
 
-### DELETE Vacía un carrito por id
-delete http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
+### DELETE Vacía un carrito por id check ok
+delete http://localhost:8080/api/carts/646654873b7367b8348ba0c
 
-### DELETE borra un producto de un carrito por id de carrito e id de producto
-delete http://localhost:8080/api/carts/6464bf4aa2da8e243014ebcb/products/645fdc7b30fab603d13ba3f6
+### DELETE borra un producto de un carrito por id de carrito e id de producto revisar desde acá
+delete http://localhost:8080/api/carts/6464bfad8243014ebcb/products/645fdc7b30fab603d13ba3f6
 
 ### PUT actualiza un carrito por id con un producto por body
 put http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
@@ -82,5 +82,5 @@ put http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b/products/645fdc7b30
 Content-Type: application/json
 
 {
-        "quantity": 10
+        "quantity": 18
 }

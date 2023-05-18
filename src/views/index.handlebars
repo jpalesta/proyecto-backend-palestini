@@ -1,38 +1,48 @@
 <div>
   <h1>{{title}}</h1>
 </div>
-<table class="table">
-  <thead>
-    <tr class="table-primary">
-      <th scope="col">Producto</th>
-      <th scope="col">Código</th>
-      <th scope="col">Descripción</th>
-      <th scope="col">Stock</th>
-      <th scope="col">Category</th>
-    </tr>
-  </thead>
-  <tbody>
-  {{#each products}}
-    <tr class="table-secondary">
-      <th scope="row">{{this.title}}</th>
-      <td>{{this.code}}</td>
-      <td>{{this.description}}</td>
-      <td>{{this.stock}}</td>
-      <td>{{this.category}}</td>
-    </tr>
-  {{/each}}
-  </tbody>
-</table>
+<div class="container">
+  <div class="row">
+{{#each products}}
+    <div class="col">
+    <div class="card" style="width: 14rem;">
+      <img src="https://ichef.bbci.co.uk/news/640/cpsprodpb/A058/production/_101784014_gettyimages-490824921.jpg" class="card-img-top" alt="numeral de ejemplo" />
+      <div class="card-body">
+        <h6 class="card-title">{{this.title}}</h6>
+        <p class="card-text">{{this.description}}</p>
+        <p class="card-text">Category: {{this.category}}</p>
+        <p class="card-text">Stock: {{this.stock}}</p>
+        <p class="card-text">Price: {{this.price}}</p>
+      </div>
+      <div class="card-body">
+        <a href="#" class="card-link">Detalle</a>
+        <a href="#" class="card-link">Agregar al carrito</a>
+      </div>
+    </div>
+    </div>
+{{/each}}
+  </div>
+</div>
 
 <nav class="d-grid gap-2 col-6 mx-auto" aria-label="Page navigation example">
   <ul class="pagination">
     {{#if hasPrevPage}}
-    <li class="page-item"><a class="page-link" href="?page={{prevPage}}">Previous</a></li>
+      <li class="page-item"><a
+          class="page-link"
+          href="{{prevLink}}"
+        >Previous</a></li>
     {{/if}}
     {{#if hasNextPage}}
-    <li class="page-item"><a class="page-link" href="?page={{nextPage}}">Next</a></li>
+      <li class="page-item"><a
+          class="page-link"
+          href="{{nextLink}}"
+        >Next</a></li>
     {{/if}}
   </ul>
 </nav>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>

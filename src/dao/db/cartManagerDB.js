@@ -21,17 +21,17 @@ class CartManagerDB {
 
     async getCartByIdPopulate(cid) {
         try {
-            return await cartsModel.findById(cid)
-                .populate('products.product')
+            return await cartsModel.findOne(cid)
+                .populate('products.product').lean()
         } catch (error) {
-            return new Error(error)
+            console.log(error)
         }
     }
 
     async addCart(newCart) {
         try {
             return await cartsModel.create(newCart)
-        } catch (error) {
+                    } catch (error) {
             return new Error(error)
         }
     }
@@ -44,7 +44,7 @@ class CartManagerDB {
             }
             return await cartsModel.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } })
         } catch (error) {
-            return new Error(error)
+            console.log(error)
         }
     }
 
@@ -77,7 +77,7 @@ class CartManagerDB {
             const cart = await cartsModel.findById({ _id: cid })
             if (!cart) {
                 throw new Error(`Cart with ID ${cid} not found`)
-            } 
+            }
             const productIndex = cart.products.findIndex((p) => p.product.toString() === pid);
             if (productIndex === -1) {
                 throw new Error(` product ${pid} not found in cart ${cid}`)

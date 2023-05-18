@@ -24,6 +24,18 @@ router.get('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
         const cart = await CartManagerDB.getCartByIdPopulate({ _id: cid })
+        if (!cart) {
+            res.status(404).send({
+                status: 'error',
+                message: `The cart number ${cid} does not exist`
+            })
+        }
+        if (cart.products.length === 0) {
+            res.status(200).send({
+                status: 'success',
+                message: `The cart number ${cid} is empty`
+            })
+        }
         res.status(200).send({
             status: 'success',
             payload: cart
@@ -37,6 +49,12 @@ router.post('/', async (req, res) => {
     try {
         const newCart = req.body
         cart = await CartManagerDB.addCart(newCart)
+        if (Object.keys(cart).length === 0) {
+            res.status(400).send({
+                status: 'error',
+                message: 'The product ID is wrong, please check your information'
+            })
+        }
         res.status(200).send({
             status: 'success',
             payload: cart
@@ -52,16 +70,16 @@ router.post('/:cid/products/:pid', async (req, res) => {
         const pid = req.params.pid
         const cartById = await CartManagerDB.getCartById({ _id: cid })
         if (!cartById) {
-            return res.send({
+            return res.status(400).send({
                 status: 'error',
-                error: 'Cart not found'
+                error: `Cart number ${cid} not found`
             })
         } else {
             const productById = await ProductManagerDB.getProductById({ _id: pid })
             if (!productById) {
                 return res.status(400).send({
                     status: 'error',
-                    message: 'Product not found'
+                    message: `Product number ${pid} not found`
                 })
             } else {
                 let productToAdd = cartById.products.find(p => p.product.toString() === pid)
@@ -88,7 +106,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
     } catch (error) {
         return res.status(400).send({
             status: 'error',
-            error: 'cart or product not found'
+            error: 'The cart or product number format is wrong, please check your information'
         })
     }
 })
@@ -96,11 +114,22 @@ router.post('/:cid/products/:pid', async (req, res) => {
 router.delete('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
-        const cart = await CartManagerDB.deleteCartById(cid)
+        const cart = await CartManagerDB.deleteCartById(cid) 
+        console.log(cart)
+        if (cart===undefined) {
+            console.log('entre al if')
+        return   res.status(404).send({
+                status: 'error',
+                message: `The cart number ${cid} does not exist`
+            })
+        } else{
+            console.log('no entre al if')
+
         res.status(200).send({
             status: 'success',
             message: `The cart ${cart._id} was emptied successfully `
         })
+    }
     } catch (error) {
         console.log(error)
     }
@@ -112,19 +141,19 @@ router.delete('/:cid/products/:pid', async (req, res) => {
         const pid = req.params.pid
         const cartById = await CartManagerDB.getCartById({ _id: cid })
         if (!cartById) {
-            return res.send({
+            return res.status(404).send({
                 status: 'error',
-                error: 'cart not found'
+                message: `The cart number ${cid} does not exist`
             })
         }
-        {
+                {
             const product = cartById.products.find(product => product.product._id.toString() === pid)
             console.log('pid', pid)
             console.log('cartById.products', cartById.products)
             if (!product) {
-                return res.send({
+                return res.status(400).send({
                     status: 'error',
-                    error: 'The product not found in cart'
+                    message: `Product number ${pid} not found in the cart`
                 })
             }
         }
@@ -140,34 +169,34 @@ router.delete('/:cid/products/:pid', async (req, res) => {
     }
 })
 //Actualiza un carrito por id con un producto por body
-    router.put('/:cid', async (req, res) => {
-        try {
-            const cid = req.params.cid
-            const update = req.body
-            const cartUpdated = await CartManagerDB.updateCart(cid, update)
-            res.status(200).send({
-                status: 'success',
-                payload: cartUpdated
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    })
+router.put('/:cid', async (req, res) => {
+    try {
+        const cid = req.params.cid
+        const update = req.body
+        const cartUpdated = await CartManagerDB.updateCart(cid, update)
+        res.status(200).send({
+            status: 'success',
+            payload: cartUpdated
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 //Actualiza la cantidad de un producto en un carrito 
-    router.put('/:cid/products/:pid', async (req, res) => {
-        try {
-            const cid = req.params.cid
-            const pid = req.params.pid
-            const quantity = req.body.quantity
-            const cartUpdated = await CartManagerDB.updateQuantityProductInCart(cid, pid,quantity)
-            res.status(200).send({
-                status: 'success',
-                payload: cartUpdated
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    })
+router.put('/:cid/products/:pid', async (req, res) => {
+    try {
+        const cid = req.params.cid
+        const pid = req.params.pid
+        const quantity = req.body.quantity
+        const cartUpdated = await CartManagerDB.updateQuantityProductInCart(cid, pid, quantity)
+        res.status(200).send({
+            status: 'success',
+            payload: cartUpdated
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 
 
