@@ -1,50 +1,56 @@
 //PRODUCTS
-### GET
-GET http://localhost:8080/api/products/?page=1&limit=4&category=2&availability=false
-### GET
-GET  http://localhost:8080/api/products/645fdcce30fab603d13ba402
 
-### POST
+
+### GET de productos con pagintate y querys check ok
+GET http://localhost:8080/api/products/?page=1&limit=5
+
+### GET de productos por ID check ok
+GET  http://localhost:8080/api/products/64627fdaf01a831a08937d4f
+
+### POST crea un producto a partir de un body, chequeado con validación OK
 POST  http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Título Producto Modelo 3" ,
-"description": "Descripción Producto Modelo 3"  ,
-"price": 3000 ,
+"title": "Título Producto Modelo 15" ,
+"description": "Descripción Producto Modelo 15"  ,
+"price": 15000 ,
 "thumbnail": "" ,
-"code": "A03",
-"stock": 30000,
+"code": "A15",
+"stock": 0,
 "category": "Categoría Modelo",
 "status": true
 }
-### PUT
-put http://localhost:8080/api/products/645931fbe9e1798b6e6f8414
+### PUT Modifica un producto por body chequeado OK (falta validación de body)
+put http://localhost:8080/api/products/645fdc7b30fab603d13ba3f6
 Content-Type: application/json
+
 {
-    "title": "ahora si ",
-    "stock": 8000
+    "stock": 7000
 }
-### DELETE
-delete http://localhost:8080/api/products/64622c96f3e73d823d6ddb4b
+
+### DELETE borra un producto por ID chequeado OK
+delete http://localhost:8080/api/products/6467db9c27cc042809b09f44
+
 
 
 //CARTS
+
 
 ### GET trae todos los carritos check ok
 GET http://localhost:8080/api/carts/
 
 ### GET trae el carrito por ID con Populate por Id de producto check ok
-GET  http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
+GET  http://localhost:8080/api/carts/6462272ed9cf3a62517025bf
 
-### POST crea un carrito con producto pasados por body check ok, falta ver porque se pueden modificar los rótulos "product" o "quantity" y no tira error
-POST  http://localhost:8080/api/carts
+### POST crea un carrito con producto pasados por body check ok con validación
+POST  http://localhost:8080/api/carts/
 Content-Type: application/json
 
 { 
 "products": [
         {
-            "product": "645fdc7b0fab603d13ba3f6",
+            "product": "64627fdaf01a831a08937d4g",
             "quantity": 10
         }
     ]
@@ -54,13 +60,13 @@ Content-Type: application/json
 post http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b/products/64627fdaf01a831a08937d4f
 
 ### DELETE Vacía un carrito por id check ok
-delete http://localhost:8080/api/carts/646654873b7367b8348ba0c
+delete http://localhost:8080/api/carts/64622c96f3e73d823d6ddd
 
-### DELETE borra un producto de un carrito por id de carrito e id de producto revisar desde acá
-delete http://localhost:8080/api/carts/6464bfad8243014ebcb/products/645fdc7b30fab603d13ba3f6
+### DELETE borra un producto de un carrito por id de carrito e id de producto check ok
+delete http://localhost:8080/api/carts/6462272ed9cf3a62517025bf/products/645fdc8a30fab603d13ba3f9
 
-### PUT actualiza un carrito por id con un producto por body
-put http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b
+### PUT actualiza un carrito por id con un producto por body check ok, falta validación del body
+put http://localhost:8080/api/carts/6462272ed9cf3a62517025bf
 Content-Type: application/json
 
 {
@@ -77,8 +83,8 @@ Content-Type: application/json
             "quantity": 15
         }]
 }
-### PUT actualiza un carrito por id con un producto por body
-put http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b/products/645fdc7b30fab603d13ba3f6
+### PUT actualiza la cantidad de un producto de un carrito por id con cantidad por body check ok falta validar body
+put http://localhost:8080/api/carts/6462272ed9cf3a62517025bf/products/645fdc7b30fab603d13ba3f6
 Content-Type: application/json
 
 {

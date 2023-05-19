@@ -6,17 +6,16 @@ const CartManagerDB = require('../dao/db/cartManagerDB')
 
 const productsModel = require('../dao/db/models/product.model.js')
 
+//chequeado OK
 router.get('/products', async (req, res) => {
     try {
         let page = parseInt(req.query.page)
         if (!page) {
-            page = 1
-        }
-        if (isNaN(page)) {
             res.send({
                 status: 'error',
                 message: 'The page value is NaN'
             })
+            return
         }
         const limit = parseInt(req.query.limit) || 10
         const sort = req.query.sort;
@@ -79,21 +78,17 @@ router.get('/cart/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
         const cart = await CartManagerDB.getCartByIdPopulate({ _id: cid })
-        console.log('cart.products', cart.products)
         if (cart.products.length === 0) {
-            console.log('entró al if')
             let testUser = {
                 title: `Cart Number ${cart._id} is empty`
             }
             res.render('cart', testUser)
         }
-        console.log('no entró al if')
         let testUser = {
             title: `Cart Number ${cart._id}`,
             products: cart.products
         }
         res.render('cart', testUser)
-
     } catch (error) {
         console.log(error)
     }

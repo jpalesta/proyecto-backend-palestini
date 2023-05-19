@@ -1,6 +1,7 @@
 const { query } = require("express")
-const productsModel = require("./models/product.model")
 
+
+const productsModel = require("./models/product.model")
 
 class ProductManagerDB {
 
@@ -27,7 +28,6 @@ class ProductManagerDB {
         }
     }
 
-
     async addProduct(newProduct) {
         try {
             return await productsModel.create(newProduct)
@@ -38,10 +38,6 @@ class ProductManagerDB {
 
     async updateProduct(pid, update) {
         try {
-            const product = await productsModel.updateOne({ _id: pid }, { $set: update })
-            if (!product) {
-                throw new Error(`Product with ID ${pid} not found`)
-            }
             return await productsModel.updateOne({ _id: pid }, { $set: update })
         } catch (error) {
             return new Error(error)

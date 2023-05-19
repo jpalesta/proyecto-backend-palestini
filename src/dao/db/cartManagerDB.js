@@ -31,7 +31,7 @@ class CartManagerDB {
     async addCart(newCart) {
         try {
             return await cartsModel.create(newCart)
-                    } catch (error) {
+        } catch (error) {
             return new Error(error)
         }
     }
@@ -62,10 +62,6 @@ class CartManagerDB {
 
     async updateCart(cid, update) {
         try {
-            const cart = await cartsModel.findById({ _id: cid })
-            if (!cart) {
-                throw new Error(`Cart with ID ${cid} not found`)
-            }
             return await cartsModel.updateOne({ _id: cid }, { $set: update })
         } catch (error) {
             return new Error(error)
@@ -86,7 +82,7 @@ class CartManagerDB {
             await cart.save();
             return cart
         } catch (error) {
-            return new Error(error)
+            throw new Error(error)
         }
     }
 }

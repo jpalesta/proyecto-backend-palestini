@@ -4,10 +4,12 @@ const { Router } = require('express')
 
 const router = Router()
 
+const cartValidate = require('../Middlewares/validation/cart.validator')
+
 const CartManagerDB = require('../dao/db/cartManagerDB.js')
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
 
-//Consulta de todos los corritos
+//Consulta de todos los corritos check ok
 router.get('/', async (req, res) => {
     try {
         const carts = await CartManagerDB.getCarts()
@@ -19,10 +21,17 @@ router.get('/', async (req, res) => {
         console.log(error)
     }
 })
+
 //Consulta de un carrito con Populate por id de producto
 router.get('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
+        if (!mongoose.Types.ObjectId.isValid(cid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid cart ID format'
+            })
+        }
         const cart = await CartManagerDB.getCartByIdPopulate({ _id: cid })
         if (!cart) {
             res.status(404).send({
@@ -44,10 +53,18 @@ router.get('/:cid', async (req, res) => {
         console.log(error)
     }
 })
-//Crea un carrito con productos pasados por body
+//Crea un carrito con productos pasados por body check ok con validación
 router.post('/', async (req, res) => {
     try {
         const newCart = req.body
+        const isValid = cartValidate(newCart);
+        if (!isValid) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Formato de datos inválido',
+                error: cartValidate.errors[0].message
+            });
+        }
         cart = await CartManagerDB.addCart(newCart)
         if (Object.keys(cart).length === 0) {
             res.status(400).send({
@@ -63,11 +80,23 @@ router.post('/', async (req, res) => {
         console.log(error)
     }
 })
-//Agrega o incrementa un producto en un carrito, ambos pasan por params
+//Agrega o incrementa un producto en un carrito, ambos pasan por params check ok
 router.post('/:cid/products/:pid', async (req, res) => {
     try {
         const cid = req.params.cid
+        if (!mongoose.Types.ObjectId.isValid(cid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid cart ID format'
+            })
+        }
         const pid = req.params.pid
+        if (!mongoose.Types.ObjectId.isValid(pid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid product ID format'
+            })
+        }
         const cartById = await CartManagerDB.getCartById({ _id: cid })
         if (!cartById) {
             return res.status(400).send({
@@ -104,41 +133,55 @@ router.post('/:cid/products/:pid', async (req, res) => {
             }
         }
     } catch (error) {
-        return res.status(400).send({
-            status: 'error',
-            error: 'The cart or product number format is wrong, please check your information'
-        })
+        console.log(error)
     }
 })
-//Vacía un carrito por id
+
+//Vacía un carrito por id check ok
 router.delete('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
-        const cart = await CartManagerDB.deleteCartById(cid) 
+        if (!mongoose.Types.ObjectId.isValid(cid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid cart ID format'
+            })
+        }
+        const cart = await CartManagerDB.deleteCartById(cid)
         console.log(cart)
-        if (cart===undefined) {
-            console.log('entre al if')
-        return   res.status(404).send({
+        if (cart === undefined) {
+            return res.status(404).send({
                 status: 'error',
                 message: `The cart number ${cid} does not exist`
             })
-        } else{
-            console.log('no entre al if')
-
-        res.status(200).send({
-            status: 'success',
-            message: `The cart ${cart._id} was emptied successfully `
-        })
-    }
+        } else {
+            res.status(200).send({
+                status: 'success',
+                message: `The cart ${cart._id} was emptied successfully `
+            })
+        }
     } catch (error) {
         console.log(error)
     }
 })
+
 //Borra un producto de un carrito por id de carrito e id de producto
 router.delete('/:cid/products/:pid', async (req, res) => {
     try {
         const cid = req.params.cid
+        if (!mongoose.Types.ObjectId.isValid(cid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid cart ID format'
+            })
+        }
         const pid = req.params.pid
+        if (!mongoose.Types.ObjectId.isValid(pid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid product ID format'
+            })
+        }
         const cartById = await CartManagerDB.getCartById({ _id: cid })
         if (!cartById) {
             return res.status(404).send({
@@ -146,7 +189,7 @@ router.delete('/:cid/products/:pid', async (req, res) => {
                 message: `The cart number ${cid} does not exist`
             })
         }
-                {
+        {
             const product = cartById.products.find(product => product.product._id.toString() === pid)
             console.log('pid', pid)
             console.log('cartById.products', cartById.products)
@@ -168,12 +211,24 @@ router.delete('/:cid/products/:pid', async (req, res) => {
         console.log(error)
     }
 })
-//Actualiza un carrito por id con un producto por body
+//Actualiza un carrito por id con un producto por body check ok falta validación del body
 router.put('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
+        if (!mongoose.Types.ObjectId.isValid(cid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid cart ID format'
+            })
+        }
         const update = req.body
         const cartUpdated = await CartManagerDB.updateCart(cid, update)
+        if (cartUpdated.matchedCount === 0) {
+            res.status(400).send({
+                status: 'error',
+                message: `Product ${cid} not found in Data Base`
+            })
+        }
         res.status(200).send({
             status: 'success',
             payload: cartUpdated
@@ -182,11 +237,23 @@ router.put('/:cid', async (req, res) => {
         console.log(error)
     }
 })
-//Actualiza la cantidad de un producto en un carrito 
+//actualiza la cantidad de un producto de un carrito por id con cantidad por body check ok falta validar body
 router.put('/:cid/products/:pid', async (req, res) => {
     try {
         const cid = req.params.cid
+        if (!mongoose.Types.ObjectId.isValid(cid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid cart ID format'
+            })
+        }
         const pid = req.params.pid
+        if (!mongoose.Types.ObjectId.isValid(pid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid product ID format'
+            })
+        }
         const quantity = req.body.quantity
         const cartUpdated = await CartManagerDB.updateQuantityProductInCart(cid, pid, quantity)
         res.status(200).send({
@@ -195,6 +262,11 @@ router.put('/:cid/products/:pid', async (req, res) => {
         })
     } catch (error) {
         console.log(error)
+
+        res.status(400).send({
+            status: 'error',
+            message: error.message
+        })
     }
 })
 

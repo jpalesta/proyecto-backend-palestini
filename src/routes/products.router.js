@@ -1,6 +1,11 @@
 const { Router, json } = require('express')
 const router = Router()
 
+const mongoose = require('mongoose')
+
+const productValidate = require('../Middlewares/validation/product.validator')
+
+
 //Manager de Mongo DB
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
 
@@ -9,13 +14,21 @@ const productsModel = require('../dao/db/models/product.model.js')
 //Socket
 const io = require("socket.io-client")
 
+//Trae todos los productos con pagination + querys chequeado OK
 router.get('/', async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1
+        let page = parseInt(req.query.page)
+        if (!page) {
+            res.send({
+                status: 'error',
+                message: 'The page value is NaN'
+            })
+            return
+        }
         const limit = parseInt(req.query.limit) || 10
         const sort = req.query.sort;
-        const category = req.query.category;
-        const availability = req.query.availability;
+        const category = req.query.category
+        const availability = req.query.availability
         let sortOptions = ''
         if (sort === 'asc') {
             sortOptions = { price: 1 }
@@ -24,20 +37,30 @@ router.get('/', async (req, res) => {
         }
         const query = {}
         if (category) {
-            const existingCategory = await productsModel.distinct('category', { category });
+            const existingCategory = await productsModel.distinct('category', { category })
             if (existingCategory.length === 0) {
-                throw new Error('La categoría especificada no existe');
+                throw new Error('The specified category does not exist')
             }
-            query.category = category;
+            query.category = category
         } if (availability === 'true') {
             query.stock = { $gt: 0 }
         } else {
             ''
         }
+        //hacer 1° llamado solo con limit y comparar 
+        const result = await ProductManagerDB.getProducts(page, limit, sortOptions, query)
+        const { totalPages } = result
+        if (page > totalPages) {
+            res.send({
+                status: 'error',
+                message: 'The page value is too high'
+            })
+        }
+
         const products = await ProductManagerDB.getProducts(page, limit, sortOptions, query)
 
-        const { docs, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } = products
-        
+        const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = products
+
         let prevLink = ''
         let nextLink = ''
         if (hasPrevPage === false) {
@@ -64,10 +87,23 @@ router.get('/', async (req, res) => {
     }
 })
 
+//Trae un producto por ID chequeado OK
 router.get('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
+        if (!mongoose.Types.ObjectId.isValid(pid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid product ID format'
+            })
+        }
         const product = await ProductManagerDB.getProductById({ _id: pid })
+        if (!product) {
+            res.status(400).send({
+                status: 'error',
+                message: `Product ${pid} not found in Data Base`
+            })
+        }
         res.status(200).send({
             status: 'success',
             payload: product
@@ -77,9 +113,18 @@ router.get('/:pid', async (req, res) => {
     }
 })
 
+//Crea un producto por body chequeado con validación de body OK
 router.post('/', async (req, res) => {
     try {
         const newProduct = req.body
+        const isValid = productValidate(newProduct);
+        if (!isValid) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Formato de datos inválido',
+                error: productValidate.errors[0].message
+            });
+        }
         product = await ProductManagerDB.addProduct(newProduct)
         await emitProductsUpdate()
         res.status(200).send({
@@ -91,11 +136,24 @@ router.post('/', async (req, res) => {
     }
 })
 
+//Modifica un producto por body chequeado OK (falta validación de body)
 router.put('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
+        if (!mongoose.Types.ObjectId.isValid(pid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid product ID format'
+            })
+        }
         const update = req.body
         const productUpdated = await ProductManagerDB.updateProduct(pid, update)
+        if (productUpdated.matchedCount === 0) {
+            res.status(400).send({
+                status: 'error',
+                message: `Product ${pid} not found in Data Base`
+            })
+        }
         await emitProductsUpdate()
         res.status(200).send({
             status: 'success',
@@ -106,10 +164,23 @@ router.put('/:pid', async (req, res) => {
     }
 })
 
+//borra un producto por id chequeado OK
 router.delete('/:pid', async (req, res) => {
     try {
         const pid = req.params.pid
+        if (!mongoose.Types.ObjectId.isValid(pid)) {
+            return res.status(400).send({
+                status: 'error',
+                message: 'Invalid product ID format'
+            })
+        }
         const product = await ProductManagerDB.deleteProduct({ _id: pid })
+        if (product.deletedCount === 0) {
+            res.status(400).send({
+                status: 'error',
+                message: `Product ${pid} not found in Data Base`
+            })
+        }
         await emitProductsUpdate()
         res.status(200).send({
             status: 'success',
@@ -123,7 +194,7 @@ router.delete('/:pid', async (req, res) => {
 //funcion que actualiza la lista de productos y emite el evento 
 async function emitProductsUpdate() {
     const socket = io("ws://localhost:8080")
-    const products = await ProductManagerDB.getProducts()
+    const products = await ProductManagerDB.getProducts(page = 1, limit = 5, sortOptions='asc')
     socket.emit('productsUpdated', products.docs)
 }
 
