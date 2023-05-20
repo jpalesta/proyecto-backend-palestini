@@ -9,8 +9,12 @@ const productsModel = require('../dao/db/models/product.model.js')
 //chequeado OK
 router.get('/products', async (req, res) => {
     try {
-        let page = parseInt(req.query.page)
-        if (!page) {
+        let page = req.query.page
+        if(page===undefined)     {
+            page=1
+        }       
+        page = parseInt(page) 
+        if (isNaN(page)) {
             res.send({
                 status: 'error',
                 message: 'The page value is NaN'
@@ -69,7 +73,7 @@ router.get('/products', async (req, res) => {
         return res.send({ status: 'error', message: 'something was wrong' })
     }
     function createLink(currentURL, page, newPage) {
-        const newURL = (currentURL.includes('page')) ? currentURL.replace('page=' + page, 'page=' + newPage) : currentURL + '&page=' + newPage
+        const newURL = (currentURL.includes('page')) ? currentURL.replace('page=' + page, 'page=' + newPage) : currentURL + '?&page=' + newPage
         return newURL
     }
 })

@@ -1,13 +1,14 @@
 const express = require('express')
-
-const routerApp = require('./routes')
-
-const uploader = require('./utils/multer.js')
+const session = require('express-session')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
+const cookieParser = require('cookie-parser')
+
+
+const routerApp = require('./routes')
+const uploader = require('./utils/multer.js')
 const objectConfig = require('./config/objectConfig.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
-const session = require('express-session')
 
 //conexión DB Mogoose
 objectConfig.connectDB()
@@ -28,7 +29,7 @@ app.use(session({
 }))
 
 //Inicialización cookie-parser
-// app.use(cookieParser())
+app.use(cookieParser())
 
 //importacion de rutas de index routes
 app.use(routerApp)

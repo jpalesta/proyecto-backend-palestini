@@ -17,8 +17,12 @@ const io = require("socket.io-client")
 //Trae todos los productos con pagination + querys chequeado OK
 router.get('/', async (req, res) => {
     try {
-        let page = parseInt(req.query.page)
-        if (!page) {
+        let page = req.query.page
+        if(page===undefined)     {
+            page=1
+        }       
+        page = parseInt(page) 
+        if (isNaN(page)) {
             res.send({
                 status: 'error',
                 message: 'The page value is NaN'
