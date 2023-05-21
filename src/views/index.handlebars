@@ -1,5 +1,15 @@
 <div>
+  {{#if firstName}}
+  <h1>Bienvenido {{firstName}} {{lastName}}, estos son nuestros productos</h1>
+  <h3>Tu rol es de  {{role}}</h3>
+    <button
+    type="button"
+    class="btn btn-primary"
+    onclick="window.location.href='/api/session/logout/'"
+  >Logout</button>
+  {{else}}
   <h1>{{title}}</h1>
+  {{/if}}
 </div>
 <div class="container">
   <div class="row">

@@ -6,14 +6,20 @@ const CartManagerDB = require('../dao/db/cartManagerDB')
 
 const productsModel = require('../dao/db/models/product.model.js')
 
+//te redirecciona automáticamente al login
+router.get('/', (req, res) => {
+    res.redirect('/login')
+});
+
+
 //chequeado OK
 router.get('/products', async (req, res) => {
     try {
         let page = req.query.page
-        if(page===undefined)     {
-            page=1
-        }       
-        page = parseInt(page) 
+        if (page === undefined) {
+            page = 1
+        }
+        page = parseInt(page)
         if (isNaN(page)) {
             res.send({
                 status: 'error',
@@ -57,7 +63,27 @@ router.get('/products', async (req, res) => {
         const currentURL = req.protocol + '://' + req.get('host') + req.originalUrl
         const prevLink = hasPrevPage ? createLink(currentURL, page, prevPage) : null
         const nextLink = hasNextPage ? createLink(currentURL, page, nextPage) : null
+
+        let userLoged = req.session.user
+
+        if(!userLoged){
+            userLoged={
+                firstName: null,
+                lastName: null
+            }
+            logedUserRole = ''
+        } else {
+        //validación manual de usuario admin
+        if(req.session.user.email === 'adminCoder@coder.com'){
+            logedUserRole = 'admin'
+        } else {
+            logedUserRole = 'user'
+        }
+    }
         let testUser = {
+            firstName: userLoged.firstName,
+            lastName: userLoged.lastName,
+            role: logedUserRole,
             title: 'Lista de Productos',
             products: docs,
             hasPrevPage,
@@ -67,6 +93,7 @@ router.get('/products', async (req, res) => {
             prevLink,
             nextLink
         }
+        console.log('testUser'. testUser)
         res.render('index', testUser)
     } catch (error) {
         console.log(error)
@@ -115,5 +142,17 @@ router.get('/formcookies', (req, res) => {
     }
     res.render('formcookies', testUser)
 })
+
+
+router.get('/register', (req, res) => {
+    res.render('registerForm')
+})
+
+router.get('/login', (req, res) => {
+    res.render('login')
+})
+
+
+
 
 module.exports = router

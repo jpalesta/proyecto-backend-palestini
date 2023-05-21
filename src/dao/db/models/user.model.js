@@ -11,6 +11,14 @@ const usersSchema = new Schema({
         type: String,
         require: true
     },
+    dateOfBirth: {
+        type: Date,
+        require: true
+    },
+    password: {
+        type: String,
+        require: true
+    },
     email: {
         type: String,
         require: true,
@@ -20,4 +28,4 @@ const usersSchema = new Schema({
 
 const usersModel = model(usersCollection,usersSchema)
 
-module.exports = usersModel
+module.exports = {usersModel}
