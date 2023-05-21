@@ -78,7 +78,6 @@ router.get('/logout', (req, res) => {
         }
     })
     res.redirect('/login')
-    console.log(res.session.user)
 })
 
 router.post('/restorepass', async (req, res) => {
