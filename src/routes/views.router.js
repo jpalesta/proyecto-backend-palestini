@@ -152,6 +152,10 @@ router.get('/login', (req, res) => {
     res.render('login')
 })
 
+router.get('/restorepass', (req, res) => {
+    res.render('restorePass')
+})
+
 
 
 
