@@ -13,9 +13,10 @@ const productsModel = require('../dao/db/models/product.model.js')
 
 //Socket
 const io = require("socket.io-client")
+const { isAuthenticated } = require('../Middlewares/authentication.middlewares')
 
 //Trae todos los productos con pagination + querys chequeado OK
-router.get('/', async (req, res) => {
+router.get('/', isAuthenticated, async (req, res) => {
     try {
         let page = req.query.page
         if(page===undefined)     {

@@ -3,6 +3,7 @@ const session = require('express-session')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
+const MongoStore = require('connect-mongo')
 
 
 const routerApp = require('./routes')
@@ -17,15 +18,29 @@ objectConfig.connectDB()
 const app = express()
 const port = 8080
 
+//configuración de socke.io
+const server = app.listen(port, () => {
+    console.log(`Listening on port ${port}`)
+})
+const io = new Server(server)
+
 //configuracion para que express reconozca formatos
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 //configuración Sessión
 app.use(session({
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://josepalestini:48648332@cluster0.x8zgzdu.mongodb.net/?retryWrites=true&w=majority',
+        mongoOptions: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        },
+        ttl: 1000000
+    }),
     secret: 'secretWord',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }))
 
 //Inicialización cookie-parser
@@ -57,11 +72,6 @@ app.use((err, req, res, next) => {
     res.status(500).send('something is wrong')
 })
 
-//configuración de socke.io
-const server = app.listen(port, () => {
-    console.log(`Listening on port ${port}`)
-})
-const io = new Server(server)
 io.on('connection', (socket) => {
     console.log('new client connect')
     socket.on('productsUpdated', (data) => {
@@ -76,7 +86,7 @@ io.on('connection', (socket) => {
         await chatManagerDB.addMessage(newMessage)
         logs = await chatManagerDB.getmessages()
         io.emit('completeLogs', logs)
-        console.log('logs',logs)
+        console.log('logs', logs)
     })
 })
 

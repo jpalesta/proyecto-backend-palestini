@@ -5,6 +5,7 @@ const ProductManagerDB = require('../dao/db/productManagerDB')
 const CartManagerDB = require('../dao/db/cartManagerDB')
 
 const productsModel = require('../dao/db/models/product.model.js')
+const { isAuthenticatedView } = require('../Middlewares/authentication.middlewares')
 
 //te redirecciona automáticamente al login
 router.get('/', (req, res) => {
@@ -13,7 +14,7 @@ router.get('/', (req, res) => {
 
 
 //chequeado OK
-router.get('/products', async (req, res) => {
+router.get('/products', isAuthenticatedView, async (req, res) => {
     try {
         let page = req.query.page
         if (page === undefined) {
@@ -66,24 +67,10 @@ router.get('/products', async (req, res) => {
 
         let userLoged = req.session.user
 
-        if(!userLoged){
-            userLoged={
-                firstName: null,
-                lastName: null
-            }
-            logedUserRole = ''
-        } else {
-        //validación manual de usuario admin
-        if(req.session.user.email === 'adminCoder@coder.com'){
-            logedUserRole = 'admin'
-        } else {
-            logedUserRole = 'user'
-        }
-    }
         let testUser = {
             firstName: userLoged.firstName,
             lastName: userLoged.lastName,
-            role: logedUserRole,
+            role: userLoged.role,
             title: 'Lista de Productos',
             products: docs,
             hasPrevPage,

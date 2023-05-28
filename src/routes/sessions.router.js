@@ -62,11 +62,27 @@ router.post('/login', async (req, res) => {
             message: 'Incorrect password, please check your login information'
         })
     }
-
     req.session.user = {
         firstName: userDB.firstName,
         lastName: userDB.lastName,
         email: userDB.email,
+    }
+    let userLoged = req.session.user
+
+    if (!userLoged) {
+        userLoged = {
+            firstName: null,
+            lastName: null
+        }
+        logedUserRole = ''
+    } else {
+        //validación manual de usuario admin
+        if (req.session.user.email === 'adminCoder@coder.com') {
+            logedUserRole = 'admin'
+        } else {
+            logedUserRole = 'user'
+        }
+        req.session.user.role = logedUserRole
     }
     res.redirect('/products')
 })
@@ -95,12 +111,12 @@ router.post('/restorepass', async (req, res) => {
             message: 'Username does not exist, please check your login information'
         })
         return
-    } else{
-    userDB.password = createHash(password)
-    await userDB.save()
-    res.redirect('/login')
+    } else {
+        userDB.password = createHash(password)
+        await userDB.save()
+        res.redirect('/login')
     }
 })
 
 
-    module.exports = router
+module.exports = router
