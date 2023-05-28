@@ -15,6 +15,10 @@ const usersSchema = new Schema({
         type: Date,
         require: true
     },
+    role: {
+        type: String,
+        require: false
+    },
     password: {
         type: String,
         require: true

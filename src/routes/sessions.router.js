@@ -3,6 +3,7 @@ const { Router } = require('express')
 const { usersModel } = require('../dao/db/models/user.model')
 
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
+const passport = require('passport')
 
 const router = Router()
 
@@ -118,5 +119,11 @@ router.post('/restorepass', async (req, res) => {
     }
 })
 
+router.get('/github', passport.authenticate('github', {scope: ['user: email']}))
+
+router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), async (req, res) =>{
+    req.session.user = req.user
+    res.redirect ('/products')
+})
 
 module.exports = router
