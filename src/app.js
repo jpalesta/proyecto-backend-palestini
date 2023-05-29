@@ -4,14 +4,14 @@ const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
 const MongoStore = require('connect-mongo')
+const passport = require('passport')
 
 
 const routerApp = require('./routes')
 const uploader = require('./utils/multer.js')
 const objectConfig = require('./config/objectConfig.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
-const { initPassportGithub } = require('./config/passport.config')
-const passport = require('passport')
+const { initPassportGithub, initPassportLocal } = require('./config/passport.config')
 
 //conexión DB Mogoose
 objectConfig.connectDB()
@@ -50,6 +50,10 @@ app.use(cookieParser())
 
 //passport
 initPassportGithub()
+passport.use(passport.initialize())
+passport.use(passport.session())
+
+initPassportLocal()
 passport.use(passport.initialize())
 passport.use(passport.session())
 
