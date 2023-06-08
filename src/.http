@@ -90,3 +90,16 @@ Content-Type: application/json
 {
         "quantity": 18
 }
+
+
+
+### GET PRUEBA CURRENT
+get http://localhost:8080/api/session/current
+### GET PRUEBA CURRENT
+post http://localhost:8080/api/session/login
+Content-Type: application/json
+
+{
+        "email": "tito@gmail.com",
+        "password": "123456"
+}

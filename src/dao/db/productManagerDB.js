@@ -1,6 +1,3 @@
-const { query } = require("express")
-
-
 const productsModel = require("./models/product.model")
 
 class ProductManagerDB {

@@ -1,4 +1,4 @@
-const {Schema, model} = require ('mongoose')
+const { Schema, model } = require('mongoose');
 
 const usersCollection = 'users'
 
@@ -13,11 +13,11 @@ const usersSchema = new Schema({
     },
     dateOfBirth: {
         type: Date,
-        require: true
+        require: false
     },
     role: {
         type: String,
-        require: false
+        default: 'user'
     },
     password: {
         type: String,
@@ -27,9 +27,30 @@ const usersSchema = new Schema({
         type: String,
         require: true,
         unique: true
+    },
+    age: {
+        type: Number
+    },
+    cart: {
+        id: {
+            type: Schema.Types.ObjectId,
+            reference: 'carts'
+        }
     }
 })
 
-const usersModel = model(usersCollection,usersSchema)
+usersSchema.pre('save', function (next) {
+    if (this.dateOfBirth) {
+        const currentDate = new Date()
+        const age = currentDate.getFullYear() - this.dateOfBirth.getFullYear();
+        this.age = age
+    } else{
+        this.dateOfBirth = ""
+        this.age = ""
+    }
+    next()
+})
 
-module.exports = {usersModel}
+const usersModel = model(usersCollection, usersSchema)
+
+module.exports = { usersModel }

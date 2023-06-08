@@ -11,7 +11,7 @@ const routerApp = require('./routes')
 const uploader = require('./utils/multer.js')
 const objectConfig = require('./config/objectConfig.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
-const { initPassportGithub, initPassportLocal } = require('./config/passport.config')
+const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./config/passport.config')
 
 //conexión DB Mogoose
 objectConfig.connectDB()
@@ -48,14 +48,19 @@ app.use(session({
 //Inicialización cookie-parser
 app.use(cookieParser())
 
-//passport
+//passport GutHub
 initPassportGithub()
 passport.use(passport.initialize())
 passport.use(passport.session())
 
-initPassportLocal()
+// initPassportLocal()
+// passport.use(passport.initialize())
+// passport.use(passport.session())
+
+//init passport JWT
+initPassportJWT()
 passport.use(passport.initialize())
-passport.use(passport.session())
+
 
 //importacion de rutas de index routes
 app.use(routerApp)

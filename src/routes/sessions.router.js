@@ -1,9 +1,12 @@
 const { Router } = require('express')
 // const { auth } = require('../middlewares/autenticacion.middleware')
 const { usersModel } = require('../dao/db/models/user.model')
+const { login, register } = require('../controllers/sessions.controller')
 
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
 const passport = require('passport')
+const { passportAutorization } = require('../Middlewares/passportAutorization')
+const { passportAuthentication } = require('../Middlewares/passportAuthentication')
 
 const router = Router()
 
@@ -125,36 +128,55 @@ router.get('/githubcallback', passport.authenticate('github', { failureRedirect:
     res.redirect('/products')
 })
 
-//registro con local passport
-router.post('/register', passport.authenticate('register', { failureRedirect: '/failregister' }), async (req, res) => {
-    res.redirect('/login')
-    console.log('User registered')
-})
-router.get('/failregister', async (req, res) => {
-    console.log('Failed strategy')
-    res.send({ error: 'Failed' })
-})
-
 //login con local passport
-router.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), async (req, res) => {
-    if (!req.user) return res.status(401).send({ status: 'error', error: 'Invalid credentials' })
-    req.session.user = {
-        firstName: req.user.firstName,
-        lastName: req.user.lastName,
-        dateOfBirth: req.user.dateOfBirth,
-        email: req.user.email
+// router.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), async (req, res) => {
+//     if (!req.user) return res.status(401).send({ status: 'error', error: 'Invalid credentials' })
+//     req.session.user = {
+//         firstName: req.user.firstName,
+//         lastName: req.user.lastName,
+//         dateOfBirth: req.user.dateOfBirth,
+//         email: req.user.email
+//     }
+//     if (req.session.user.email === 'adminCoder@coder.com') {
+//         logedUserRole = 'admin'
+//     } else {
+//         logedUserRole = 'user'
+//     }
+//     req.session.user.role = logedUserRole
+//     res.redirect('/products')
+// })
+// router.get('/faillogin', async (req, res) => {
+//     console.log('Failed strategy')
+//     res.send({ error: 'Failed login' })
+// })
+
+// //registro con local passport
+// router.post('/register', passport.authenticate('register', { failureRedirect: '/failregister' }), async (req, res) => {
+//     res.redirect('/login')
+//     console.log('User registered')
+// })
+// router.get('/failregister', async (req, res) => {
+//     console.log('Failed strategy')
+//     res.send({ error: 'Failed' })
+// })
+
+//login con JWT
+router.post('/login', login)
+
+//registro con JWT
+router.post('/register', register)
+
+///current arroja info del usuario actual
+router.get('/current',
+    passportAuthentication('jwt'),
+    passportAutorization('user'),
+    (req, res) => {
+        let currentUser = req.user
+        res.send({
+            message: 'Usuario actual',
+            currentUser
+        })
     }
-    if (req.session.user.email === 'adminCoder@coder.com') {
-        logedUserRole = 'admin'
-    } else {
-        logedUserRole = 'user'
-    }
-    req.session.user.role = logedUserRole
-    res.redirect('/products')
-})
-router.get('/faillogin', async (req, res) => {
-    console.log('Failed strategy')
-    res.send({ error: 'Failed login' })
-})
+)
 
 module.exports = router
