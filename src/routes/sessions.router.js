@@ -6,7 +6,9 @@ const { login, register } = require('../controllers/sessions.controller')
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
 const passport = require('passport')
 const { passportAutorization } = require('../Middlewares/passportAutorization')
-const { passportAuthentication } = require('../Middlewares/passportAuthentication')
+const {
+    passportAuthentication,
+} = require('../Middlewares/passportAuthentication')
 
 const router = Router()
 
@@ -91,7 +93,7 @@ const router = Router()
 // })
 
 router.get('/logout', (req, res) => {
-    req.session.destroy(err => {
+    req.session.destroy((err) => {
         if (err) {
             return res.send({ status: 'error', error: err })
         }
@@ -104,14 +106,15 @@ router.post('/restorepass', async (req, res) => {
     if (!email || !password) {
         res.status(400).send({
             status: 'error',
-            message: 'all the fields must be complete'
+            message: 'all the fields must be complete',
         })
     }
     const userDB = await usersModel.findOne({ email })
     if (!userDB) {
         res.status(404).send({
             status: 'error',
-            message: 'Username does not exist, please check your login information'
+            message:
+                'Username does not exist, please check your login information',
         })
         return
     } else {
@@ -122,11 +125,22 @@ router.post('/restorepass', async (req, res) => {
 })
 
 //registro con passport github
-router.get('/github', passport.authenticate('github', { scope: ['user: email'] }))
-router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), async (req, res) => {
-    req.session.user = req.user
-    res.redirect('/products')
-})
+router.get(
+    '/github',
+    passport.authenticate('github', { scope: ['user: email'], session: false })
+)
+router.get(
+    '/githubcallback',
+    passport.authenticate('github', {
+        failureRedirect: '/login',
+        session: false,
+    }),
+    async (req, res) => {
+        // @fix: NO USAMOS SESIONES
+        // req.session.user = req.user
+        res.redirect('/products')
+    }
+)
 
 //login con local passport
 // router.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), async (req, res) => {
@@ -161,20 +175,31 @@ router.get('/githubcallback', passport.authenticate('github', { failureRedirect:
 // })
 
 //login con JWT
-router.post('/login', login)
+// @fix: DEBE USARSE PASSPORT
+router.post(
+    '/login',
+    passportAuthentication('login', { session: false }),
+    login
+)
 
 //registro con JWT
-router.post('/register', register)
+// @fix: DEBE USARSE PASSPORT
+router.post(
+    '/register',
+    passportAuthentication('register', { session: false }),
+    register
+)
 
 ///current arroja info del usuario actual
-router.get('/current',
+router.get(
+    '/current',
     passportAuthentication('jwt'),
     passportAutorization('user'),
     (req, res) => {
         let currentUser = req.user
         res.send({
             message: 'Usuario actual',
-            currentUser
+            currentUser,
         })
     }
 )
