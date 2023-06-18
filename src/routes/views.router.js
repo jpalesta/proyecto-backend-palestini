@@ -7,11 +7,11 @@ const CartManagerDB = require('../dao/db/cartManagerDB')
 const productsModel = require('../dao/db/models/product.model.js')
 const { isAuthenticatedView } = require('../Middlewares/authentication.middlewares')
 
+
 //te redirecciona automáticamente al login
 router.get('/', (req, res) => {
     res.redirect('/login')
 });
-
 
 //chequeado OK
 router.get('/products', isAuthenticatedView, async (req, res) => {

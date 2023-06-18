@@ -103,3 +103,6 @@ Content-Type: application/json
         "email": "tito@gmail.com",
         "password": "123456"
 }
+
+### GET PRUEBA logout
+post http://localhost:8080/api/session/logout

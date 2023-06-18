@@ -1,5 +1,4 @@
 const express = require('express')
-const session = require('express-session')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
@@ -11,7 +10,9 @@ const routerApp = require('./routes')
 const uploader = require('./utils/multer.js')
 const objectConfig = require('./config/objectConfig.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
-const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./config/passport.config')
+const { initPassportGithub,
+    initPassportJWT }
+    = require('./config/passport.config')
 
 //conexión DB Mogoose
 objectConfig.connectDB()
@@ -30,37 +31,12 @@ const io = new Server(server)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-//configuración Sessión
-app.use(session({
-    store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://josepalestini:48648332@cluster0.x8zgzdu.mongodb.net/?retryWrites=true&w=majority',
-        mongoOptions: {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        },
-        ttl: 1000000
-    }),
-    secret: 'secretWord',
-    resave: false,
-    saveUninitialized: false
-}))
-
 //Inicialización cookie-parser
 app.use(cookieParser())
 
-//passport GutHub
+//passport GitHub
 initPassportGithub()
 passport.use(passport.initialize())
-passport.use(passport.session())
-
-// initPassportLocal()
-// passport.use(passport.initialize())
-// passport.use(passport.session())
-
-//init passport JWT
-initPassportJWT()
-passport.use(passport.initialize())
-
 
 //importacion de rutas de index routes
 app.use(routerApp)
@@ -78,7 +54,7 @@ app.use('/static', express.static(__dirname + '/public'))
 app.post('/single', uploader.single('product.file'), (req, res) => {
     res.status(200).send({
         status: 'success',
-        message: 'product loaded ok'
+        message: 'product loaded ok',
     })
 })
 
@@ -97,7 +73,7 @@ io.on('connection', (socket) => {
     socket.on('newUserConnected', data => {
         socket.broadcast.emit('newUserConnectedToast', data)
     })
-    socket.on('newMessage', async newMessage => {
+    socket.on('newMessage', async (newMessage) => {
         console.log('clg newMessage', newMessage)
         await chatManagerDB.addMessage(newMessage)
         logs = await chatManagerDB.getmessages()

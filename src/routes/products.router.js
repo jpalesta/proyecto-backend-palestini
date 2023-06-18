@@ -1,19 +1,17 @@
-const { Router, json } = require('express')
+const { Router } = require('express')
 const router = Router()
 
 const mongoose = require('mongoose')
 
-const productValidate = require('../Middlewares/validation/product.validator')
-
-
-//Manager de Mongo DB
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
-
 const productsModel = require('../dao/db/models/product.model.js')
+const productValidate = require('../Middlewares/validation/product.validator')
 
 //Socket
 const io = require("socket.io-client")
-const { isAuthenticated } = require('../Middlewares/authentication.middlewares')
+const { isAuthenticated } = require('../Middlewares/authentication.middlewares.js')
+
+
 
 //Trae todos los productos con pagination + querys chequeado OK
 router.get('/', isAuthenticated, async (req, res) => {
