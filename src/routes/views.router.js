@@ -5,13 +5,16 @@ const ProductManagerDB = require('../dao/db/productManagerDB')
 const CartManagerDB = require('../dao/db/cartManagerDB')
 
 const productsModel = require('../dao/db/models/product.model.js')
-const { isAuthenticatedView } = require('../Middlewares/authentication.middlewares')
+const {
+    isAuthenticatedView,
+} = require('../Middlewares/authentication.middlewares')
 
 
 //te redirecciona automáticamente al login
 router.get('/', (req, res) => {
     res.redirect('/login')
 });
+
 
 //chequeado OK
 router.get('/products', isAuthenticatedView, async (req, res) => {
@@ -24,12 +27,12 @@ router.get('/products', isAuthenticatedView, async (req, res) => {
         if (isNaN(page)) {
             res.send({
                 status: 'error',
-                message: 'The page value is NaN'
+                message: 'The page value is NaN',
             })
             return
         }
         const limit = parseInt(req.query.limit) || 10
-        const sort = req.query.sort;
+        const sort = req.query.sort
         const category = req.query.category
         const availability = req.query.availability
         let sortOptions = ''
@@ -40,32 +43,52 @@ router.get('/products', isAuthenticatedView, async (req, res) => {
         }
         const query = {}
         if (category) {
-            const existingCategory = await productsModel.distinct('category', { category })
+            const existingCategory = await productsModel.distinct('category', {
+                category,
+            })
             if (existingCategory.length === 0) {
                 throw new Error('The specified category does not exist')
             }
             query.category = category
-        } if (availability === 'true') {
+        }
+        if (availability === 'true') {
             query.stock = { $gt: 0 }
         } else {
-            ''
+            ;('')
         }
-        //hacer 1° llamado solo con limit y comparar 
-        const result = await ProductManagerDB.getProducts(page, limit, sortOptions, query)
+        //hacer 1° llamado solo con limit y comparar
+        const result = await ProductManagerDB.getProducts(
+            page,
+            limit,
+            sortOptions,
+            query
+        )
         const { totalPages } = result
         if (page > totalPages) {
             res.send({
                 status: 'error',
-                message: 'The page value is too high'
+                message: 'The page value is too high',
             })
         }
-        const products = await ProductManagerDB.getProducts(page, limit, sortOptions, query)
+        const products = await ProductManagerDB.getProducts(
+            page,
+            limit,
+            sortOptions,
+            query
+        )
         const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = products
-        const currentURL = req.protocol + '://' + req.get('host') + req.originalUrl
-        const prevLink = hasPrevPage ? createLink(currentURL, page, prevPage) : null
-        const nextLink = hasNextPage ? createLink(currentURL, page, nextPage) : null
+        const currentURL =
+            req.protocol + '://' + req.get('host') + req.originalUrl
+        const prevLink = hasPrevPage
+            ? createLink(currentURL, page, prevPage)
+            : null
+        const nextLink = hasNextPage
+            ? createLink(currentURL, page, nextPage)
+            : null
 
-        let userLoged = req.session.user
+        // let userLoged = req.session.user
+        // @fix: SI USAMOS JWT EL USUARIO YA VIENE EN LA REQUEST
+        let userLoged = req.user
 
         let testUser = {
             firstName: userLoged.firstName,
@@ -78,14 +101,16 @@ router.get('/products', isAuthenticatedView, async (req, res) => {
             prevPage,
             nextPage,
             prevLink,
-            nextLink
+            nextLink,
         }
         res.render('index', testUser)
     } catch (error) {
         return res.send({ status: 'error', message: 'something was wrong' })
     }
     function createLink(currentURL, page, newPage) {
-        const newURL = (currentURL.includes('page')) ? currentURL.replace('page=' + page, 'page=' + newPage) : currentURL + '?&page=' + newPage
+        const newURL = currentURL.includes('page')
+            ? currentURL.replace('page=' + page, 'page=' + newPage)
+            : currentURL + '?&page=' + newPage
         return newURL
     }
 })
@@ -96,13 +121,13 @@ router.get('/cart/:cid', async (req, res) => {
         const cart = await CartManagerDB.getCartByIdPopulate({ _id: cid })
         if (cart.products.length === 0) {
             let testUser = {
-                title: `Cart Number ${cart._id} is empty`
+                title: `Cart Number ${cart._id} is empty`,
             }
             res.render('cart', testUser)
         }
         let testUser = {
             title: `Cart Number ${cart._id}`,
-            products: cart.products
+            products: cart.products,
         }
         res.render('cart', testUser)
     } catch (error) {
@@ -123,11 +148,10 @@ router.get('/chat', (req, res) => {
 
 router.get('/formcookies', (req, res) => {
     let testUser = {
-        title: 'formcookies'
+        title: 'formcookies',
     }
     res.render('formcookies', testUser)
 })
-
 
 router.get('/register', (req, res) => {
     res.render('registerForm')
@@ -140,8 +164,5 @@ router.get('/login', (req, res) => {
 router.get('/restorepass', (req, res) => {
     res.render('restorePass')
 })
-
-
-
 
 module.exports = router
