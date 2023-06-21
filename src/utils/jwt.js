@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 const {privateKey} = require('../config/objectConfig')
-// const JWT_PRIVATE_KEY = 'palabrasecretadejwt'
 
 const generateToken = (user)=>{
     const token = jwt.sign({user},privateKey, {expiresIn:'1d'})
@@ -21,7 +20,7 @@ const authToken = (req, res, next) =>{
     jwt.verify(token, privateKey, (error, credential)=>{
         if(error) return res.status(401).send({
             status: 'error',
-            error: ' NOt authenticated'
+            error: ' Not authenticated'
         })
         req.user = credential.user
         next()

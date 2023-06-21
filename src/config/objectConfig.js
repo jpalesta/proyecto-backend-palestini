@@ -1,9 +1,10 @@
 const { connect } = require('mongoose')
+require('dotenv').config()
 
-let url = 'mongodb+srv://josepalestini:48648332@cluster0.x8zgzdu.mongodb.net/?retryWrites=true&w=majority'
+let url = process.env.URL_MONGO
 
 module.exports = {
-    privateKey: 'LLAVEpRIVADA',
+    privateKey: process.env.PRIVATE_KEY,
     connectDB: () => {
         connect(url)
         console.log('conectado a la BD ')

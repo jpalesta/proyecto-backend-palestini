@@ -1,9 +1,7 @@
 const express = require('express')
-const session = require('express-session')
 const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
-const MongoStore = require('connect-mongo')
 const passport = require('passport')
 
 const routerApp = require('./routes')
@@ -29,36 +27,18 @@ const io = new Server(server)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-//configuración Sessión
-app.use(session({
-    store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://josepalestini:48648332@cluster0.x8zgzdu.mongodb.net/?retryWrites=true&w=majority',
-        mongoOptions: {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        },
-        ttl: 1000000
-    }),
-    secret: 'secretWord',
-    resave: false,
-    saveUninitialized: false
-}))
-
 //Inicialización cookie-parser
 app.use(cookieParser())
+passport.use(passport.initialize())
 
 //passport GitHub
 initPassportGithub()
-passport.use(passport.initialize())
-passport.use(passport.session())
 
-// initPassportLocal()
-// passport.use(passport.initialize())
-// passport.use(passport.session())
+//passport Local
+initPassportLocal()
 
 //init passport JWT
 initPassportJWT()
-passport.use(passport.initialize())
 
 
 //importacion de rutas de index routes

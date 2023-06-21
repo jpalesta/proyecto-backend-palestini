@@ -4,9 +4,7 @@ const { Router } = require('express')
 
 const router = Router()
 
-
 const {getAll, getOne, create, update, deleteAll, updateProduct, deleteProduct, updateProductQuantity} = require ('../controllers/carts.controller')
-
 
 //Consulta de todos los corritos check ok
 router.get('/', getAll)

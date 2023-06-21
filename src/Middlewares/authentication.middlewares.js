@@ -1,21 +1,8 @@
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        next()
-        return
-    }
-    res.status(401).send({
-        status: 'Error',
-        Error: 'Not authenticated'
-    })
-}
+const { passportAuthentication } = require("./passportAuthentication")
 
-function isAuthenticatedView(req, res, next) {
-    if (req.session.user) {
-        next()
-        return
-    }
-    res.render('login', {})
-}
+const isAuthenticated = passportAuthentication ()
+
+const isAuthenticatedView = passportAuthentication ({ failureRedirect: '/login-fail'})
 
 module.exports = {
     isAuthenticated,
