@@ -1,8 +1,11 @@
 const { passportAuthentication } = require("./passportAuthentication")
 
-const isAuthenticated = passportAuthentication ()
+const isAuthenticated = passportAuthentication ('jwt', { session: false })
 
-const isAuthenticatedView = passportAuthentication ({ failureRedirect: '/login-fail'})
+const isAuthenticatedView = passportAuthentication ('jwt', {
+    session: false,
+    failureRedirect: '/login-fail',
+})
 
 module.exports = {
     isAuthenticated,

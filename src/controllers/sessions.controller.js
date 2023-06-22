@@ -107,7 +107,6 @@ class SessionController {
     githubCallback = async (req, res) => {
         try {
             let token = req.user
-            console.log(token)
             res.cookie('userCookie', token, {
                 maxAge: 60 * 60 * 1000,
                 httpOnly: true,
@@ -115,7 +114,6 @@ class SessionController {
             res.redirect('/products')
         } catch (error) {
             console.log(error);
-            res.redirect('/login')
         }
     }
 

@@ -67,11 +67,12 @@ const initPassportGithub = () => {
     passport.use('github', new GithubStrategy({
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: process.env.GITHUB_CALLBACK_URL
+        callbackURL: process.env.GITHUB_CALLBACK_URL,
     }, async (accessToken, refreshToken, profile, done) => {
-
+            console.log('profile', profile)
         try {
             user = await usersModel.findOne({ email: profile._json.email })
+            console.log('userenpassportgithub', user)
             if (!user) {
                 let newUser = {
                     firstName: profile.username,
@@ -81,22 +82,9 @@ const initPassportGithub = () => {
                     role: 'user'
                 }
                 let result = await usersModel.create(newUser)
-                user = result
+                return done (null, result)
             }
-            // Guarda la información del usuario en una cookie
-            const userData = {
-                _id: user._id,
-                email: user.email,
-                role: user.role
-            }
-            const token = jwt.sign(userData, privateKey)
-
-            res.cookie(process.env.JWT_COOKIE_NAME, token, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 7 * 24 * 60 * 60 * 1000 // Tiempo de expiración de la cookie en milisegundos
-            })
-            return done(null, user)
+            return done (null, user)
         } catch (error) {
             console.log(error)
         }

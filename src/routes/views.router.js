@@ -12,7 +12,7 @@ const { loginRedirect, viewAllProducts, viewOneCart, viewProductsRealtime, viewC
 router.get('/',loginRedirect);
 
 //chequeado OK
-router.get('/products', isAuthenticatedView, viewAllProducts)
+router.get('/products',  viewAllProducts)
 
 router.get('/cart/:cid', viewOneCart)
 

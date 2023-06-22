@@ -98,7 +98,7 @@ class ViewsController {
             res.render('index', testUser)
         } catch (error) {
             console.log(error)
-            return res.send({ status: 'errorrrrrrrrrrrrrr', message: 'something was wrong' })
+            return res.send({ status: 'error', message: 'something was wrong' })
         }
         function createLink(currentURL, page, newPage) {
             const newURL = currentURL.includes('page')
