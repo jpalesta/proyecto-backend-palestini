@@ -19,7 +19,7 @@ const initPassportLocal = () => {
                 let user = await usersModel.findOne({ email: username })
                 if (user) {
                     console.log('User already exist')
-                    return (done, false, { existingUser: true })
+                    return (done, false)
                 }
                 const newUser = {
                     firstName,

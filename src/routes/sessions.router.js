@@ -10,7 +10,7 @@ const { passportAutorization} = require('../Middlewares/passportAutorization')
 const {passportAuthentication} = require('../Middlewares/passportAuthentication')
 const {createHash} = require('../utils/bCryptHash')
 
-router.post('/register', pruebaRegister)
+router.post('/register', register)
 
 
 
