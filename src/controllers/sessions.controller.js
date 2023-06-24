@@ -9,6 +9,7 @@ class SessionController {
 
     register = async (req, res) => {
         try {
+            console.log('User register successfull')
             res.redirect('/login')
         } catch (error) {
             console.log(error)
@@ -16,6 +17,7 @@ class SessionController {
     }
 
     login = (req, res) => {
+
         try {
             const { user } = req
             if (!user) {
@@ -70,12 +72,13 @@ class SessionController {
         if (!userDB) {
             res.status(404).send({
                 status: 'error',
-                message: 'Username does not exist, please check your login information'
+                message: 'Username does not exist, please check your login information or register'
             })
             return
         } else {
             userDB.password = createHash(password)
             await userDB.save()
+            console.log('Password modified OK');
             res.redirect('/login')
         }
     }
