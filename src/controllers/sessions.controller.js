@@ -20,10 +20,7 @@ class SessionController {
                     maxAge: 60 * 60 * 10000,
                     httpOnly: true,
                 })
-                res.send({
-                    status: 'success',
-                    token,
-                })
+                res.redirect('/products')
             }
         } catch (error) {
             return console.log(error)

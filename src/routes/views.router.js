@@ -87,11 +87,12 @@ router.get('/products', isAuthenticatedView, async (req, res) => {
         // let userLoged = req.session.user
         // @fix: SI USAMOS JWT EL USUARIO YA VIENE EN LA REQUEST
         let userLoged = req.user
+        console.log('userLoged',userLoged)
 
         let testUser = {
-            firstName: userLoged.firstName,
-            lastName: userLoged.lastName,
-            role: userLoged.role,
+            firstName: userLoged.user.firstName,
+            lastName: userLoged.user.lastName,
+            role: userLoged.user.role,
             title: 'Lista de Productos',
             products: docs,
             hasPrevPage,
