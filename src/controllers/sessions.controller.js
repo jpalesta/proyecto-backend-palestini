@@ -11,35 +11,28 @@ class SessionController {
         const { user } = req
         try {
             const token = generateToken(user)
-            res.send({
-                status: 'success',
-                message: 'User generated',
-                token
-            })
+            res.redirect('/login')
         } catch (error) {
             console.log(error)
         }
     }
 
-    login = async (req, res) => {
+    login = (req, res) => {
         try {
             const { user } = req
-
             if (!user) {
                 res.redirect('/register')
                 console.log(
                     'The mail provided doesn´t exist, please check the information or register'
                 )
             } else {
-                const token = generateToken(userCookie)
+                const token = generateToken(user)
                 res.cookie(process.env.JWT_COOKIE_NAME, token, {
                     maxAge: 60 * 60 * 10000,
                     httpOnly: true,
                 })
-                res.send({
-                    status: 'success',
-                    token,
-                })
+                res.redirect('/products')
+
             }
         } catch (error) {
             return console.log(error)
@@ -104,18 +97,18 @@ class SessionController {
         }
     }
 
-    githubCallback = async (req, res) => {
-        try {
-            let token = req.user
-            res.cookie('userCookie', token, {
-                maxAge: 60 * 60 * 1000,
-                httpOnly: true,
-            })
-            res.redirect('/products')
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // githubCallback = async (req, res) => {
+    //     try {
+    //         let token = req.user
+    //         res.cookie('userCookie', token, {
+    //             maxAge: 60 * 60 * 1000,
+    //             httpOnly: true,
+    //         })
+    //         res.redirect('/products')
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     logout = async (req, res) => {
         try {

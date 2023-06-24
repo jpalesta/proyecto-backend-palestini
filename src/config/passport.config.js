@@ -49,13 +49,8 @@ const initPassportLocal = () => {
                 console.log('User doesn´t exist')
                 return done(null, false)
             }
-            if (!isValidPassword(password, user)) {
-                console.log('pass erroneo')
-                return done(null, false)
-            } else {
-                console.log('el pass esta ok')
-                return done(null, user)
-            }
+            if (!isValidPassword(password, user)) return done(null, false);
+            return done(null, user)
         } catch (error) {
             return done(error)
         }
@@ -69,10 +64,10 @@ const initPassportGithub = () => {
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
         callbackURL: process.env.GITHUB_CALLBACK_URL,
     }, async (accessToken, refreshToken, profile, done) => {
-            console.log('profile', profile)
         try {
-            user = await usersModel.findOne({ email: profile._json.email })
-            console.log('userenpassportgithub', user)
+            // console.log('profile', profile)
+            let user = await usersModel.findOne({ email: profile._json.email })
+            // console.log('userenpassportgithub', user)
             if (!user) {
                 let newUser = {
                     firstName: profile.username,
@@ -82,9 +77,9 @@ const initPassportGithub = () => {
                     role: 'user'
                 }
                 let result = await usersModel.create(newUser)
-                return done (null, result)
+                return done(null, result)
             }
-            return done (null, user)
+            return done(null, user)
         } catch (error) {
             console.log(error)
         }

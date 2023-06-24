@@ -2,9 +2,9 @@ const ProductManagerDB = require('../dao/db/productManagerDB')
 const CartManagerDB = require('../dao/db/cartManagerDB')
 
 const productsModel = require('../dao/db/models/product.model.js')
-const {
-    isAuthenticatedView,
-} = require('../Middlewares/authentication.middlewares')
+// const {
+//     isAuthenticatedView,
+// } = require('../Middlewares/authentication.middlewares')
 
 class ViewsController {
 
@@ -81,7 +81,9 @@ class ViewsController {
                 ? createLink(currentURL, page, nextPage)
                 : null
     
-            let userLoged = req.cookies.userCookie
+            console.log('req.userview',req.user);
+            let userLoged = req.user
+            
             let testUser = {
                 firstName: userLoged.firstName,
                 lastName: userLoged.lastName,

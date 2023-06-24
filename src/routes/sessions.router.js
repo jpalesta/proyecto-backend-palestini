@@ -10,13 +10,10 @@ const { passportAutorization} = require('../Middlewares/passportAutorization')
 const {passportAuthentication} = require('../Middlewares/passportAuthentication')
 const {createHash} = require('../utils/bCryptHash')
 
+router.post('/login', passport.authenticate('login',{failureRedirect:'/faillogin', session:false,}) , login)
+
 router.post('/register', register)
 
-
-
-
-//login con JWT
-router.post('/login', pruebaLogin)
 
 
 
@@ -27,9 +24,18 @@ router.post('/login', pruebaLogin)
 
 
 //registro con passport github
-router.get('/github', passport.authenticate('github', { scope: ['user: email'] }))
-router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), async (req, res) => {
+router.get(
+    '/github',
+    passport.authenticate('github', { scope: ['user: email'], session: false })
+)
+router.get(
+    '/githubcallback',
+    passport.authenticate('github', {
+        failureRedirect: '/login',
+        session: false,
+    }), async (req, res) => {
     req.cookies.user = req.user
+    console.log('req en guthub', req.cookies.user);
     res.redirect('/products')
 })
 
