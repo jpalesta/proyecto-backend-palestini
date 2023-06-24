@@ -6,14 +6,14 @@ const {
 } = require('../Middlewares/authentication.middlewares')
 
 const { loginRedirect, viewAllProducts, viewOneCart, viewProductsRealtime, viewChat, viewFormCookies, viewRegister, viewLogin, viewRestorePass } = require('../controllers/views.controller');
-const { authToken } = require('../utils/jwt');
+
 
 
 //te redirecciona automáticamente al login
 router.get('/',loginRedirect);
 
 //chequeado OK
-router.get('/products', authToken, viewAllProducts)
+router.get('/products',isAuthenticatedView, viewAllProducts)
 
 router.get('/cart/:cid', viewOneCart)
 

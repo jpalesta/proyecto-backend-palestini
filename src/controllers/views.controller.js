@@ -2,9 +2,7 @@ const ProductManagerDB = require('../dao/db/productManagerDB')
 const CartManagerDB = require('../dao/db/cartManagerDB')
 
 const productsModel = require('../dao/db/models/product.model.js')
-// const {
-//     isAuthenticatedView,
-// } = require('../Middlewares/authentication.middlewares')
+
 
 class ViewsController {
 
@@ -85,9 +83,9 @@ class ViewsController {
             let userLoged = req.user
             
             let testUser = {
-                firstName: userLoged.firstName,
-                lastName: userLoged.lastName,
-                role: userLoged.role,
+                firstName: userLoged.user.firstName,
+                lastName: userLoged.user.lastName,
+                role: userLoged.user.role,
                 title: 'Lista de Productos',
                 products: docs,
                 hasPrevPage,

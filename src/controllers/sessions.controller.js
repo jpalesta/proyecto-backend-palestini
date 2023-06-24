@@ -1,16 +1,14 @@
+const passport = require('passport')
+require('dotenv').config()
+
 const { usersModel } = require('../dao/db/models/user.model')
 const { generateToken } = require('../utils/jwt')
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
 
-const passport = require('passport')
-
-
 class SessionController {
 
     register = async (req, res) => {
-        const { user } = req
         try {
-            const token = generateToken(user)
             res.redirect('/login')
         } catch (error) {
             console.log(error)
@@ -39,22 +37,7 @@ class SessionController {
         }
     }
 
-    pruebaLogin = (req, res, next) => {
-        passport.authenticate('login', (err, user, info) => {
-            if (err) {
-                console.log('este es el error de login', err)
-                return next(err);
-            }
-            if (!user) {
-                // Manejar la respuesta de autenticación fallida
-                return res.status(401).json({ message: 'Inicio de sesión fallido' });
-            }
-            // Manejar la respuesta de autenticación exitosa
-            return res.status(200).json({ message: 'Inicio de sesión exitoso' });
-        })(req, res, next);
-    }
-
-
+   
 
     current = async (req, res) => {
         let currentUser = req.user
@@ -96,30 +79,6 @@ class SessionController {
             res.redirect('/login')
         }
     }
-
-    // githubCallback = async (req, res) => {
-    //     try {
-    //         let token = req.user
-    //         res.cookie('userCookie', token, {
-    //             maxAge: 60 * 60 * 1000,
-    //             httpOnly: true,
-    //         })
-    //         res.redirect('/products')
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-    logout = async (req, res) => {
-        try {
-            req.clearCookie(process.env.JWT_COOKIE_NAME)
-            res.redirect('/login')
-            console.log('Logout successfull')
-            return
-        } catch (error) {
-            console.log(error)
-            res.sendInternalServerError()
-        }
-    }
 }
+
 module.exports = new SessionController

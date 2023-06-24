@@ -18,8 +18,9 @@ const initPassportLocal = () => {
             try {
                 let user = await usersModel.findOne({ email: username })
                 if (user) {
-                    console.log('User already exist')
-                    return (done, false)
+                    throw new Error('User already exists')
+                    //lo comenté porque no funciona después del throw
+                    // return (done, false)
                 }
                 const newUser = {
                     firstName,
@@ -28,12 +29,14 @@ const initPassportLocal = () => {
                     dateOfBirth,
                     password: createHash(password)
                 }
+            
                 let result = await usersModel.create(newUser)
                 return done(null, result)
             } catch (error) {
                 return done('Error al obtener el usuario' + error)
             }
         }))
+
     passport.serializeUser((user, done) => {
         done(null, user._id)
     })
