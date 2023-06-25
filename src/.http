@@ -100,7 +100,7 @@ post http://localhost:8080/api/session/login
 Content-Type: application/json
 
 {
-        "email": "tito@gmail.com",
+        "email": "jose.palestini@gmail.com",
         "password": "123456"
 }
 

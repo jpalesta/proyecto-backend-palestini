@@ -38,7 +38,7 @@ class SessionController {
         }
     }   
 
-    current = async (req, res) => {
+    current =  (req, res) => {
         let currentUser = req.user
         res.send({
             message: 'Usuario actual',
@@ -69,13 +69,12 @@ class SessionController {
         if (!userDB) {
             res.status(404).send({
                 status: 'error',
-                message: 'Username does not exist, please check your login information or register'
+                message: 'Username does not exist, please check your login information'
             })
             return
         } else {
             userDB.password = createHash(password)
             await userDB.save()
-            console.log('Password modified OK');
             res.redirect('/login')
         }
     }
