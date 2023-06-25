@@ -7,8 +7,6 @@ const {
 
 const { loginRedirect, viewAllProducts, viewOneCart, viewProductsRealtime, viewChat, viewFormCookies, viewRegister, viewLogin, viewRestorePass } = require('../controllers/views.controller');
 
-
-
 //te redirecciona automáticamente al login
 router.get('/',loginRedirect);
 

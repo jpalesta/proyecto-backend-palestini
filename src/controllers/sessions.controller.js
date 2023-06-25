@@ -1,4 +1,3 @@
-const passport = require('passport')
 require('dotenv').config()
 
 const { usersModel } = require('../dao/db/models/user.model')
@@ -37,9 +36,7 @@ class SessionController {
         } catch (error) {
             return console.log(error)
         }
-    }
-
-   
+    }   
 
     current = async (req, res) => {
         let currentUser = req.user
