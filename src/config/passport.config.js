@@ -29,7 +29,7 @@ const initPassportLocal = () => {
                     dateOfBirth,
                     password: createHash(password)
                 }
-            
+
                 let result = await usersModel.create(newUser)
                 return done(null, result)
             } catch (error) {
@@ -47,6 +47,12 @@ const initPassportLocal = () => {
 
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
         try {
+            //aca va el condicional para el admin
+            if (username === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+                const user = await usersModel.findOne({ email: username })
+                user.role = 'admin'
+                return done(null, user)
+            }
             const user = await usersModel.findOne({ email: username })
             if (!user) {
                 console.log('User doesn´t exist')
