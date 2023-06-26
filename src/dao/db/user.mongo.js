@@ -7,4 +7,4 @@ class UsersManagerDB {
 
 }
 
-module.exports = new UsersManagerDB
+module.exports = new UsersDaoMongo

@@ -115,4 +115,4 @@ const product = new ProductManager();
 //     stock: 1000
 // })
 
-module.exports = ProductManager;
+module.exports = ProductsDaoFile;

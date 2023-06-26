@@ -50,4 +50,4 @@ class ProductManagerDB {
     }
 }
 
-module.exports = new ProductManagerDB
+module.exports = new ProductsDaoMongo

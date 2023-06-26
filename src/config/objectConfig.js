@@ -9,11 +9,10 @@ dotenv.config({
     path: mode === 'development' ? './.env.development' : '/env.production'
 })
 
-
 let url = process.env.URL_MONGO
 
-
 module.exports = {
+    persistence : process.env.PERSISTENCE,
     privateKey: process.env.PRIVATE_KEY,
     connectDB: () => {
         connect(url)
