@@ -28,7 +28,7 @@ class CartManagerDB {
         }
     }
 
-    async addCart(newCart) {
+    async createCart(newCart) {
         try {
             return await cartsModel.create(newCart)
         } catch (error) {
@@ -85,6 +85,7 @@ class CartManagerDB {
             throw new Error(error)
         }
     }
+    
 }
 
 module.exports = new CartManagerDB
