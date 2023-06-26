@@ -3,6 +3,7 @@ require('dotenv').config()
 const { usersModel } = require('../dao/db/models/user.model')
 const { generateToken } = require('../utils/jwt')
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
+const UserDto = require('../dao/DTOs/user.dto')
 
 class SessionController {
 
@@ -39,10 +40,13 @@ class SessionController {
     }   
 
     current =  (req, res) => {
-        let currentUser = req.user
+        let user = req.user
+        console.log('userdelreq',user.user.firstName);
+        let userDto = new UserDto (user)
+        console.log('userDto', userDto)
         res.send({
             message: 'Usuario actual',
-            currentUser
+            userDto
         })
     }
 

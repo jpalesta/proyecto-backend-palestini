@@ -3,6 +3,8 @@ const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
+require('dotenv').config()
+
 
 const routerApp = require('./routes')
 const uploader = require('./utils/multer.js')
@@ -15,7 +17,7 @@ objectConfig.connectDB()
 
 //configuracion express + socketserver
 const app = express()
-const port = 8080
+const port = process.env.PORT
 
 //configuración de socke.io
 const server = app.listen(port, () => {

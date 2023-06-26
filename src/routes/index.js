@@ -14,4 +14,9 @@ router.use('/api/users', usersRouter)
 router.use('/api/carts', cartsRouter)
 router.use('/api/session', sessionsRouter)
 
+//pregunta - esto está bien puesto acá?
+router.get('*', async(req, res) =>{
+    res.status(404).send('Cannot get the specified route')
+})
+
 module.exports = router
