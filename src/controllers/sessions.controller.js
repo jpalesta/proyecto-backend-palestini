@@ -3,7 +3,7 @@ require('dotenv').config()
 const { usersModel } = require('../dao/db/models/user.model')
 const { generateToken } = require('../utils/jwt')
 const { createHash } = require('../utils/bCryptHash')
-const UserDto = require('../dao/DTOs/user.dto')
+const UserDto = require('../DTOs/user.dto')
 
 class SessionController {
 

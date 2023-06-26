@@ -1,11 +1,8 @@
 const { Router } = require('express')
 const router = Router()
 
-const mongoose = require('mongoose')
 
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
-const productsModel = require('../dao/db/models/product.model.js')
-const productValidate = require('../Middlewares/validation/product.validator')
 
 //Socket
 const io = require("socket.io-client")
