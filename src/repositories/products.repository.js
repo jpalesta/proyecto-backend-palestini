@@ -16,10 +16,15 @@ class ProductsRepository {
         return this.dao.updateProduct(pid, update)
 
     }
-    deleteProduct(pid){
-        return this.dao.deleteProduct(pid)
+    deleteOne(pid){
+        return this.dao.deleteOne(pid)
 
     }
+
+    emitProductsUpdate(){
+        return this.dao.emitProductsUpdate()
+    }
+
 }
 
 module.exports = ProductsRepository

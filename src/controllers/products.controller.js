@@ -1,21 +1,18 @@
 const mongoose = require('mongoose')
 
-
-const ProductManagerDB = require('../dao/db/productManagerDB.js')
-const ProductsDaoMongo = require ('../dao/db/product.mongo.js')
-const productsModel = require('../dao/db/models/product.model.js')
 const productValidate = require('../Middlewares/validation/product.validator')
-const productsService = require ('../service/index.js')
+const { productsService } = require('../service/index.js')
 
 class ProductController {
 
-    getAll =  async (req, res) => {
+    //Problemas con Paginate
+    getAll = async (req, res) => {
         try {
             let page = req.query.page
-            if(page===undefined)     {
-                page=1
-            }       
-            page = parseInt(page) 
+            if (page === undefined) {
+                page = 1
+            }
+            page = parseInt(page)
             if (isNaN(page)) {
                 res.send({
                     status: 'error',
@@ -47,6 +44,7 @@ class ProductController {
             }
             //hacer 1° llamado solo con limit y comparar 
             const result = await productsService.getProducts(page, limit, sortOptions, query)
+            console.log('result en getall', result)
             const { totalPages } = result
             if (page > totalPages) {
                 res.send({
@@ -54,11 +52,11 @@ class ProductController {
                     message: 'The page value is too high'
                 })
             }
-    
-            const products = await ProductManagerDB.getProducts(page, limit, sortOptions, query)
-    
+
+            const products = await productsService.getProducts(page, limit, sortOptions, query)
+
             const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = products
-    
+
             let prevLink = ''
             let nextLink = ''
             if (hasPrevPage === false) {
@@ -67,7 +65,7 @@ class ProductController {
             if (hasNextPage === false) {
                 nextLink = null
             } else { nextLink = `/?page=${nextPage}` }
-    
+
             res.status(200).send({
                 status: 'success',
                 payload: docs,
@@ -85,6 +83,7 @@ class ProductController {
         }
     }
 
+    //Check ok mongo (falta file)
     getOne = async (req, res) => {
         try {
             const pid = req.params.pid
@@ -94,7 +93,7 @@ class ProductController {
                     message: 'Invalid product ID format'
                 })
             }
-            const product = await ProductManagerDB.getProductById({ _id: pid })
+            const product = await productsService.getProduct({ _id: pid })
             if (!product) {
                 res.status(400).send({
                     status: 'error',
@@ -121,8 +120,8 @@ class ProductController {
                     error: productValidate.errors[0].message
                 });
             }
-            product = await ProductManagerDB.addProduct(newProduct)
-            await emitProductsUpdate()
+            product = await productsService.createProduct(newProduct)
+            await productsService.emitProductsUpdate()
             res.status(200).send({
                 status: 'success',
                 payload: product
@@ -142,14 +141,14 @@ class ProductController {
                 })
             }
             const update = req.body
-            const productUpdated = await ProductManagerDB.updateProduct(pid, update)
+            const productUpdated = await productsService.updateProduct(pid, update)
             if (productUpdated.matchedCount === 0) {
                 res.status(400).send({
                     status: 'error',
                     message: `Product ${pid} not found in Data Base`
                 })
             }
-            await emitProductsUpdate()
+            await productsService.emitProductsUpdate()
             res.status(200).send({
                 status: 'success',
                 payload: productUpdated
@@ -168,8 +167,8 @@ class ProductController {
                     message: 'Invalid product ID format'
                 })
             }
-            const product = await ProductsDaoMongo.deleteProduct({_id:pid})
-            // productsService.deleteOne({_id:pid})
+            console.log('productsService en controller', productsService)
+            const product = await productsService.deleteOne({ _id: pid })
             if (product.deletedCount === 0) {
                 res.status(400).send({
                     status: 'error',
@@ -185,6 +184,10 @@ class ProductController {
             console.log(error)
         }
     }
+
+
+
+
 
 }
 

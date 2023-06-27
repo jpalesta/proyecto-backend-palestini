@@ -1,3 +1,6 @@
+//Socket
+const io = require("socket.io-client")
+
 const productsModel = require('./models/product.model')
 
 class ProductsDaoMongo {
@@ -23,7 +26,7 @@ class ProductsDaoMongo {
 
     getProductById = async (pid) => {
         try {
-            return await productsModel.findOne(pid)
+            return await this.model.findOne(pid)
         } catch (error) {
             return new Error(error)
         }
@@ -31,7 +34,7 @@ class ProductsDaoMongo {
 
     addProduct = async (newProduct) => {
         try {
-            return await productsModel.create(newProduct)
+            return await this.model.create(newProduct)
         } catch (error) {
             return new Error(error)
         }
@@ -45,12 +48,18 @@ class ProductsDaoMongo {
         }
     }
 
-    deleteProduct = async (pid) => {
+    deleteOne = async (pid) => {
         try {
             return await this.model.deleteOne(pid)
         } catch (error) {
             return new Error(error)
         }
+    }
+
+    emitProductsUpdate = async function () {
+        const socket = io("ws://localhost:8080")
+        const products = await this.model.find()
+        socket.emit('productsUpdated', products.docs)
     }
 }
 

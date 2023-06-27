@@ -1,9 +1,6 @@
 const { Router } = require('express')
 const router = Router()
 
-//Socket
-const io = require("socket.io-client")
-
 const { isAuthenticated } = require('../Middlewares/authentication.middlewares.js')
 
 const { getAll,
@@ -30,11 +27,7 @@ router.put('/:pid', update)
 router.delete('/:pid', deleteOne)
 
 //funcion que actualiza la lista de productos y emite el evento 
-// async function emitProductsUpdate() {
-//     const socket = io("ws://localhost:8080")
-//     const products = await ProductManagerDB.getProducts(page = 1, limit = 5, sortOptions = 'asc')
-//     socket.emit('productsUpdated', products.docs)
-// }
+
 
 module.exports = router
 
