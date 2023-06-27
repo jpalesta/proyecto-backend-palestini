@@ -120,7 +120,7 @@ class ProductController {
                     error: productValidate.errors[0].message
                 });
             }
-            product = await productsService.createProduct(newProduct)
+            let product = await productsService.createProduct(newProduct)
             await productsService.emitProductsUpdate()
             res.status(200).send({
                 status: 'success',

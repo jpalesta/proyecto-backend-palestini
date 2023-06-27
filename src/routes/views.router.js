@@ -12,14 +12,13 @@ const { passportAutorization } = require('../Middlewares/passportAutorization');
 //te redirecciona automáticamente al login
 router.get('/',loginRedirect);
 
-
-router.get('/products',isAuthenticatedView, passportAutorization('user'), viewAllProducts)
+router.get('/products',isAuthenticatedView,  viewAllProducts)
 
 router.get('/cart/:cid', viewOneCart)
 
 router.get('/realtimeproducts',passportAutorization('user'), viewProductsRealtime)
 
-router.get('/chat', viewChat)
+router.get('/chat', isAuthenticatedView, passportAutorization('user'),viewChat)
 
 router.get('/formcookies', viewFormCookies)
 

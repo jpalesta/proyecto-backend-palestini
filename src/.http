@@ -16,7 +16,7 @@ Content-Type: application/json
 "description": "Descripción Producto Modelo 15"  ,
 "price": 15000 ,
 "thumbnail": "" ,
-"code": "A17",
+"code": "A18",
 "stock": 0,
 "category": "Categoría Modelo",
 "status": true
@@ -95,12 +95,21 @@ Content-Type: application/json
 
 ### GET PRUEBA CURRENT
 get http://localhost:8080/api/session/current
-### GET PRUEBA CURRENT
+
+### LOGIN USER
 post http://localhost:8080/api/session/login
 Content-Type: application/json
 
 {
         "email": "jose.palestini@gmail.com",
+        "password": "123456"
+}
+### LOGIN ADIMIN
+post http://localhost:8080/api/session/login
+Content-Type: application/json
+
+{
+        "email": "adminCoder@coder.com",
         "password": "123456"
 }
 

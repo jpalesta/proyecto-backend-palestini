@@ -9,6 +9,8 @@ const { getAll,
             update,
             deleteOne
 } = require('../controllers/products.controller.js')
+const { passportAutorization } = require('../Middlewares/passportAutorization.js')
+const { passportAuthentication } = require('../Middlewares/passportAuthentication.js')
 
 
 //Trae todos los productos con pagination + querys chequeado OK
@@ -18,13 +20,13 @@ router.get('/', isAuthenticated, getAll)
 router.get('/:pid', getOne)
 
 //Crea un producto por body chequeado con validación de body OK
-router.post('/', create)
+router.post('/', isAuthenticated ,passportAutorization('admin'), create)
 
 //Modifica un producto por body chequeado OK (falta validación de body)
-router.put('/:pid', update)
+router.put('/:pid', isAuthenticated ,passportAutorization('admin'), update)
 
 //borra un producto por id chequeado OK
-router.delete('/:pid', deleteOne)
+router.delete('/:pid', isAuthenticated ,passportAutorization('admin'), deleteOne)
 
 //funcion que actualiza la lista de productos y emite el evento 
 

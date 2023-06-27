@@ -5,6 +5,8 @@ const { Router } = require('express')
 const router = Router()
 
 const {getAll, getOne, create, update, deleteAll, updateProduct, deleteProduct, updateProductQuantity} = require ('../controllers/carts.controller')
+const { isAuthenticated } = require('../Middlewares/authentication.middlewares')
+const { passportAutorization } = require('../Middlewares/passportAutorization')
 
 //Consulta de todos los corritos check ok
 router.get('/', getAll)
@@ -15,7 +17,7 @@ router.get('/:cid', getOne)
 //Crea un carrito con productos pasados por body check ok con validación
 router.post('/', create)
 //Agrega o incrementa un producto en un carrito, ambos pasan por params check ok
-router.post('/:cid/products/:pid', update)
+router.post('/:cid/products/:pid', isAuthenticated, passportAutorization('user'), update)
 
 //Vacía un carrito por id check ok
 router.delete('/:cid', deleteAll)

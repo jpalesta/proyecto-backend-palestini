@@ -4,7 +4,7 @@ const {program} = require('../utils/commander')
 const dotenv = require ('dotenv')
 
 const { mode } = program.opts()
-console.log('mode en config', mode)
+
 dotenv.config({
     path: mode === 'development' ? './.env.development' : './.env.production'
 })

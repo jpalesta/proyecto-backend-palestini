@@ -16,7 +16,6 @@ switch (config.persistence) {
         UsersDao = UsersDaoMongo
         ProductsDao =  ProductsDaoMongo
 
-        console.log('ProductsDao en factory', ProductsDao)
         break;
     case 'FILE':
         UsersDaoFile = require('../dao/fileSystem/user.file')

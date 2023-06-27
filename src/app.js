@@ -14,7 +14,7 @@ const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./co
 
 //conexión DB Mogoose
 // objectConfig.connectDB()
-console.log('objectconfig', objectConfig)
+
 //configuracion express + socketserver
 const app = express()
 const port = process.env.PORT
