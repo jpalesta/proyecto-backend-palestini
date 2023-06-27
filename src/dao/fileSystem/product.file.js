@@ -1,7 +1,7 @@
 const { promises } = require('fs')
 const fs = promises
 
-class ProductManager {
+class ProductsDaoFile {
 
     constructor() {
         this.products = []
@@ -102,7 +102,7 @@ class ProductManager {
     }
 }
 
-const product = new ProductManager();
+const product = new ProductsDaoFile();
 
 // product.getProductsById(4)
 

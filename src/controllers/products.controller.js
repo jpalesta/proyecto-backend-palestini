@@ -1,6 +1,11 @@
+const mongoose = require('mongoose')
+
+
 const ProductManagerDB = require('../dao/db/productManagerDB.js')
+const ProductsDaoMongo = require ('../dao/db/product.mongo.js')
 const productsModel = require('../dao/db/models/product.model.js')
 const productValidate = require('../Middlewares/validation/product.validator')
+const productsService = require ('../service/index.js')
 
 class ProductController {
 
@@ -41,7 +46,7 @@ class ProductController {
                 ''
             }
             //hacer 1° llamado solo con limit y comparar 
-            const result = await ProductManagerDB.getProducts(page, limit, sortOptions, query)
+            const result = await productsService.getProducts(page, limit, sortOptions, query)
             const { totalPages } = result
             if (page > totalPages) {
                 res.send({
@@ -163,7 +168,8 @@ class ProductController {
                     message: 'Invalid product ID format'
                 })
             }
-            const product = await ProductManagerDB.deleteProduct({ _id: pid })
+            const product = await ProductsDaoMongo.deleteProduct({_id:pid})
+            // productsService.deleteOne({_id:pid})
             if (product.deletedCount === 0) {
                 res.status(400).send({
                     status: 'error',

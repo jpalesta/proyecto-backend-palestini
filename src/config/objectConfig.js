@@ -1,13 +1,15 @@
 const { connect } = require('mongoose')
 require('dotenv').config()
-dotenv = require ('dotenv')
-const commander = require('commander')
+const {program} = require('../utils/commander')
+const dotenv = require ('dotenv')
 
-const { mode } = commander.opts()
-
+const { mode } = program.opts()
+console.log('mode en config', mode)
 dotenv.config({
-    path: mode === 'development' ? './.env.development' : '/env.production'
+    path: mode === 'development' ? './.env.development' : './.env.production'
 })
+
+
 
 let url = process.env.URL_MONGO
 

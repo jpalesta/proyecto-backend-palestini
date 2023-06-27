@@ -1,10 +1,14 @@
-const productsModel = require("./models/product.model")
+const productsModel = require('./models/product.model')
 
-class ProductManagerDB {
+class ProductsDaoMongo {
 
-    async getProducts(page, limit, sortOptions, query) {
+    constructor() {
+        this.model = productsModel
+    }
+
+    getProducts = async (page, limit, sortOptions, query) => {
         try {
-            return await productsModel.paginate(
+            return await this.model.paginate(
                 query
                 , {
                     limit: limit,
@@ -17,7 +21,7 @@ class ProductManagerDB {
         }
     }
 
-    async getProductById(pid) {
+    getProductById = async (pid) => {
         try {
             return await productsModel.findOne(pid)
         } catch (error) {
@@ -25,7 +29,7 @@ class ProductManagerDB {
         }
     }
 
-    async addProduct(newProduct) {
+    addProduct = async (newProduct) => {
         try {
             return await productsModel.create(newProduct)
         } catch (error) {
@@ -33,7 +37,7 @@ class ProductManagerDB {
         }
     }
 
-    async updateProduct(pid, update) {
+    updateProduct = async (pid, update) => {
         try {
             return await productsModel.updateOne({ _id: pid }, { $set: update })
         } catch (error) {
@@ -41,13 +45,13 @@ class ProductManagerDB {
         }
     }
 
-    async deleteProduct(pid) {
+    deleteProduct = async (pid) => {
         try {
-            return await productsModel.deleteOne(pid)
+            return await this.model.deleteOne(pid)
         } catch (error) {
             return new Error(error)
         }
     }
 }
 
-module.exports = new ProductsDaoMongo
+module.exports = ProductsDaoMongo

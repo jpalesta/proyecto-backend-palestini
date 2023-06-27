@@ -1,11 +1,17 @@
 const config = require('../config/objectConfig')
 
+
+//no esta funcionando (VER log en app)
+
+
 let UsersDao
 let ProductsDao
 
+console.log('persistence en factory', config.persistence)
+
 switch (config.persistence) {
     case 'MONGO':
-        config.connectDB
+        config.connectDB()
         UsersDaoMongo = require('../dao/db/user.mongo')
         ProductsDaoMongo = require('../dao/db/product.mongo')
 

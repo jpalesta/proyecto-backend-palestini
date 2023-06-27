@@ -13,8 +13,8 @@ const chatManagerDB = require('./dao/db/chatManagerDB')
 const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./config/passport.config')
 
 //conexión DB Mogoose
-objectConfig.connectDB()
-
+// objectConfig.connectDB()
+console.log('objectconfig', objectConfig)
 //configuracion express + socketserver
 const app = express()
 const port = process.env.PORT
