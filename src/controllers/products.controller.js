@@ -167,7 +167,6 @@ class ProductController {
                     message: 'Invalid product ID format'
                 })
             }
-            console.log('productsService en controller', productsService)
             const product = await productsService.deleteOne({ _id: pid })
             if (product.deletedCount === 0) {
                 res.status(400).send({

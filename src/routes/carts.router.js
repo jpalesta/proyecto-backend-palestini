@@ -1,10 +1,16 @@
-const mongoose = require('mongoose')
-
 const { Router } = require('express')
-
 const router = Router()
 
-const {getAll, getOne, create, update, deleteAll, updateProduct, deleteProduct, updateProductQuantity} = require ('../controllers/carts.controller')
+const {getAll, 
+    getOne, 
+    create, 
+    update, 
+    deleteAll, 
+    updateProduct, 
+    deleteProduct, 
+    updateProductQuantity
+} = require ('../controllers/carts.controller')
+
 const { isAuthenticated } = require('../Middlewares/authentication.middlewares')
 const { passportAutorization } = require('../Middlewares/passportAutorization')
 

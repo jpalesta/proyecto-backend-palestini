@@ -14,13 +14,30 @@ class ProductsDaoFile {
             this.products = JSON.parse(data)
             return this.products
         } catch (error) {
-            this.products 
+            this.products
         }
     }
 
     write = async () => {
         const products = JSON.stringify(this.products)
         await fs.writeFile(this.path, products)
+    }
+
+    getProducts = async () => {
+        await this.read()
+        return this.products
+    }
+
+    getProductsById = async (id) => {
+
+        await this.read()
+
+        let product = this.products.find(prod => prod.id === id)
+        if (!product) {
+            throw 'Product not found'
+        } else {
+            return product
+        }
     }
 
     addProduct = async (newProduct) => {
@@ -53,23 +70,6 @@ class ProductsDaoFile {
         }
         await this.write()
     }
-    
-    getProducts = async () => {
-        await this.read()
-        return this.products
-    }
-
-    getProductsById = async (id) => {
-
-        await this.read()
-
-        let product = this.products.find(prod => prod.id === id)
-        if (!product) {
-            throw 'Product not found'
-        } else {
-            return product
-        }
-    }
 
     updateProduct = async (id, update) => {
 
@@ -77,12 +77,12 @@ class ProductsDaoFile {
 
         const productIndex = this.products.findIndex((product) => product.id === id)
         if (productIndex !== -1) {
-            const updatedProduct =this.products[productIndex] = { ...this.products[productIndex], ...update }
-            if (updatedProduct.id !== id){
+            const updatedProduct = this.products[productIndex] = { ...this.products[productIndex], ...update }
+            if (updatedProduct.id !== id) {
                 throw 'field product ID can not be modified'
             }
-            this.products[productIndex]= updatedProduct
-            await this.write()  
+            this.products[productIndex] = updatedProduct
+            await this.write()
         } else {
             throw 'Product to update not found'
         }

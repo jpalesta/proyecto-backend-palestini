@@ -48,7 +48,7 @@ class ProductsDaoMongo {
         }
     }
 
-    deleteOne = async (pid) => {
+    deleteProduct = async (pid) => {
         try {
             return await this.model.deleteOne(pid)
         } catch (error) {

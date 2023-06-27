@@ -1,11 +1,15 @@
+const mongoose = require('mongoose')
+
 const cartValidate = require('../Middlewares/validation/cart.validator')
 const CartManagerDB = require('../dao/db/cartManagerDB.js')
+const { cartsService } = require('../service/index.js')
+
 
 class CartController {
 
     getAll = async (req, res) => {
         try {
-            const carts = await CartManagerDB.getCarts()
+            const carts = await cartsService.getCarts()
             res.status(200).send({
                 status: 'success',
                 payload: carts
@@ -24,7 +28,7 @@ class CartController {
                     message: 'Invalid cart ID format'
                 })
             }
-            const cart = await CartManagerDB.getCartByIdPopulate({ _id: cid })
+            const cart = await cartsService.getCart({ _id: cid })
             if (!cart) {
                 res.status(404).send({
                     status: 'error',

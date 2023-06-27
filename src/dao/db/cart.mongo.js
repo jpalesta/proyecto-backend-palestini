@@ -3,7 +3,11 @@ const cartsModel = require("./models/cart.model")
 
 class CartManagerDB {
 
-    async getCarts() {
+    constructor() {
+        this.model = cartsModel
+    }
+
+    getCarts = async () => {
         try {
             return await cartsModel.find({})
         } catch (error) {
@@ -11,7 +15,7 @@ class CartManagerDB {
         }
     }
 
-    async getCartById(cid) {
+    getCartById = async (cid) => {
         try {
             return await cartsModel.findById(cid)
         } catch (error) {
@@ -19,7 +23,7 @@ class CartManagerDB {
         }
     }
 
-    async getCartByIdPopulate(cid) {
+    getCartByIdPopulate = async (cid) => {
         try {
             return await cartsModel.findOne(cid)
                 .populate('products.product').lean()
@@ -28,7 +32,7 @@ class CartManagerDB {
         }
     }
 
-    async createCart(newCart) {
+    createCart = async (newCart) => {
         try {
             return await cartsModel.create(newCart)
         } catch (error) {
@@ -36,7 +40,7 @@ class CartManagerDB {
         }
     }
 
-    async deleteCartById(cid) {
+    deleteCartById = async (cid) => {
         try {
             const cart = await cartsModel.findOne({ _id: cid })
             if (!cart) {
@@ -48,7 +52,7 @@ class CartManagerDB {
         }
     }
 
-    async deleteProductInCart(cid, pid) {
+    deleteProductInCart = async (cid, pid) => {
         try {
             const cart = await cartsModel.findOne({ _id: cid })
             if (!cart) {
@@ -60,7 +64,7 @@ class CartManagerDB {
         }
     }
 
-    async updateCart(cid, update) {
+    updateCart = async (cid, update) => {
         try {
             return await cartsModel.updateOne({ _id: cid }, { $set: update })
         } catch (error) {
@@ -68,7 +72,7 @@ class CartManagerDB {
         }
     }
 
-    async updateQuantityProductInCart(cid, pid, quantity) {
+    updateQuantityProductInCart = async (cid, pid, quantity) => {
         try {
             const cart = await cartsModel.findById({ _id: cid })
             if (!cart) {
@@ -88,4 +92,4 @@ class CartManagerDB {
     
 }
 
-module.exports = new CartManagerDB
+module.exports =  CartManagerDB

@@ -5,6 +5,7 @@ const config = require('../config/objectConfig')
 
 let UsersDao
 let ProductsDao
+let CartsDao
 
 
 switch (config.persistence) {
@@ -12,17 +13,21 @@ switch (config.persistence) {
         config.connectDB()
         const UsersDaoMongo = require('../dao/db/user.mongo')
         const ProductsDaoMongo = require('../dao/db/product.mongo')
+        const CartstsDaoMongo = require('../dao/db/cart.mongo')
 
         UsersDao = UsersDaoMongo
-        ProductsDao =  ProductsDaoMongo
+        ProductsDao = ProductsDaoMongo
+        CartsDao = CartstsDaoMongo
 
         break;
     case 'FILE':
         UsersDaoFile = require('../dao/fileSystem/user.file')
         ProductsDaoFile = require('../dao/fileSystem/product.file')
+        CartsDaoFile = require('../dao/fileSystem/cart.file')
 
         UsersDao = UsersDaoFile
         ProductsDao = ProductsDaoFile
+        CartsDao = CartsDaoFile
         break;
 
     default:
@@ -31,5 +36,6 @@ switch (config.persistence) {
 
 module.exports = {
     UsersDao,
-    ProductsDao
+    ProductsDao,
+    CartsDao
 }

@@ -17,7 +17,7 @@ class ProductsRepository {
 
     }
     deleteOne(pid){
-        return this.dao.deleteOne(pid)
+        return this.dao.deleteProduct(pid)
 
     }
 
