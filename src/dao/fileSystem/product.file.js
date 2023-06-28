@@ -104,15 +104,5 @@ class ProductsDaoFile {
 
 const product = new ProductsDaoFile();
 
-// product.getProductsById(4)
-
-// product.addProducts({
-//     title: "Décimo Producto",
-//     description: 'Descripción Décimo Producto',
-//     price: 5000,
-//     thumbnail: 'Link Décimo Producto',
-//     code: 'A10',
-//     stock: 1000
-// })
 
 module.exports = ProductsDaoFile;

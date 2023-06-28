@@ -91,8 +91,6 @@ Content-Type: application/json
         "quantity": 18
 }
 
-
-
 ### GET PRUEBA CURRENT
 get http://localhost:8080/api/session/current
 
@@ -115,3 +113,20 @@ Content-Type: application/json
 
 ### GET PRUEBA logout
 post http://localhost:8080/api/session/logout
+
+
+
+###USERS
+###GET todos los usuarios
+get http://localhost:8080/api/users/
+
+###POST Crea un usuario
+post http://localhost:8080/api/users/
+Content-Type: application/json
+
+{
+        "firstName": "prueba desde REST",
+        "lastName": "prueba desde REST",
+        "email": "prueba@desderest.com",
+        "password": "123456"
+}
