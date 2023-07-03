@@ -22,7 +22,7 @@ class CartManager {
         await fs.writeFile(this.path, carts)
     }
 
-    addCarts = async () => {
+    createCart = async () => {
 
         await this.read()
 

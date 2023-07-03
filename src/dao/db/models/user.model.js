@@ -53,4 +53,4 @@ usersSchema.pre('save', function (next) {
 
 const usersModel = model(usersCollection, usersSchema)
 
-module.exports = { usersModel }
+module.exports =  usersModel 

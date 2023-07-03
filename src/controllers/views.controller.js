@@ -1,8 +1,5 @@
-const ProductManagerDB = require('../dao/db/productManagerDB')
-const CartManagerDB = require('../dao/db/cartManagerDB')
-
 const productsModel = require('../dao/db/models/product.model.js')
-
+const { productsService, cartsService } = require('../service/index.js')
 
 class ViewsController {
 
@@ -50,7 +47,7 @@ class ViewsController {
                 ;('')
             }
             //hacer 1° llamado solo con limit y comparar
-            const result = await ProductManagerDB.getProducts(
+            const result = await productsService.getProducts(
                 page,
                 limit,
                 sortOptions,
@@ -63,7 +60,7 @@ class ViewsController {
                     message: 'The page value is too high',
                 })
             }
-            const products = await ProductManagerDB.getProducts(
+            const products = await productsService.getProducts(
                 page,
                 limit,
                 sortOptions,
@@ -111,7 +108,7 @@ class ViewsController {
     viewOneCart = async (req, res) => {
         try {
             const cid = req.params.cid
-            const cart = await CartManagerDB.getCartByIdPopulate({ _id: cid })
+            const cart = await cartsService.getCartByIdPopulate({ _id: cid })
             if (cart.products.length === 0) {
                 let testUser = {
                     title: `Cart Number ${cart._id} is empty`,

@@ -11,7 +11,7 @@ const cartsSchema = {
                     product: { type: 'string', minLength: 24 }, // Utilizar 'string' en lugar de 'ObjectId' OJO 
                     quantity: { type: 'number' }
                 },
-                required: ['product', 'quantity']
+
             }
         }
     },

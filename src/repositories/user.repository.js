@@ -4,7 +4,7 @@ class UsersRepository {
     }
 
     get() {
-        return this.dao.get()
+        return this.dao.getUsers()
     }
 
     create(newUser) {

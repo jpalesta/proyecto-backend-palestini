@@ -6,27 +6,6 @@ const generateToken = (user) => {
     return token
 }
 
-const authToken = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        return res.status(401).send({
-            status: 'error',
-            error: 'Not authenticated'
-        })
-    }
-    const token = authHeader.split(' ')[1]
-
-    jwt.verify(token, privateKey, (error, credential) => {
-        if (error) return res.status(401).send({
-            status: 'error',
-            error: 'Not authenticated'
-        })
-        req.user = credential.user
-        next()
-    })
-}
-
 module.exports = {
-    generateToken,
-    authToken
+    generateToken    
 }

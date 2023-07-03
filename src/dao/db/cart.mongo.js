@@ -9,7 +9,7 @@ class CartManagerDB {
 
     getCarts = async () => {
         try {
-            return await cartsModel.find({})
+            return await this.model.find({})
         } catch (error) {
             return new Error(error)
         }
@@ -17,7 +17,7 @@ class CartManagerDB {
 
     getCartById = async (cid) => {
         try {
-            return await cartsModel.findById(cid)
+            return await this.model.findById(cid)
         } catch (error) {
             return new Error(error)
         }
@@ -25,7 +25,7 @@ class CartManagerDB {
 
     getCartByIdPopulate = async (cid) => {
         try {
-            return await cartsModel.findOne(cid)
+            return await this.model.findOne(cid)
                 .populate('products.product').lean()
         } catch (error) {
             console.log(error)
@@ -34,7 +34,7 @@ class CartManagerDB {
 
     createCart = async (newCart) => {
         try {
-            return await cartsModel.create(newCart)
+            return await this.model.create(newCart)
         } catch (error) {
             return new Error(error)
         }
@@ -42,11 +42,11 @@ class CartManagerDB {
 
     deleteCartById = async (cid) => {
         try {
-            const cart = await cartsModel.findOne({ _id: cid })
+            const cart = await this.model.findOne({ _id: cid })
             if (!cart) {
                 throw new Error(`Cart with ID ${cid} not found`)
             }
-            return await cartsModel.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } })
+            return await this.model.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } })
         } catch (error) {
             console.log(error)
         }
@@ -54,11 +54,11 @@ class CartManagerDB {
 
     deleteProductInCart = async (cid, pid) => {
         try {
-            const cart = await cartsModel.findOne({ _id: cid })
+            const cart = await this.model.findOne({ _id: cid })
             if (!cart) {
                 throw new Error(`Cart with ID ${cid} not found`)
             }
-            return await cartsModel.updateOne({ _id: cid }, { $pull: { products: { product: pid } } })
+            return await this.model.updateOne({ _id: cid }, { $pull: { products: { product: pid } } })
         } catch (error) {
             return new Error(error)
         }
@@ -66,7 +66,7 @@ class CartManagerDB {
 
     updateCart = async (cid, update) => {
         try {
-            return await cartsModel.updateOne({ _id: cid }, { $set: update })
+            return await this.model.updateOne({ _id: cid }, { $set: update })
         } catch (error) {
             return new Error(error)
         }
@@ -74,7 +74,7 @@ class CartManagerDB {
 
     updateQuantityProductInCart = async (cid, pid, quantity) => {
         try {
-            const cart = await cartsModel.findById({ _id: cid })
+            const cart = await this.model.findById({ _id: cid })
             if (!cart) {
                 throw new Error(`Cart with ID ${cid} not found`)
             }
@@ -89,7 +89,7 @@ class CartManagerDB {
             throw new Error(error)
         }
     }
-    
+
 }
 
-module.exports =  CartManagerDB
+module.exports = CartManagerDB

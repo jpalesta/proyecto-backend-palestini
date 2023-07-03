@@ -5,7 +5,7 @@ class UserControler {
 
     getAll = async(req,res) =>{
         try {
-            let users = await usersService.find()
+            let users = await usersService.get()
             res.send({result: 'succes', payload: users})
         } catch (error){
             console.log('Cannot get users with mongoose'+error)

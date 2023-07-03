@@ -6,16 +6,23 @@ class CartsRepository {
     getCarts(){
         return this.dao.getCarts()
     }
+
     getCart(pid){
         return this.dao.getCartById(pid)
     }
-    createCart(newProduct){
-        return this.dao.addCart(newProduct)
+
+    getCartPopulate(cid){
+        return this.dao.getCartByIdPopulate(cid)
     }
+
+    createCart(newProduct){
+        return this.dao.createCart(newProduct)
+    }
+
     updateCart(pid, update){
         return this.dao.updateCart(pid, update)
-
     }
+
     deleteOne(pid){
         return this.dao.deleteCart(pid)
 

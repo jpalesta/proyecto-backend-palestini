@@ -4,7 +4,8 @@ const GithubStrategy = require('passport-github2')
 const { Strategy, ExtractJwt } = require('passport-jwt')
 const jwt = require('jsonwebtoken')
 
-const { usersModel } = require('../dao/db/models/user.model')
+const  usersModel  = require('../dao/db/models/user.model')
+const  cartsModel  = require('../dao/db/models/cart.model')
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
 const { privateKey } = require('./objectConfig')
 require('dotenv').config()
@@ -22,12 +23,15 @@ const initPassportLocal = () => {
                     //lo comenté porque no funciona después del throw
                     // return (done, false)
                 }
+                const cart = await cartsModel.create({products:[]})
+                console.log('cart', cart)
                 const newUser = {
                     firstName,
                     lastName,
                     email,
                     dateOfBirth,
-                    password: createHash(password)
+                    password: createHash(password),
+                    cart
                 }
 
                 let result = await usersModel.create(newUser)

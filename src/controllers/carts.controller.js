@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
+const { faker } = require('@faker-js/faker');
 
 const cartValidate = require('../Middlewares/validation/cart.validator')
-const CartManagerDB = require('../dao/db/cartManagerDB.js')
-const { cartsService } = require('../service/index.js')
+const { cartsService, productsService } = require('../service/index.js')
+const { ticketsService } = require('../service/index.js')
+
 
 
 class CartController {
@@ -28,7 +30,7 @@ class CartController {
                     message: 'Invalid cart ID format'
                 })
             }
-            const cart = await cartsService.getCart({ _id: cid })
+            const cart = await cartsService.getCartPopulate({ _id: cid })
             if (!cart) {
                 res.status(404).send({
                     status: 'error',
@@ -61,7 +63,7 @@ class CartController {
                     error: cartValidate.errors[0].message
                 });
             }
-            cart = await CartManagerDB.addCart(newCart)
+            const cart = await cartsService.createCart(newCart)
             if (Object.keys(cart).length === 0) {
                 res.status(400).send({
                     status: 'error',
@@ -88,7 +90,7 @@ class CartController {
                     error: cartValidate.errors[0].message
                 });
             }
-            cart = await CartManagerDB.addCart(newCart)
+            cart = await cartsService.addCart(newCart)
             if (Object.keys(cart).length === 0) {
                 res.status(400).send({
                     status: 'error',
@@ -113,7 +115,7 @@ class CartController {
                     message: 'Invalid cart ID format'
                 })
             }
-            const cart = await CartManagerDB.deleteCartById(cid)
+            const cart = await cartsService.deleteCartById(cid)
             console.log(cart)
             if (cart === undefined) {
                 return res.status(404).send({
@@ -227,13 +229,84 @@ class CartController {
             })
         } catch (error) {
             console.log(error)
-    
+
             res.status(400).send({
                 status: 'error',
                 message: error.message
             })
         }
     }
+
+    purchase = async (req, res) => {
+        try {
+            const cid = req.params.cid
+            if (!mongoose.Types.ObjectId.isValid(cid)) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'Invalid cart ID format'
+                })
+            }
+            const cart = await cartsService.getCartPopulate({ _id: cid })
+            if (!cart) {
+                res.status(404).send({
+                    status: 'error',
+                    message: `The cart number ${cid} does not exist`
+                })
+            }
+            if (cart.products.length === 0) {
+                res.status(200).send({
+                    status: 'success',
+                    message: `The cart number ${cid} is empty`
+                })
+            }
+            //defino que productos tienen stock
+            const productsForTicket = cart.products.filter((product) => {
+                return product.product.stock >= product.quantity
+            })
+
+            if (productsForTicket.length > 0) {
+
+                //descuento de la compra del stock
+                for (let i = 0; i<productsForTicket.length; i++) {
+                    const item = productsForTicket[i]
+                    let pid = item.product._id
+                    let newQuantity = item.product.stock - item.quantity
+                    let update = {stock: newQuantity }
+                    await productsService.updateProduct(pid, update)
+                }
+
+                const fakerCode = faker.string.sample({ alphaNumeric: true })
+                const code = fakerCode.slice(0, 10)
+                const amount = productsForTicket.reduce((amountTicket, items) => {
+                    return amountTicket + (items.quantity * items.product.price)
+                }, 0)
+                const purchaser = req.user.user.email
+                const newTicket = {
+                    code: code,
+                    amount: amount,
+                    purchaser: purchaser
+                }
+
+                const ticket = await ticketsService.createTicket(newTicket)
+                
+                let cartWithProductsMissing = cart.products.filter((product) => {
+                    return product.product.stock < product.quantity
+                })
+                res.status(200).send({
+                    status: 'success',
+                    message: 'purchase made successfully',
+                    payload: ticket
+                })
+                console.log('products without stock', cartWithProductsMissing)
+                console.log('products ticket', productsForTicket)
+            } else {
+                console.log('there are no products for the ticket')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 }
 
 module.exports = new CartController

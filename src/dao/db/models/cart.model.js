@@ -4,10 +4,11 @@ const cartsCollection = 'carts'
 
 const cartsSchema = new Schema({
     products: [{
-        product: {type:Schema.Types.ObjectId, 
-                        required: true,
-                        ref: 'products'},
-                        quantity: Number
+        product: {
+            type: Schema.Types.ObjectId,
+            ref: 'products'
+        },
+        quantity: Number
     }]
 })
 
