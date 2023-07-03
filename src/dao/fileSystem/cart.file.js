@@ -22,7 +22,29 @@ class CartManager {
         await fs.writeFile(this.path, carts)
     }
 
-    createCart = async () => {
+    
+    getCarts = async () => {
+        await this.read()
+        return this.carts
+    }
+    
+    getCartById = async (cid) => {
+        
+        await this.read()
+        
+        let cartId = this.carts.find(cart => cart.id === cid)
+        if (!cartId) {
+            throw 'Cart not found'
+        } else {
+            return cartId
+        }
+    }
+    
+    getCartByIdPopulate =  (cid) => {
+        throw new error ('function not available in development mode. Please re-enter "start" mode')
+    }
+
+    createCart = async (newCart) => {
 
         await this.read()
 
@@ -36,28 +58,11 @@ class CartManager {
         await this.write()
     }
 
-    getCarts = async () => {
-        await this.read()
-        return this.carts
-    }
-
-    getCartsById = async (id) => {
-
+    updateCart = async (pid, update) => {
+        
         await this.read()
 
-        let cartId = this.carts.find(cart => cart.id === id)
-        if (!cartId) {
-            throw 'Cart not found'
-        } else {
-            return cartId
-        }
-    }
-
-    updateCart = async (id, update) => {
-
-        await this.read()
-
-        const cartIndex = this.carts.findIndex((cart) => cart.id === parseInt(id))
+        const cartIndex = this.carts.findIndex((cart) => cart.id === parseInt(pid))
         if (cartIndex !== -1) {
             
             this.carts[cartIndex] = { ...this.carts[cartIndex], ...update }
@@ -66,6 +71,7 @@ class CartManager {
             throw 'Cart to update not found'
         }
     }
+    
     deleteCart = async (id) => {
     
         await this.read()

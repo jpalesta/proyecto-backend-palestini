@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 const { faker } = require('@faker-js/faker');
 
 const cartValidate = require('../Middlewares/validation/cart.validator')
-const { cartsService, productsService } = require('../service/index.js')
-const { ticketsService } = require('../service/index.js');
+const { cartsService, productsService, ticketsService } = require('../service/index.js')
 const { sendMail } = require('../utils/sendMail');
 
 

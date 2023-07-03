@@ -40,30 +40,7 @@ class CartManagerDB {
         }
     }
 
-    deleteCartById = async (cid) => {
-        try {
-            const cart = await this.model.findOne({ _id: cid })
-            if (!cart) {
-                throw new Error(`Cart with ID ${cid} not found`)
-            }
-            return await this.model.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    deleteProductInCart = async (cid, pid) => {
-        try {
-            const cart = await this.model.findOne({ _id: cid })
-            if (!cart) {
-                throw new Error(`Cart with ID ${cid} not found`)
-            }
-            return await this.model.updateOne({ _id: cid }, { $pull: { products: { product: pid } } })
-        } catch (error) {
-            return new Error(error)
-        }
-    }
-
+    
     updateCart = async (cid, update) => {
         try {
             return await this.model.updateOne({ _id: cid }, { $set: update })
@@ -71,7 +48,7 @@ class CartManagerDB {
             return new Error(error)
         }
     }
-
+    
     updateQuantityProductInCart = async (cid, pid, quantity) => {
         try {
             const cart = await this.model.findById({ _id: cid })
@@ -89,7 +66,30 @@ class CartManagerDB {
             throw new Error(error)
         }
     }
-
+    
+    deleteCartById = async (cid) => {
+        try {
+            const cart = await this.model.findOne({ _id: cid })
+            if (!cart) {
+                throw new Error(`Cart with ID ${cid} not found`)
+            }
+            return await this.model.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+    deleteProductInCart = async (cid, pid) => {
+        try {
+            const cart = await this.model.findOne({ _id: cid })
+            if (!cart) {
+                throw new Error(`Cart with ID ${cid} not found`)
+            }
+            return await this.model.updateOne({ _id: cid }, { $pull: { products: { product: pid } } })
+        } catch (error) {
+            return new Error(error)
+        }
+    }
 }
 
 module.exports = CartManagerDB
