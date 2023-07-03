@@ -247,7 +247,7 @@ class CartController {
                     message: 'Invalid cart ID format'
                 })
             }
-            const cart = await cartsService.getCartPopulate({ _id: cid })
+            let cart = await cartsService.getCartPopulate({ _id: cid })
             if (!cart) {
                 res.status(404).send({
                     status: 'error',
@@ -267,7 +267,7 @@ class CartController {
 
             if (productsForTicket.length > 0) {
 
-                //descuento de la compra del stock
+                //descuento de la compra del stock y del cart
                 for (let i = 0; i < productsForTicket.length; i++) {
                     const item = productsForTicket[i]
                     let pid = item.product._id
@@ -288,7 +288,7 @@ class CartController {
                     amount: amount,
                     purchaser: purchaser
                 }
-                const mailSubject = 'your purchase was processed successfully'
+                const mailSubject = `${purchaser} your purchase was processed successfully`
                 const tableRows = productsForTicket.map(item => {
                     const { product, quantity } = item;
                     return `<tr>
@@ -297,10 +297,21 @@ class CartController {
                                     <td>${quantity}</td>
                                 </tr>`;
                 }).join('')
+                cart =  await cartsService.getCartPopulate({ _id: cid })
+
+                const tableRowsMissing = cart.products.map(item => {
+                    const { product, quantity } = item;
+                    return `<tr>
+                                    <td>${product.description}</td>
+                                    <td>${product.price}</td>
+                                    <td>${quantity}</td>
+                                </tr>`;
+                }).join('')
+            
 
                 const ticket = await ticketsService.createTicket(newTicket)
 
-                await sendMail(purchaser, mailSubject, amount, tableRows)
+                await sendMail(purchaser, mailSubject, amount, tableRows, tableRowsMissing)
 
                 res.status(200).send({
                     status: 'success',
