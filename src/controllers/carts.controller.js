@@ -3,7 +3,8 @@ const { faker } = require('@faker-js/faker');
 
 const cartValidate = require('../Middlewares/validation/cart.validator')
 const { cartsService, productsService } = require('../service/index.js')
-const { ticketsService } = require('../service/index.js')
+const { ticketsService } = require('../service/index.js');
+const { sendMail } = require('../utils/sendMail');
 
 
 
@@ -168,7 +169,7 @@ class CartController {
                 }
             }
             {
-                await CartManagerDB.deleteProductInCart({ _id: cid }, { _id: pid })
+                await cartsService.deleteProduct({ _id: cid }, { _id: pid })
                 res.status(200).send({
                     status: 'success',
                     message: `The cart ${cartById._id} was modified OK `
@@ -267,12 +268,13 @@ class CartController {
             if (productsForTicket.length > 0) {
 
                 //descuento de la compra del stock
-                for (let i = 0; i<productsForTicket.length; i++) {
+                for (let i = 0; i < productsForTicket.length; i++) {
                     const item = productsForTicket[i]
                     let pid = item.product._id
                     let newQuantity = item.product.stock - item.quantity
-                    let update = {stock: newQuantity }
+                    let update = { stock: newQuantity }
                     await productsService.updateProduct(pid, update)
+                    await cartsService.deleteProduct(cid,pid)
                 }
 
                 const fakerCode = faker.string.sample({ alphaNumeric: true })
@@ -286,19 +288,25 @@ class CartController {
                     amount: amount,
                     purchaser: purchaser
                 }
+                const mailSubject = 'your purchase was processed successfully'
+                const tableRows = productsForTicket.map(item => {
+                    const { product, quantity } = item;
+                    return `<tr>
+                                    <td>${product.description}</td>
+                                    <td>${product.price}</td>
+                                    <td>${quantity}</td>
+                                </tr>`;
+                }).join('')
 
                 const ticket = await ticketsService.createTicket(newTicket)
-                
-                let cartWithProductsMissing = cart.products.filter((product) => {
-                    return product.product.stock < product.quantity
-                })
+
+                await sendMail(purchaser, mailSubject, amount, tableRows)
+
                 res.status(200).send({
                     status: 'success',
                     message: 'purchase made successfully',
                     payload: ticket
                 })
-                console.log('products without stock', cartWithProductsMissing)
-                console.log('products ticket', productsForTicket)
             } else {
                 console.log('there are no products for the ticket')
             }

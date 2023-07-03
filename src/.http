@@ -26,7 +26,7 @@ put http://localhost:8080/api/products/645fdc7b30fab603d13ba3f6
 Content-Type: application/json
 
 {
-    "stock": 3
+    "stock": 100
 }
 
 ### DELETE borra un producto por ID chequeado OK

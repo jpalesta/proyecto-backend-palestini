@@ -1,30 +1,33 @@
 const nodemailer = require('nodemailer')
-const config     = require('../config/objetConfig')
 
 const transport = nodemailer.createTransport({
     service: 'gmail',
     port: 587,
     auth: {
-        user: config.gmail_user_app,
-        pass: config.gmail_pass_app
+        user: process.env.GMAIL_USER_APP,
+        pass: process.env.GMAIL_PASSWORD_APP
     }
 })
 
-exports.sendMail = async (destino, subject, html)=>{
+exports.sendMail = async (to, subject, amount, tableRows) => {
     return await transport.sendMail({
-        from: 'Coder Test <projectodigitalgen@gmail.com>',
-        // to: 'projectodigitalgen@gmail.com',
-        to: destino,
-        // subject: 'Correo de prueba comsión 39750',
-        subject,
-        html,
-        // html:`<div>
-        //     <h1>Esto es un test</h1>
-        // </div>`,
-        attachments: [{
-            filename:'nodejs.png',
-            path: __dirname + '/nodejs.png',
-            cid:'nodejs'
-        }]
+        from: process.env.GMAIL_USER_APP,
+        to: to,
+        subject: subject,
+        html: `<div>
+                    <h1>Ticket generado por un total de $${amount}</h1>
+                    <table>
+                    <thead>
+                        <tr>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                    </table>
+                </div>`,
     })
 }
