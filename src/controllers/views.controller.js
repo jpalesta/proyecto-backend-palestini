@@ -158,11 +158,12 @@ class ViewsController {
 
     viewMockingProducts = async (req, res) => {
         try{
-            const mockingProducts = await generateProducts(5)
+            const mockingProducts = await generateProducts(50)
             let testUser = {
                 products: mockingProducts
             }
             res.render('mockingProducts', testUser)
+            console.log('Clg de Productos Mockeados', mockingProducts)
         } catch (error){
             console.log(error)
         }
