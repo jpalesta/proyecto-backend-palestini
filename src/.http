@@ -5,7 +5,7 @@
 GET http://localhost:8080/api/products/?page=1&limit=5
 
 ### GET de productos por ID check ok
-GET  http://localhost:8080/api/products/64627fdaf01a831a08937d4f
+GET  http://localhost:8080/api/products/2
 
 ### POST crea un producto a partir de un body, chequeado con validación OK
 POST  http://localhost:8080/api/products

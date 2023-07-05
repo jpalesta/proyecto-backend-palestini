@@ -1,5 +1,6 @@
 const productsModel = require('../dao/db/models/product.model.js')
 const { productsService, cartsService } = require('../service/index.js')
+const { generateProducts } = require('../utils/faker.js')
 
 class ViewsController {
 
@@ -153,6 +154,18 @@ class ViewsController {
 
     viewRestorePass = (req, res) => {
         res.render('restorePass')
+    }
+
+    viewMockingProducts = async (req, res) => {
+        try{
+            const mockingProducts = await generateProducts(5)
+            let testUser = {
+                products: mockingProducts
+            }
+            res.render('mockingProducts', testUser)
+        } catch (error){
+            console.log(error)
+        }
     }
 }
 
