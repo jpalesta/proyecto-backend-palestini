@@ -28,11 +28,11 @@ class ProductsDaoFile {
         return this.products
     }
 
-    getProductsById = async (id) => {
+    getProductById = async (pid) => {
 
         await this.read()
 
-        let product = this.products.find(prod => prod.id === id)
+        let product = this.products.find(prod => prod.id === pid)
         if (!product) {
             throw 'Product not found'
         } else {
@@ -71,14 +71,14 @@ class ProductsDaoFile {
         await this.write()
     }
 
-    updateProduct = async (id, update) => {
+    updateProduct = async (pid, update) => {
 
         await this.read()
 
-        const productIndex = this.products.findIndex((product) => product.id === id)
+        const productIndex = this.products.findIndex((product) => product.id === pid)
         if (productIndex !== -1) {
             const updatedProduct = this.products[productIndex] = { ...this.products[productIndex], ...update }
-            if (updatedProduct.id !== id) {
+            if (updatedProduct.id !== pidid) {
                 throw 'field product ID can not be modified'
             }
             this.products[productIndex] = updatedProduct
@@ -88,11 +88,11 @@ class ProductsDaoFile {
         }
     }
 
-    deleteProduct = async (id) => {
+    deleteProduct = async (pid) => {
 
         await this.read()
 
-        const productIndex = this.products.findIndex((product) => product.id === id)
+        const productIndex = this.products.findIndex((product) => product.id === pid)
         if (productIndex !== -1) {
             this.products.splice(productIndex, 1)
             await this.write()
