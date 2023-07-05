@@ -1,13 +1,9 @@
 const config = require('../config/objectConfig')
 
-
-//no esta funcionando (VER log en app)
-
 let UsersDao
 let ProductsDao
 let CartsDao
 let TicketsDao
-
 
 switch (config.persistence) {
     case 'MONGO':

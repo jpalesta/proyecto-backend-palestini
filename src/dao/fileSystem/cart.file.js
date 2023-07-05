@@ -41,7 +41,7 @@ class CartManager {
     }
     
     getCartByIdPopulate =  (cid) => {
-        throw new error ('function not available in development mode. Please re-enter "start" mode')
+        throw new error ('function not available in development mode. Please re-enter "production" mode')
     }
 
     createCart = async (newCart) => {

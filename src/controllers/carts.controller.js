@@ -4,6 +4,7 @@ const { faker } = require('@faker-js/faker');
 const cartValidate = require('../Middlewares/validation/cart.validator')
 const { cartsService, productsService, ticketsService } = require('../service/index.js')
 const { sendMail } = require('../utils/sendMail');
+const { sendSms } = require('../utils/sendSms');
 
 
 
@@ -276,7 +277,7 @@ class CartController {
                     await cartsService.deleteProduct(cid,pid)
                 }
 
-                const fakerCode = faker.string.sample({ alphaNumeric: true })
+                const fakerCode = faker.string.alphanumeric(10)
                 const code = fakerCode.slice(0, 10)
                 const amount = productsForTicket.reduce((amountTicket, items) => {
                     return amountTicket + (items.quantity * items.product.price)
@@ -311,6 +312,8 @@ class CartController {
                 const ticket = await ticketsService.createTicket(newTicket)
 
                 await sendMail(purchaser, mailSubject, amount, tableRows, tableRowsMissing)
+                
+                await sendSms(req.user.user.firstName, req.user.user.lastName)
 
                 res.status(200).send({
                     status: 'success',
