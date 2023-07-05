@@ -6,8 +6,6 @@ const { cartsService, productsService, ticketsService } = require('../service/in
 const { sendMail } = require('../utils/sendMail');
 const { sendSms } = require('../utils/sendSms');
 
-
-
 class CartController {
 
     getAll = async (req, res) => {
@@ -274,7 +272,7 @@ class CartController {
                     let newQuantity = item.product.stock - item.quantity
                     let update = { stock: newQuantity }
                     await productsService.updateProduct(pid, update)
-                    await cartsService.deleteProduct(cid,pid)
+                    await cartsService.deleteProduct(cid, pid)
                 }
 
                 const fakerCode = faker.string.alphanumeric(10)
@@ -297,7 +295,7 @@ class CartController {
                                     <td>${quantity}</td>
                                 </tr>`;
                 }).join('')
-                cart =  await cartsService.getCartPopulate({ _id: cid })
+                cart = await cartsService.getCartPopulate({ _id: cid })
 
                 const tableRowsMissing = cart.products.map(item => {
                     const { product, quantity } = item;
@@ -307,12 +305,12 @@ class CartController {
                                     <td>${quantity}</td>
                                 </tr>`;
                 }).join('')
-            
+
 
                 const ticket = await ticketsService.createTicket(newTicket)
 
                 await sendMail(purchaser, mailSubject, amount, tableRows, tableRowsMissing)
-                
+
                 await sendSms(req.user.user.firstName, req.user.user.lastName)
 
                 res.status(200).send({

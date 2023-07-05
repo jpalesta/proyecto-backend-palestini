@@ -39,13 +39,13 @@ delete http://localhost:8080/api/products/6467db9c27cc042809b09f44
 ### GET PURCHASE - le puse que traiga el cart con populate
 POST   http://localhost:8080/api/carts/64a5c3424f452b747ad7a7e4/purchase
 
-### GET trae todos los carritos check ok
+### GET trae todos los carritos 
 GET http://localhost:8080/api/carts/
 
-### GET trae el carrito por ID con Populate por Id de producto check ok
+### GET trae el carrito por ID con Populate por Id de producto 
 GET  http://localhost:8080/api/carts/6464bf41a2da8e243014ebc5
 
-### POST crea un carrito con producto pasados por body check ok con validación
+### POST crea un carrito con producto pasados por body con validación
 POST  http://localhost:8080/api/carts/
 Content-Type: application/json
 

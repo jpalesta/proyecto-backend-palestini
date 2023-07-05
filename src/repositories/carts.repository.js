@@ -1,4 +1,5 @@
 class CartsRepository {
+    
     constructor(dao){
         this.dao = dao
     }
@@ -31,7 +32,6 @@ class CartsRepository {
     deleteProduct(cid, pid) {
         return this.dao.deleteProductInCart(cid, pid)
     }
-
 }
 
 module.exports = CartsRepository

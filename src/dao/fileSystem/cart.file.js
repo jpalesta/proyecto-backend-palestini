@@ -2,6 +2,7 @@ const { promises } = require('fs')
 const fs = promises
 
 class CartManager {
+
     constructor() {
         this.carts = []
         this.path = './assets/carts.json'
@@ -10,6 +11,7 @@ class CartManager {
     read = async () => {
         try {
             const data = await fs.readFile(this.path, 'utf-8')
+            console.log('data', data)
             this.carts = JSON.parse(data)
             return this.carts
         } catch (error) {
@@ -22,16 +24,15 @@ class CartManager {
         await fs.writeFile(this.path, carts)
     }
 
-    
     getCarts = async () => {
         await this.read()
         return this.carts
     }
-    
+
     getCartById = async (cid) => {
-        
+
         await this.read()
-        
+
         let cartId = this.carts.find(cart => cart.id === cid)
         if (!cartId) {
             throw 'Cart not found'
@@ -39,9 +40,9 @@ class CartManager {
             return cartId
         }
     }
-    
-    getCartByIdPopulate =  (cid) => {
-        throw new error ('function not available in development mode. Please re-enter "production" mode')
+
+    getCartByIdPopulate = (cid) => {
+        throw new error('function not available in development mode. Please re-enter "production" mode')
     }
 
     createCart = async (newCart) => {
@@ -59,23 +60,27 @@ class CartManager {
     }
 
     updateCart = async (pid, update) => {
-        
+
         await this.read()
 
         const cartIndex = this.carts.findIndex((cart) => cart.id === parseInt(pid))
         if (cartIndex !== -1) {
-            
+
             this.carts[cartIndex] = { ...this.carts[cartIndex], ...update }
             await this.write()
         } else {
             throw 'Cart to update not found'
         }
     }
-    
-    deleteCart = async (id) => {
-    
+
+    updateQuantityProductInCart = async (pid, update) => {
+        throw new error('function not available in development mode. Please re-enter "production" mode')
+    }
+
+    deleteCartById = async (cid) => {
+
         await this.read()
-    
+
         const cartIndex = this.carts.findIndex((cart) => cart.id === id)
         if (cartIndex !== -1) {
             this.carts.splice(cartIndex, 1)
@@ -83,6 +88,10 @@ class CartManager {
         } else {
             throw 'Cart to delete not found'
         }
+    }
+
+    deleteProductInCart = async (cid, pid) => {
+        throw new error('function not available in development mode. Please re-enter "production" mode')
     }
 }
 module.exports = CartManager;
