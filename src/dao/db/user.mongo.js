@@ -16,7 +16,7 @@ class UsersDaoMongo {
     
     getUser = async (uid) => {
         try{
-            return await this.model.findOne()
+            return await this.model.findOne(uid)
         } catch(error){
             console.log('error en getUsers', error)
         }

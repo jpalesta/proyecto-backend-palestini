@@ -4,8 +4,7 @@ const GithubStrategy = require('passport-github2')
 const { Strategy, ExtractJwt } = require('passport-jwt')
 const jwt = require('jsonwebtoken')
 
-const  usersModel  = require('../dao/db/models/user.model')
-const  cartsModel  = require('../dao/db/models/cart.model')
+const { usersService, cartsService } = require('../service')
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
 const { privateKey } = require('./objectConfig')
 require('dotenv').config()
@@ -17,15 +16,13 @@ const initPassportLocal = () => {
         { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
             const { firstName, lastName, email, dateOfBirth } = req.body
             try {
-                let user = await usersModel.findOne({ email: username })
+                let user = await usersService.getOne({ email: username })
                 if (user) {
                     throw new Error('User already exists')
                     //lo comenté porque no funciona después del throw
                     // return (done, false)
                 }
-                const cart = await cartsModel.create({products:[]})
-                console.log('cartId', cart._id)
-                console.log('cart', cart)
+                const cart = await cartsService.createCart({products:[]})
                 const newUser = {
                     firstName,
                     lastName,
@@ -34,8 +31,7 @@ const initPassportLocal = () => {
                     password: createHash(password),
                     cart: { id: cart._id }
                 }
-                console.log('user', newUser)
-                let result = await usersModel.create(newUser)
+                let result = await usersService.create(newUser)
                 return done(null, result)
             } catch (error) {
                 return done('Error al obtener el usuario' + error)
@@ -46,7 +42,7 @@ const initPassportLocal = () => {
         done(null, user._id)
     })
     passport.deserializeUser(async (id, done) => {
-        let user = await usersModel.findOne({ _id: id })
+        let user = await usersService.getOne({ _id: id })
         done(null, user)
     })
 
@@ -54,11 +50,11 @@ const initPassportLocal = () => {
         try {
             //aca va el condicional para el admin
             if (username === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-                const user = await usersModel.findOne({ email: username })
+                const user = await usersService.getOne({ email: username })
                 user.role = 'admin'
                 return done(null, user)
             }
-            const user = await usersModel.findOne({ email: username })
+            const user = await usersService.getOne({ email: username })
             if (!user) {
                 console.log('User doesn´t exist')
                 return done(null, false)
@@ -80,7 +76,7 @@ const initPassportGithub = () => {
     }, async (accessToken, refreshToken, profile, done) => {
         try {
             // console.log('profile', profile)
-            let user = await usersModel.findOne({ email: profile._json.email })
+            let user = await usersService.getOne({ email: profile._json.email })
             // console.log('userenpassportgithub', user)
             if (!user) {
                 let newUser = {
@@ -90,7 +86,7 @@ const initPassportGithub = () => {
                     password: '',
                     role: 'user'
                 }
-                let result = await usersModel.create(newUser)
+                let result = await usersService.create(newUser)
                 return done(null, result)
             }
             return done(null, user)

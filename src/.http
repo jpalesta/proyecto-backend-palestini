@@ -141,10 +141,10 @@ Content-Type: application/json
 {
         "firstName": 15,
         "lastName": "prueba desde REST",
-        "email": "pruekba@desde12r3est.com",
+        "email": "pruekba@desde12r34est.com",
         "dateOfBirth": "2000-01-01",
         "password": "123456",
-        "cart": "new ObjectId("64a8888a635f608613a492b4")"
+        "cart": "64a88ad4977fb3772ee19f25"
 }
 
 ###POST Crea un usuario desde SESSION/REGISTER VER COMO ADAPTAR EL MANEJO DE ERRORES EN EL PASSPORT REGISTER

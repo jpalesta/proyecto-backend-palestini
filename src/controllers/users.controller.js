@@ -1,4 +1,4 @@
-const { usersService } = require('../service')
+const { usersService, cartsService } = require('../service')
 const { EErrors } = require('../utils/errors/enums')
 const { generateUserInfo } = require('../utils/errors/info')
 const { CustomError } = require('../utils/errors/CustomError')
@@ -19,7 +19,6 @@ class UserControler {
         try {
             let { firstName, lastName, email, dateOfBirth, password } = req.body
             if (!firstName || !lastName || !email || !dateOfBirth || !password) {
-                console.log('entró al error')
                 CustomError.createError({
                     name: 'User Creation Error',
                     cause: generateUserInfo({ firstName, lastName, email, dateOfBirth, password }),
@@ -27,16 +26,17 @@ class UserControler {
                     code: EErrors.INVALID_TIPES_ERROR
                 })
             } else {
-                console.log('entró al else')
-            let result = await usersService.create({
-                firstName,
-                lastName,
-                email,
-                password, 
-                dateOfBirth
-            })
-            res.send({ status: 'success', payload: result })
-        }
+                const cart = await cartsService.createCart({ products: [] })
+                let result = await usersService.create({
+                    firstName,
+                    lastName,
+                    email,
+                    password,
+                    dateOfBirth,
+                    cart: { id: cart._id }
+                })
+                res.send({ status: 'success', payload: result })
+            }
         } catch (error) {
             next(error)
         }
