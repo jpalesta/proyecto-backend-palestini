@@ -4,37 +4,29 @@ const usersCollection = 'users'
 
 const usersSchema = new Schema({
     firstName: {
-        type: String,
-        require: true
+        type: String, require: true
     },
     lastName: {
-        type: String,
-        require: true
+        type: String, require: true
     },
     dateOfBirth: {
-        type: Date,
-        require: false
+        type: Date, require: false
     },
     role: {
-        type: String,
-        default: 'user'
+        type: String, default: 'user'
     },
     password: {
-        type: String,
-        require: true
+        type: String, require: true
     },
     email: {
-        type: String,
-        require: true,
-        unique: true
+        type: String, require: true, unique: true
     },
     age: {
         type: Number
     },
     cart: {
         id: {
-            type: Schema.Types.ObjectId,
-            reference: 'carts'
+            type: Schema.Types.ObjectId, reference: 'carts'
         }
     }
 })
@@ -44,7 +36,7 @@ usersSchema.pre('save', function (next) {
         const currentDate = new Date()
         const age = currentDate.getFullYear() - this.dateOfBirth.getFullYear();
         this.age = age
-    } else{
+    } else {
         this.dateOfBirth = ""
         this.age = ""
     }
@@ -53,4 +45,4 @@ usersSchema.pre('save', function (next) {
 
 const usersModel = model(usersCollection, usersSchema)
 
-module.exports =  usersModel 
+module.exports = usersModel 
