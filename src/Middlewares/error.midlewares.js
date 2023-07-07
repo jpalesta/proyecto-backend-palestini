@@ -7,6 +7,7 @@ exports.errorHandler = (error, req, res, next) => {
             res.send({ status: 'error', error: error.name })
             break;
         default:
-            res.send({ status: 'error', error: 'unhandled error' })
+            console.log(error)
+            res.send({ status: 'error', error: 'unhandled error'})
     }
 }
