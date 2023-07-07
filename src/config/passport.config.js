@@ -24,6 +24,7 @@ const initPassportLocal = () => {
                     // return (done, false)
                 }
                 const cart = await cartsModel.create({products:[]})
+                console.log('cartId', cart._id)
                 console.log('cart', cart)
                 const newUser = {
                     firstName,
@@ -31,9 +32,9 @@ const initPassportLocal = () => {
                     email,
                     dateOfBirth,
                     password: createHash(password),
-                    cart
+                    cart: { id: cart._id }
                 }
-
+                console.log('user', newUser)
                 let result = await usersModel.create(newUser)
                 return done(null, result)
             } catch (error) {
