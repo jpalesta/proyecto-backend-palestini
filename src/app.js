@@ -11,6 +11,7 @@ const uploader = require('./utils/multer.js')
 const objectConfig = require('./config/objectConfig.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
 const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./config/passport.config')
+const { errorHandler } = require('./Middlewares/error.midlewares')
 
 //conexión DB Mogoose
 // objectConfig.connectDB()
@@ -63,10 +64,11 @@ app.post('/single', uploader.single('product.file'), (req, res) => {
 })
 
 //middleware de manejo de errores
-app.use((err, req, res, next) => {
-    console.log('clg error en app', err)
-    res.status(500).send('something is wrong')
-})
+app.use(errorHandler)
+// app.use((err, req, res, next) => {
+//     console.log('clg error en app', err)
+//     res.status(500).send('something is wrong')
+// })
 
 io.on('connection', (socket) => {
     console.log('new client connect')

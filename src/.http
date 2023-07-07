@@ -134,13 +134,27 @@ post http://localhost:8080/api/session/logout
 ###GET todos los usuarios
 get http://localhost:8080/api/users/
 
-###POST Crea un usuario
+###POST Crea un usuario desde USERS
 post http://localhost:8080/api/users/
 Content-Type: application/json
 
 {
-        "firstName": "prueba desde REST",
+        "firstName": "15",
         "lastName": "prueba desde REST",
-        "email": "prueba@desderest.com",
-        "password": "123456"
+        "email": "prueba@desde12rest.com",
+        "dateOfBirth": "2000-01-01",
+        "password": "123456",
 }
+
+###POST Crea un usuario desde SESSION/REGISTER VER COMO ADAPTAR EL MANEJO DE ERRORES EN EL PASSPORT REGISTER
+post http://localhost:8080/api/session/register
+Content-Type: application/json
+
+{
+
+        "lastName": "prueba desde REST",
+        "email": "prueba@desdiere12st.com",
+        "password": "123456",
+        "dateOfBirth": "2000-01-01"
+}
+
