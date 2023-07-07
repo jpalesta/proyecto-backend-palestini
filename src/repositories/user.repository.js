@@ -8,7 +8,7 @@ class UsersRepository {
     }
 
     create(newUser) {
-        return this.dao.addUser(newUser)
+        return this.dao.createUser(newUser)
     }
 
 }

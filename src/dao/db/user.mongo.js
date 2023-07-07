@@ -22,9 +22,6 @@ class UsersDaoMongo {
         }
     }
 
-
-
-
     createUser =  async (newUser) => {
         try {
             return await this.model.create(newUser)

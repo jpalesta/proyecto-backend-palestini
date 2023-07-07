@@ -28,7 +28,19 @@ class UsersDaoFile {
         return this.users
     }
 
-    addUser = async (newUser) => {
+    getUser = (uid) => {
+        
+        this.read()
+
+        let user = this.users.find(prod => prod.id === pid)
+        if (!user) {
+            throw 'Product not found'
+        } else {
+            return user
+        }
+    }
+
+    createUser = async (newUser) => {
 
         await this.read()
 
