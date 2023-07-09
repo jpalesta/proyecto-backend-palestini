@@ -148,7 +148,7 @@ class CartController {
                     message: 'Invalid product ID format'
                 })
             }
-            const cartById = await CartManagerDB.getCartById({ _id: cid })
+            const cartById = await cartsService.getCartById({ _id: cid })
             if (!cartById) {
                 return res.status(404).send({
                     status: 'error',
@@ -188,7 +188,7 @@ class CartController {
                 })
             }
             const update = req.body
-            const cartUpdated = await CartManagerDB.updateCart(cid, update)
+            const cartUpdated = await cartsService.updateCart(cid, update)
             if (cartUpdated.matchedCount === 0) {
                 res.status(400).send({
                     status: 'error',
@@ -221,7 +221,7 @@ class CartController {
                 })
             }
             const quantity = req.body.quantity
-            const cartUpdated = await CartManagerDB.updateQuantityProductInCart(cid, pid, quantity)
+            const cartUpdated = await cartsService.updateQuantityProductInCart(cid, pid, quantity)
             res.status(200).send({
                 status: 'success',
                 payload: cartUpdated
