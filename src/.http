@@ -5,7 +5,7 @@
 GET http://localhost:8080/api/products/?page=1&limit=5
 
 ### GET de productos por ID check ok
-GET  http://localhost:8080/api/products/2
+GET  http://localhost:8080/api/products/645fdc7b30fab603d13ba3f6
 
 ### POST crea un producto a partir de un body, chequeado con validación OK
 POST  http://localhost:8080/api/products
@@ -16,7 +16,7 @@ Content-Type: application/json
 "description": "Descripción Producto Modelo 15"  ,
 "price": 15000 ,
 "thumbnail": "" ,
-"code": "A18",
+"code": "A19",
 "stock": 0,
 "category": "Categoría Modelo",
 "status": true
@@ -37,7 +37,7 @@ delete http://localhost:8080/api/products/6467db9c27cc042809b09f44
 //CARTS
 
 ### GET PURCHASE - le puse que traiga el cart con populate
-POST   http://localhost:8080/api/carts/64a5c3424f452b747ad7a7e4/purchase
+POST   http://localhost:8080/api/carts/64ab3f3da2d4d03e227e87ef/purchase
 
 ### GET trae todos los carritos 
 GET http://localhost:8080/api/carts/

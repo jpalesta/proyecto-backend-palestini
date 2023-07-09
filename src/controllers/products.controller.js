@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 
 const productValidate = require('../Middlewares/validation/product.validator')
 const { productsService } = require('../service/index.js')
+const ProductsDaoMongo = require('../dao/db/product.mongo')
+const productModel = new ProductsDaoMongo()
 
 class ProductController {
 
@@ -32,7 +34,7 @@ class ProductController {
             }
             const query = {}
             if (category) {
-                const existingCategory = await productsModel.distinct('category', { category })
+                const existingCategory = await productModel.distinct('category', { category })
                 if (existingCategory.length === 0) {
                     throw new Error('The specified category does not exist')
                 }
@@ -43,7 +45,7 @@ class ProductController {
                 ''
             }
             //hacer 1° llamado solo con limit y comparar 
-            const result = await productsService.getProducts(page, limit, sortOptions, query)
+            const result = await productModel.getProducts(page, limit, sortOptions, query)
             console.log('result en getall', result)
             const { totalPages } = result
             if (page > totalPages) {
@@ -53,8 +55,8 @@ class ProductController {
                 })
             }
 
-            const products = await productsService.getProducts(page, limit, sortOptions, query)
-
+            const products = await productModel.getProducts(page, limit, sortOptions, query)
+            console.log('products', products)
             const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = products
 
             let prevLink = ''

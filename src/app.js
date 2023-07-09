@@ -12,6 +12,7 @@ const objectConfig = require('./config/objectConfig.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
 const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./config/passport.config')
 const { errorHandler } = require('./Middlewares/error.midlewares')
+const { addlogger } = require('./utils/logger')
 
 //conexión DB Mogoose
 // objectConfig.connectDB()
@@ -19,6 +20,7 @@ const { errorHandler } = require('./Middlewares/error.midlewares')
 //configuracion express + socketserver
 const app = express()
 const port = process.env.PORT
+
 
 //configuración de socke.io
 const server = app.listen(port, () => {
@@ -29,6 +31,9 @@ const io = new Server(server)
 //configuracion para que express reconozca formatos
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+//midleware de logger
+app.use(addlogger)
 
 //Inicialización cookie-parser
 app.use(cookieParser())

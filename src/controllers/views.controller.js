@@ -1,10 +1,13 @@
-const productsModel = require('../dao/db/models/product.model.js')
 const { productsService, cartsService } = require('../service/index.js')
 const { generateProducts } = require('../utils/faker.js')
+const ProductsDaoMongo = require('../dao/db/product.mongo')
+const productsModel = new ProductsDaoMongo()
 
 class ViewsController {
 
     loginRedirect =  (req, res) => {
+        // req.logger.warning('alerta')
+        // res.send({message: 'prueba de logger'})
         res.redirect('/login')
     }
 
@@ -48,7 +51,7 @@ class ViewsController {
                 ;('')
             }
             //hacer 1° llamado solo con limit y comparar
-            const result = await productsService.getProducts(
+            const result = await productsModel.getProducts(
                 page,
                 limit,
                 sortOptions,
@@ -61,7 +64,7 @@ class ViewsController {
                     message: 'The page value is too high',
                 })
             }
-            const products = await productsService.getProducts(
+            const products = await productsModel.getProducts(
                 page,
                 limit,
                 sortOptions,
@@ -76,8 +79,7 @@ class ViewsController {
             const nextLink = hasNextPage
                 ? createLink(currentURL, page, nextPage)
                 : null
-    
-            console.log('req.userview',req.user);
+  
             let userLoged = req.user
             
             let testUser = {
