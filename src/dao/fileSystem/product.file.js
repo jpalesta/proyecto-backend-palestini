@@ -28,6 +28,10 @@ class ProductsDaoFile {
         return this.products
     }
 
+    getProductsPaginate = async () => {
+        throw new error('function not available in development mode. Please re-enter "production" mode')
+    }
+
     getProductById = async (pid) => {
 
         await this.read()

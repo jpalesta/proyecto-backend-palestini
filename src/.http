@@ -37,7 +37,7 @@ delete http://localhost:8080/api/products/6467db9c27cc042809b09f44
 //CARTS
 
 ### GET PURCHASE - le puse que traiga el cart con populate
-POST   http://localhost:8080/api/carts/64ab452a049e00d1c287b69f/purchase
+POST   http://localhost:8080/api/carts/64ab471484fe2e59705e8669/purchase
 
 ### GET trae todos los carritos 
 GET http://localhost:8080/api/carts/

@@ -9,7 +9,15 @@ class ProductsDaoMongo {
         this.model = productsModel
     }
 
-    getProducts = async (page, limit, sortOptions, query) => {
+    getProducts = async () => {
+        try {
+            return await this.model.find()
+        } catch (error) {
+            return new Error(error)
+        }
+    }
+
+    getProductsPaginate = async (page, limit, sortOptions, query) => {
         try {
             return await this.model.paginate(
                 query

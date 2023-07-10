@@ -2,13 +2,11 @@ const mongoose = require('mongoose')
 
 const productValidate = require('../Middlewares/validation/product.validator')
 const { productsService } = require('../service/index.js')
-const ProductsDaoMongo = require('../dao/db/product.mongo')
-const productModel = new ProductsDaoMongo()
 
 class ProductController {
 
     //Problemas con Paginate
-    getAll = async (req, res) => {
+    getAllPaginate = async (req, res) => {
         try {
             let page = req.query.page
             if (page === undefined) {
@@ -34,7 +32,7 @@ class ProductController {
             }
             const query = {}
             if (category) {
-                const existingCategory = await productModel.distinct('category', { category })
+                const existingCategory = await productsService.distinct('category', { category })
                 if (existingCategory.length === 0) {
                     throw new Error('The specified category does not exist')
                 }
@@ -45,7 +43,7 @@ class ProductController {
                 ''
             }
             //hacer 1° llamado solo con limit y comparar 
-            const result = await productModel.getProducts(page, limit, sortOptions, query)
+            const result = await productsService.getProductsPaginate(page, limit, sortOptions, query)
             console.log('result en getall', result)
             const { totalPages } = result
             if (page > totalPages) {
@@ -55,7 +53,7 @@ class ProductController {
                 })
             }
 
-            const products = await productModel.getProducts(page, limit, sortOptions, query)
+            const products = await productsService.getProductsPaginate(page, limit, sortOptions, query)
             console.log('products', products)
             const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = products
 

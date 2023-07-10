@@ -1,7 +1,6 @@
 const { productsService, cartsService } = require('../service/index.js')
 const { generateProducts } = require('../utils/faker.js')
-const ProductsDaoMongo = require('../dao/db/product.mongo')
-const productsModel = new ProductsDaoMongo()
+
 
 class ViewsController {
 
@@ -37,7 +36,7 @@ class ViewsController {
             }
             const query = {}
             if (category) {
-                const existingCategory = await productsModel.distinct('category', {
+                const existingCategory = await productsService.distinct('category', {
                     category,
                 })
                 if (existingCategory.length === 0) {
@@ -51,7 +50,7 @@ class ViewsController {
                 ;('')
             }
             //hacer 1° llamado solo con limit y comparar
-            const result = await productsModel.getProducts(
+            const result = await productsService.getProductsPaginate(
                 page,
                 limit,
                 sortOptions,
@@ -64,7 +63,7 @@ class ViewsController {
                     message: 'The page value is too high',
                 })
             }
-            const products = await productsModel.getProducts(
+            const products = await productsService.getProductsPaginate(
                 page,
                 limit,
                 sortOptions,
