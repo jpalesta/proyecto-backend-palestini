@@ -20,10 +20,10 @@ switch (config.persistence) {
 
         break;
     case 'FILE':
-        UsersDaoFile = require('../dao/fileSystem/user.file')
-        ProductsDaoFile = require('../dao/fileSystem/product.file')
-        CartsDaoFile = require('../dao/fileSystem/cart.file')
-        TicketsDaoFile = require('../dao/fileSystem/ticket.file')
+        const UsersDaoFile = require('../dao/fileSystem/user.file')
+        const ProductsDaoFile = require('../dao/fileSystem/product.file')
+        const CartsDaoFile = require('../dao/fileSystem/cart.file')
+        const TicketsDaoFile = require('../dao/fileSystem/ticket.file')
 
         UsersDao = UsersDaoFile
         ProductsDao = ProductsDaoFile
