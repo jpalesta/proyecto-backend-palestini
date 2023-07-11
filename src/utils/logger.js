@@ -23,7 +23,7 @@ const logger = winston.createLogger({
     levels: CustomLevelsOptions.levels,
     transports: [
         new winston.transports.Console({ 
-            level: 'info',
+            level: 'http',
             format: winston.format.combine(
                 winston.format.colorize({colors: CustomLevelsOptions.colors}),
                 winston.format.simple()
@@ -37,8 +37,6 @@ const logger = winston.createLogger({
     ]
 })
 
-exports.addlogger = ( req, res, next) => {
-    req.logger = logger
-    req.logger.http(`${req.method} en ${req.url} - ${new Date().toLocaleString()}`)
-    next()
+module.exports = {
+    logger
 }

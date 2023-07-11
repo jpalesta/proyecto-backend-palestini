@@ -8,14 +8,13 @@ require('dotenv').config()
 
 const routerApp = require('./routes')
 const uploader = require('./utils/multer.js')
-const objectConfig = require('./config/objectConfig.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
 const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./config/passport.config')
 const { errorHandler } = require('./Middlewares/error.midlewares')
-const { addlogger } = require('./utils/logger')
+const { addlogger } = require('./Middlewares/logger.middleware')
 
 //conexión DB Mogoose
-// objectConfig.connectDB()
+
 
 //configuracion express + socketserver
 const app = express()
