@@ -159,3 +159,5 @@ Content-Type: application/json
         "dateOfBirth": "2000-01-01"
 }
 
+###GET Ruta de prueba de los loggers
+get   http://localhost:8080/loggertest

@@ -1,5 +1,4 @@
-{"level":"warn","message":"alerta"}
-warning: alerta
-warning: alerta
-warning: alerta
-warning: alerta
+fatal: Este es un mensaje de nivel fatal
+error: Este es un mensaje de nivel error
+warning: Este es un mensaje de nivel warning
+info: Este es un mensaje de nivel info

@@ -20,6 +20,20 @@ const { loginRedirect,
             viewMockingProducts 
         } = require('../controllers/views.controller')
 
+//ruta de prueba de logs
+router.get('/loggertest', (req, res) => {
+    req.logger.fatal('Este es un mensaje de nivel fatal')
+    req.logger.error('Este es un mensaje de nivel error')
+    req.logger.warning('Este es un mensaje de nivel warning')
+    req.logger.info('Este es un mensaje de nivel info')
+    req.logger.http('Este es un mensaje de nivel http')
+    req.logger.debug('Este es un mensaje de nivel debug')
+    res.send({
+        status: 200,
+        message: 'Prueba de loggers'
+    })
+});
+
 
 //te redirecciona automáticamente al login
 router.get('/', loginRedirect);
