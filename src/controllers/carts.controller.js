@@ -5,6 +5,8 @@ const cartValidate = require('../Middlewares/validation/cart.validator')
 const { cartsService, productsService, ticketsService } = require('../service/index.js')
 const { sendMail } = require('../utils/sendMail');
 const { sendSms } = require('../utils/sendSms');
+const { logger } = require('../utils/logger');
+
 
 class CartController {
 
@@ -16,7 +18,7 @@ class CartController {
                 payload: carts
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -47,7 +49,7 @@ class CartController {
                 payload: cart
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -74,7 +76,7 @@ class CartController {
                 payload: cart
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -101,7 +103,7 @@ class CartController {
                 payload: cart
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -115,7 +117,7 @@ class CartController {
                 })
             }
             const cart = await cartsService.deleteCartById(cid)
-            console.log(cart)
+            logger.error(cart)
             if (cart === undefined) {
                 return res.status(404).send({
                     status: 'error',
@@ -128,7 +130,7 @@ class CartController {
                 })
             }
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -157,8 +159,6 @@ class CartController {
             }
             {
                 const product = cartById.products.find(product => product.product._id.toString() === pid)
-                console.log('pid', pid)
-                console.log('cartById.products', cartById.products)
                 if (!product) {
                     return res.status(400).send({
                         status: 'error',
@@ -174,7 +174,7 @@ class CartController {
                 })
             }
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -200,7 +200,7 @@ class CartController {
                 payload: cartUpdated
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -227,7 +227,7 @@ class CartController {
                 payload: cartUpdated
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
 
             res.status(400).send({
                 status: 'error',
@@ -319,10 +319,10 @@ class CartController {
                     payload: ticket
                 })
             } else {
-                console.log('there are no products for the ticket')
+                logger.warning('there are no products for the ticket')
             }
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 

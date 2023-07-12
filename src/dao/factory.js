@@ -1,4 +1,5 @@
 const config = require('../config/objectConfig')
+const { logger } = require('../utils/logger')
 
 let UsersDao
 let ProductsDao
@@ -8,6 +9,7 @@ let TicketsDao
 switch (config.persistence) {
     case 'MONGO':
         config.connectDB()
+        logger.info('Conectado a la BD')
         const UsersDaoMongo = require('../dao/db/user.mongo')
         const ProductsDaoMongo = require('../dao/db/product.mongo')
         const CartsDaoMongo = require('../dao/db/cart.mongo')

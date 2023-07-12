@@ -44,7 +44,6 @@ class ProductController {
             }
             //hacer 1° llamado solo con limit y comparar 
             const result = await productsService.getProductsPaginate(page, limit, sortOptions, query)
-            console.log('result en getall', result)
             const { totalPages } = result
             if (page > totalPages) {
                 res.send({
@@ -54,7 +53,6 @@ class ProductController {
             }
 
             const products = await productsService.getProductsPaginate(page, limit, sortOptions, query)
-            console.log('products', products)
             const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = products
 
             let prevLink = ''

@@ -3,6 +3,7 @@ require('dotenv').config()
 const { usersModel } = require('../dao/db/models/user.model')
 const { generateToken } = require('../utils/jwt')
 const { createHash } = require('../utils/bCryptHash')
+const { logger } = require('../utils/logger')
 const {UserDto} = require('../dto/user.dto')
 
 
@@ -10,7 +11,7 @@ class SessionController {
 
     register = async (req, res) => {
         try {
-            console.log('User register successfull')
+            logger.info('User register successfull')
             res.redirect('/login')
         } catch (error) {
             console.log(error)
@@ -42,9 +43,7 @@ class SessionController {
 
     current =  (req, res) => {
         let user = req.user
-        console.log('userdelreq',user.user.firstName);
         let userDto = new UserDto (user)
-        console.log('userDto', userDto)
         res.send({
             message: 'Usuario actual',
             userDto
@@ -54,7 +53,7 @@ class SessionController {
     logout = async (req, res) => {
         try {
             res.clearCookie(process.env.JWT_COOKIE_NAME)
-            console.log('Logout successfull')
+            logger.info('Logout successfull')
             res.redirect('/login')
         } catch (error) {
             console.log(error)

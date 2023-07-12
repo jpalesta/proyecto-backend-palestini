@@ -1,4 +1,5 @@
 const { usersService, cartsService } = require('../service')
+const { logger } = require('../utils/logger')
 const { EErrors } = require('../utils/errors/enums')
 const { generateUserInfo } = require('../utils/errors/info')
 const { CustomError } = require('../utils/errors/CustomError')
@@ -11,7 +12,7 @@ class UserControler {
             let users = await usersService.get()
             res.send({ result: 'succes', payload: users })
         } catch (error) {
-            console.log('Cannot get users with mongoose' + error)
+            logger.error('Cannot get users with mongoose' + error)
         }
     }
 

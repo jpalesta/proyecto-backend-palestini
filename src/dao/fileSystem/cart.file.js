@@ -11,7 +11,6 @@ class CartManager {
     read = async () => {
         try {
             const data = await fs.readFile(this.path, 'utf-8')
-            console.log('data', data)
             this.carts = JSON.parse(data)
             return this.carts
         } catch (error) {

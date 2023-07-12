@@ -12,6 +12,7 @@ const chatManagerDB = require('./dao/db/chatManagerDB')
 const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./config/passport.config')
 const { errorHandler } = require('./Middlewares/error.midlewares')
 const { addlogger } = require('./Middlewares/logger.middleware')
+const { logger } = require('./utils/logger')
 
 //conexión DB Mogoose
 
@@ -20,19 +21,20 @@ const { addlogger } = require('./Middlewares/logger.middleware')
 const app = express()
 const port = process.env.PORT
 
+//midleware de logger
+app.use(addlogger)
 
 //configuración de socke.io
 const server = app.listen(port, () => {
-    console.log(`Listening on port ${port}`)
-})
-const io = new Server(server)
+    logger.info(`Listening on port ${port}`);
+});
+const io = new Server(server);
+
 
 //configuracion para que express reconozca formatos
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-//midleware de logger
-app.use(addlogger)
 
 //Inicialización cookie-parser
 app.use(cookieParser())
@@ -69,25 +71,21 @@ app.post('/single', uploader.single('product.file'), (req, res) => {
 
 //middleware de manejo de errores
 app.use(errorHandler)
-// app.use((err, req, res, next) => {
-//     console.log('clg error en app', err)
-//     res.status(500).send('something is wrong')
-// })
 
 io.on('connection', (socket) => {
-    console.log('new client connect')
+    logger.info('new client connect')
     socket.on('productsUpdated', (data) => {
         io.emit('updatedProductsUi', data)
-        console.log('productos enviados a realtime', data)
+        logger.info('productos enviados a realtime', data)
     })
     socket.on('newUserConnected', (data) => {
         socket.broadcast.emit('newUserConnectedToast', data)
     })
     socket.on('newMessage', async (newMessage) => {
-        console.log('clg newMessage', newMessage)
+        logger.info('clg newMessage', newMessage)
         await chatManagerDB.addMessage(newMessage)
         logs = await chatManagerDB.getmessages()
         io.emit('completeLogs', logs)
-        console.log('logs', logs)
+        logger.info('logs', logs)
     })
 })

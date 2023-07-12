@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const { usersService, cartsService } = require('../service')
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
 const { privateKey } = require('./objectConfig')
+const {logger} = require ('../utils/logger')
 require('dotenv').config()
 
 //passport Local
@@ -56,7 +57,7 @@ const initPassportLocal = () => {
             }
             const user = await usersService.getOne({ email: username })
             if (!user) {
-                console.log('User doesn´t exist')
+                logger.warning('User doesn´t exist')
                 return done(null, false)
             }
             if (!isValidPassword(password, user)) return done(null, false);
@@ -75,9 +76,7 @@ const initPassportGithub = () => {
         callbackURL: process.env.GITHUB_CALLBACK_URL,
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-            // console.log('profile', profile)
             let user = await usersService.getOne({ email: profile._json.email })
-            // console.log('userenpassportgithub', user)
             if (!user) {
                 let newUser = {
                     firstName: profile.username,
@@ -91,7 +90,7 @@ const initPassportGithub = () => {
             }
             return done(null, user)
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }))
 }

@@ -24,7 +24,6 @@ const CustomLevelsOptions = {
 let logger
 
 if (config.mode === 'development') {
-    console.log('entró a dev')
     logger = winston.createLogger({
         levels: CustomLevelsOptions.levels,
         transports: [
@@ -38,9 +37,6 @@ if (config.mode === 'development') {
         ]
     })
 } else {
-    console.log('entró a prod')
-    console.log('config console', config.loggerLevelConsole)
-    console.log('config file', config.loggerLevelFile)
     logger = winston.createLogger({
         levels: CustomLevelsOptions.levels,
         transports: [

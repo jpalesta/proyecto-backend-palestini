@@ -164,7 +164,6 @@ class ViewsController {
                 products: mockingProducts
             }
             res.render('mockingProducts', testUser)
-            console.log('Clg de Productos Mockeados', mockingProducts)
         } catch (error){
             console.log(error)
         }

@@ -22,6 +22,5 @@ module.exports = {
     privateKey: process.env.PRIVATE_KEY,
     connectDB: () => {
         connect(url)
-        console.log('conectado a la BD ')
     }
 }
