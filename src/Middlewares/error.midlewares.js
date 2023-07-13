@@ -1,13 +1,14 @@
 const { EErrors } = require("../utils/errors/enums");
+const { logger } = require('../utils/logger');
 
 exports.errorHandler = (error, req, res, next) => {
-    console.log('log error mid', error.cause)
+    logger.error('log error mid', error.cause)
     switch (error.code) {
         case EErrors.INVALID_TIPES_ERROR:
             res.send({ status: 'error', error: error.name })
             break;
         default:
-            console.log(error)
+            logger.error(error)
             res.send({ status: 'error', error: 'unhandled error'})
     }
 }

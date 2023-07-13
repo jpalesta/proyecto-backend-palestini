@@ -4,6 +4,7 @@ const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
 require('dotenv').config()
+const {cpus} = require('os')
 
 
 const routerApp = require('./routes')
@@ -89,3 +90,4 @@ io.on('connection', (socket) => {
         logger.info('logs', logs)
     })
 })
+

@@ -1,6 +1,6 @@
 const { productsService, cartsService } = require('../service/index.js')
 const { generateProducts } = require('../utils/faker.js')
-
+const { logger } = require('../utils/logger');
 
 class ViewsController {
 
@@ -96,7 +96,7 @@ class ViewsController {
             }
             res.render('index', testUser)
         } catch (error) {
-            console.log(error)
+            logger.error(error)
             return res.send({ status: 'error', message: 'something was wrong' })
         }
         function createLink(currentURL, page, newPage) {
@@ -123,7 +123,7 @@ class ViewsController {
             }
             res.render('cart', testUser)
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -165,7 +165,7 @@ class ViewsController {
             }
             res.render('mockingProducts', testUser)
         } catch (error){
-            console.log(error)
+            logger.error(error)
         }
     }
 }

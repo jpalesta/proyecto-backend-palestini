@@ -4,7 +4,7 @@
 //     registerForm.addEventListener('submit', async (event) => {
 //         event.preventDefault()
 //         const data = new FormData(registerForm)
-//         console.log('data', data)
+//         logger.error('data', data)
 //         const formObject = {}
 //         for (const [key, value] of data) {
 //             formObject[key] = value
@@ -23,10 +23,10 @@
 //                 window.location.href = '/register-fail'
 //             }
 //         } catch (error) {
-//             console.log(error)
+//             logger.error(error)
 //             window.location.href = '/register-fail'
 //         }
 //     })
 // } else {
-//     console.log('no hay registerForm')
+//     logger.error('no hay registerForm')
 // }

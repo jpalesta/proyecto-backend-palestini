@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const productValidate = require('../Middlewares/validation/product.validator')
 const { productsService } = require('../service/index.js')
+const { logger } = require('../utils/logger');
 
 class ProductController {
 
@@ -77,7 +78,7 @@ class ProductController {
                 nextLink
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -103,7 +104,7 @@ class ProductController {
                 payload: product
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -125,7 +126,7 @@ class ProductController {
                 payload: product
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -152,7 +153,7 @@ class ProductController {
                 payload: productUpdated
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -178,7 +179,7 @@ class ProductController {
                 payload: product
             })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 

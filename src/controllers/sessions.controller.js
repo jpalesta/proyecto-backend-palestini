@@ -14,7 +14,7 @@ class SessionController {
             logger.info('User register successfull')
             res.redirect('/login')
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -24,7 +24,7 @@ class SessionController {
             const { user } = req
             if (!user) {
                 res.redirect('/register')
-                console.log(
+                logger.error(
                     'The mail provided doesn´t exist, please check the information or register'
                 )
             } else {
@@ -37,7 +37,7 @@ class SessionController {
 
             }
         } catch (error) {
-            return console.log(error)
+            return logger.error(error)
         }
     }   
 
@@ -56,7 +56,7 @@ class SessionController {
             logger.info('Logout successfull')
             res.redirect('/login')
         } catch (error) {
-            console.log(error)
+            logger.error(error)
             res.send({ Status: 'error', message: error })
         }
     }

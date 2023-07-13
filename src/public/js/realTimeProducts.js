@@ -1,4 +1,5 @@
 const socket = io()
+const { logger } = require('../../utils/logger');
 
 let updatedProductsList = document.getElementById('updatedProductsList')
 
@@ -23,5 +24,5 @@ socket.on('updatedProductsUi', async data => {
         </div>`
     })
     updatedProductsList.innerHTML = productsList
-    console.log('productList', productsList)
+    logger.info('productList', productsList)
 })

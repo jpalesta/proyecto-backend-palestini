@@ -8,6 +8,7 @@ const { login, register, current, logout, restorepass,
 const { passportAutorization } = require('../Middlewares/passportAutorization')
 const { passportAuthentication } = require('../Middlewares/passportAuthentication')
 const { generateToken } = require('../utils/jwt')
+const { logger } = require('../utils/logger');
 
 
 router.post('/login',
@@ -15,7 +16,7 @@ router.post('/login',
     login)
 
 router.get('/faillogin', async (req, res) => {
-    console.log('Failed login strategy')
+    logger.error('Failed login strategy')
     res.send({ error: 'Failed' })
 })
 
@@ -25,7 +26,7 @@ router.post('/register',
 
 router.get('/failregister',
     async (req, res) => {
-        console.log('Failed register strategy')
+        logger.error('Failed register strategy')
         res.send({ error: 'Failed' })
     })
 

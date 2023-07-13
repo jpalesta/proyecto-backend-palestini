@@ -1,4 +1,5 @@
 const usersModel = require("./models/user.model")
+const { logger } = require('../../utils/logger');
 
 class UsersDaoMongo {
 
@@ -10,7 +11,7 @@ class UsersDaoMongo {
         try{
             return await this.model.find()
         } catch(error){
-            console.log('error en getUsers', error)
+            logger.error('error en getUsers', error)
         }
     }
     
@@ -18,7 +19,7 @@ class UsersDaoMongo {
         try{
             return await this.model.findOne(uid)
         } catch(error){
-            console.log('error en getUsers', error)
+            logger.error('error en getUsers', error)
         }
     }
 
@@ -26,7 +27,7 @@ class UsersDaoMongo {
         try {
             return await this.model.create(newUser)
         } catch(error){
-            console.log('error en getUsers', error)
+            logger.error('error en getUsers', error)
         }
     }
 

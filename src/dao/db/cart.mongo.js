@@ -1,5 +1,5 @@
 const cartsModel = require("./models/cart.model")
-
+const { logger } = require('../../utils/logger');
 
 class CartManagerDB {
 
@@ -28,7 +28,7 @@ class CartManagerDB {
             return await this.model.findOne(cid)
                 .populate('products.product').lean()
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
@@ -74,7 +74,7 @@ class CartManagerDB {
             }
             return await this.model.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } })
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 
