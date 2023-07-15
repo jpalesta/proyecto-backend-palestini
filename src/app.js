@@ -71,7 +71,7 @@ app.post('/single', uploader.single('product.file'), (req, res) => {
 })
 
 //middleware de manejo de errores
-app.use(errorHandler)
+// app.use(errorHandler)
 
 io.on('connection', (socket) => {
     logger.info('new client connect')
