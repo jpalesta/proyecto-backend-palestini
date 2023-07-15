@@ -82,22 +82,25 @@ class CartController {
 
     update = async (req, res) => {
         try {
-            const newCart = req.body
-            const isValid = cartValidate(newCart);
-            if (!isValid) {
+            const cid = req.params.cid
+            if (!mongoose.Types.ObjectId.isValid(cid)) {
                 return res.status(400).send({
                     status: 'error',
-                    message: 'Formato de datos inválido',
-                    error: cartValidate.errors[0].message
-                });
-            }
-            cart = await cartsService.addCart(newCart)
-            if (Object.keys(cart).length === 0) {
-                res.status(400).send({
-                    status: 'error',
-                    message: 'The product ID is wrong, please check your information'
+                    message: 'Invalid cart ID format'
                 })
             }
+            console.log(cid)
+            const pid = req.params.pid
+            if (!mongoose.Types.ObjectId.isValid(pid)) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'Invalid product ID format'
+                })
+            }
+            console.log(pid)
+
+            cart = await cartsService.updateQuantityProductInCart(cid, pid, 1)
+            console.log('cart', cart)
             res.status(200).send({
                 status: 'success',
                 payload: cart
@@ -221,7 +224,7 @@ class CartController {
                 })
             }
             const quantity = req.body.quantity
-            const cartUpdated = await cartsService.updateQuantityProductInCart(cid, pid, quantity)
+            const cartUpdated = await cartsService.updateCart(cid, pid, quantity)
             res.status(200).send({
                 status: 'success',
                 payload: cartUpdated

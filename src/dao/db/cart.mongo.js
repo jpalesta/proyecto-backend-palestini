@@ -56,13 +56,18 @@ class CartManagerDB {
             }
             const productIndex = cart.products.findIndex((p) => p.product.toString() === pid);
             if (productIndex === -1) {
-                throw new Error(` product ${pid} not found in cart ${cid}`)
-            }
+                const newProduct = {
+                    product: pid,
+                    quantity: quantity
+                }
+                cart.products.push(newProduct)
+            } else{
             cart.products[productIndex].quantity = quantity;
+            }
             await cart.save();
             return cart
         } catch (error) {
-            throw new Error(error)
+            return new error (error)
         }
     }
 

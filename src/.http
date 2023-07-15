@@ -71,7 +71,7 @@ Content-Type: application/json
 }
 
 ### POST Agrega o incrementa un producto en un carrito, ambos pasan por params check ok
-post http://localhost:8080/api/carts/64622c96f3e73d823d6ddb4b/products/64627fdaf01a831a08937d4f
+post http://localhost:8080/api/carts/6462272ed9cf3a62517025bf/products/64627f45f01a831a08937d2f
 
 ### DELETE Vacía un carrito por id check ok
 delete http://localhost:8080/api/carts/64622c96f3e73d823d6ddd

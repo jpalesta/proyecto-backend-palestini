@@ -93,3 +93,97 @@ info: Conectado a la BD
 info: Listening on port 8080
 info: Conectado a la BD
 info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+error: error en catch  product 649b5c8ec0f35ad725e2cef2 not found in cart 6462272ed9cf3a62517025bf {"stack":"Error:  product 649b5c8ec0f35ad725e2cef2 not found in cart 6462272ed9cf3a62517025bf\n    at CartManagerDB.updateQuantityProductInCart (C:\\Users\\JoseLuis\\Desktop\\Coderhouse\\proyecto-backend-palestini\\src\\dao\\db\\cart.mongo.js:61:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async update (C:\\Users\\JoseLuis\\Desktop\\Coderhouse\\proyecto-backend-palestini\\src\\controllers\\carts.controller.js:102:20)"}
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+error: error en catch Cannot set properties of undefined (setting 'quantity') {"stack":"TypeError: Cannot set properties of undefined (setting 'quantity')\n    at CartManagerDB.updateQuantityProductInCart (C:\\Users\\JoseLuis\\Desktop\\Coderhouse\\proyecto-backend-palestini\\src\\dao\\db\\cart.mongo.js:67:50)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async update (C:\\Users\\JoseLuis\\Desktop\\Coderhouse\\proyecto-backend-palestini\\src\\controllers\\carts.controller.js:102:20)"}
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+error: undefined
+error: undefined
+info: Conectado a la BD
+info: Listening on port 8080
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
