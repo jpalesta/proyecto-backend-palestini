@@ -3,9 +3,9 @@ const { faker } = require('@faker-js/faker');
 
 const cartValidate = require('../Middlewares/validation/cart.validator')
 const { cartsService, productsService, ticketsService } = require('../service/index.js')
-const { sendMail } = require('../utils/sendMail');
-const { sendSms } = require('../utils/sendSms');
-const { logger } = require('../utils/logger');
+const { sendMail } = require('../utils/sendMail')
+const { sendSms } = require('../utils/sendSms')
+const { logger } = require('../utils/logger')
 
 
 class CartController {

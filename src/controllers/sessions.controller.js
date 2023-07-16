@@ -1,10 +1,11 @@
 require('dotenv').config()
 
-const { usersModel } = require('../dao/db/models/user.model')
 const { generateToken } = require('../utils/jwt')
 const { createHash } = require('../utils/bCryptHash')
 const { logger } = require('../utils/logger')
 const UserDto = require('../dto/user.dto')
+const { sendMail } = require('../utils/sendMail')
+const { usersService } = require('../service')
 
 
 class SessionController {
@@ -64,23 +65,33 @@ class SessionController {
     }
 
     restorepass = async (req, res) => {
-        const { email, password } = req.body
-        if (!email || !password) {
+        const { email } = req.body
+        if ( !email ) {
             res.status(400).send({
                 status: 'error',
-                message: 'all the fields must be complete'
+                message: 'Please complete your email adress'
             })
         }
-        const userDB = await usersModel.findOne({ email })
+        const userDB = await usersService.getOne({ email })
         if (!userDB) {
             res.status(404).send({
                 status: 'error',
-                message: 'Username does not exist, please check your login information'
+                message: 'Username does not exist, please check your email or register'
             })
             return
         } else {
-            userDB.password = createHash(password)
-            await userDB.save()
+
+            const to = email
+
+            const mailSubject = 'Restablecer contraseña'
+
+            const html = `Siga el siguiente enlace para restabler su contraseña:
+            
+            <a href="http://localhost:8080/api/session/restorepasssteptwo">Restablecer contraseña</a>`
+
+            await sendMail(to, mailSubject, html)
+            // userDB.password = createHash(password)
+            // await userDB.save()
             res.redirect('/login')
         }
     }
