@@ -309,10 +309,38 @@ class CartController {
                                 </tr>`;
                 }).join('')
 
-
+                let html = ` <div>
+                <h1>Ticket generado por un total de $${amount}</h1>
+                <table>
+                <thead>
+                    <tr>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tableRows}
+                </tbody>
+                </table>
+                <h3>Los siguientes productos no cuentan con stock</h3>
+                <table>
+                <thead>
+                    <tr>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tableRowsMissing}
+                </tbody>
+                </table>
+            </div>`
+            
                 const ticket = await ticketsService.createTicket(newTicket)
 
-                await sendMail(purchaser, mailSubject, amount, tableRows, tableRowsMissing)
+                await sendMail(purchaser, mailSubject, html)
 
                 await sendSms(req.user.user.firstName, req.user.user.lastName)
 

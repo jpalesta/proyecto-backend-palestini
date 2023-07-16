@@ -9,38 +9,11 @@ const transport = nodemailer.createTransport({
     }
 })
 
-exports.sendMail = async (to, subject, amount, tableRows, tableRowsMissing) => {
+exports.sendMail = async (to, subject, html) => {
     return await transport.sendMail({
         from: process.env.GMAIL_USER_APP,
         to: to,
         subject: subject,
-        html: `<div>
-                    <h1>Ticket generado por un total de $${amount}</h1>
-                    <table>
-                    <thead>
-                        <tr>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${tableRows}
-                    </tbody>
-                    </table>
-                    <h3>Los siguientes productos no cuentan con stock</h3>
-                    <table>
-                    <thead>
-                        <tr>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${tableRowsMissing}
-                    </tbody>
-                    </table>
-                </div>`,
+        html: html,
     })
 }
