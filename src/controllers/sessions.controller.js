@@ -1,11 +1,17 @@
 require('dotenv').config()
+const bcrypt = require('bcrypt');
 
-const { usersModel } = require('../dao/db/models/user.model')
+
 const { generateToken } = require('../utils/jwt')
 const { createHash } = require('../utils/bCryptHash')
 const { logger } = require('../utils/logger')
 const UserDto = require('../dto/user.dto')
+const { sendMail } = require('../utils/sendMail')
+const { usersService } = require('../service')
+const RestorePassLinkDaoMongo = require('../dao/db/restorePassLink.mongo')
+const { BulkCountryUpdateInstance } = require('twilio/lib/rest/voice/v1/dialingPermissions/bulkCountryUpdate')
 
+const restorePassLink = new RestorePassLinkDaoMongo
 
 class SessionController {
 
@@ -39,12 +45,12 @@ class SessionController {
         } catch (error) {
             return logger.error(error)
         }
-    }   
+    }
 
-    current =  (req, res) => {
+    current = (req, res) => {
         let user = req.user
         console.log(user.user)
-        let userDto = new UserDto (user)
+        let userDto = new UserDto(user)
         console.log(userDto)
         res.send({
             message: 'Usuario actual',
@@ -64,25 +70,72 @@ class SessionController {
     }
 
     restorepass = async (req, res) => {
-        const { email, password } = req.body
-        if (!email || !password) {
+        const { email } = req.body
+        if (!email) {
             res.status(400).send({
                 status: 'error',
-                message: 'all the fields must be complete'
+                message: 'Please complete your email adress'
             })
         }
-        const userDB = await usersModel.findOne({ email })
+        const userDB = await usersService.getOne({ email })
         if (!userDB) {
             res.status(404).send({
                 status: 'error',
-                message: 'Username does not exist, please check your login information'
+                message: 'Username does not exist, please check your email or register'
             })
             return
         } else {
-            userDB.password = createHash(password)
-            await userDB.save()
+            const newRestorePassLink = await restorePassLink.createRestorePassLink(userDB.email)
+
+            const link = newRestorePassLink._id.toString()
+
+            const to = email
+
+            const mailSubject = 'Restablecer contraseña'
+
+            const html = `Siga el siguiente enlace para restabler su contraseña:
+            
+            <a href="http://localhost:8080/restorepasslink/${link}">Restablecer contraseña</a>`
+
+            await sendMail(to, mailSubject, html)
+
             res.redirect('/login')
         }
+    }
+
+    restorePassLink = async (req, res) => {
+        const { link } = req.params
+        const { password } = req.body
+
+        if (!password) {
+            res.status(400).send({
+                status: 'error',
+                message: 'Please complete the new password'
+            })
+        }
+        const validateLink = await restorePassLink.getOne(link)
+        if (!validateLink) {
+            logger.error('Invalid restore link or link has expired.',)
+            res.redirect('/restorepass')
+            return
+        }
+        const email = validateLink.email
+        const userDB = await usersService.getOne({ email })
+        bcrypt.compare(password, userDB.password, async (error, result) => {
+            if (error) {
+                logger.error('An error occurred during the password comparison')
+                return
+            }
+            if (result) {
+                logger.info('You can´t use the same password')
+                res.redirect('/restorepass')
+            } else {
+                userDB.password = createHash(password)
+                await userDB.save()
+                logger.info('your password was restored successfully')
+            }
+        })
+        res.redirect('/login')
     }
 }
 

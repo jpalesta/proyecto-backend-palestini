@@ -56,6 +56,7 @@ const initPassportLocal = () => {
                 return done(null, user)
             }
             const user = await usersService.getOne({ email: username })
+            console.log(user)
             if (!user) {
                 logger.warning('User doesn´t exist')
                 return done(null, false)
@@ -63,6 +64,7 @@ const initPassportLocal = () => {
             if (!isValidPassword(password, user)) return done(null, false);
             return done(null, user)
         } catch (error) {
+            console.log(error)
             return done(error)
         }
     }))

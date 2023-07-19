@@ -3,7 +3,7 @@ const router = Router()
 const passport = require('passport')
 require('dotenv').config()
 
-const { login, register, current, logout, restorepass,
+const { login, register, current, logout, restorepass, restorePassLink
 } = require('../controllers/sessions.controller')
 const { passportAutorization } = require('../Middlewares/passportAutorization')
 const { passportAuthentication } = require('../Middlewares/passportAuthentication')
@@ -52,6 +52,9 @@ router.get('/logout',
 
 router.post('/restorepass',
     restorepass)
+
+router.post('/restorepasslink/:link',
+    restorePassLink)
 
 router.get('/current',
     passportAuthentication('jwt'),
