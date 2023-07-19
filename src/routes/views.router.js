@@ -17,6 +17,7 @@ const { loginRedirect,
             viewRegister,
             viewLogin,
             viewRestorePass,
+            viewRestorePassLink,
             viewMockingProducts 
         } = require('../controllers/views.controller')
 
@@ -53,6 +54,8 @@ router.get('/register', viewRegister)
 router.get('/login', viewLogin)
 
 router.get('/restorepass', viewRestorePass)
+
+router.get('/restorepassLink/:link', viewRestorePassLink)
 
 router.get('/mockingproducts', viewMockingProducts)
 

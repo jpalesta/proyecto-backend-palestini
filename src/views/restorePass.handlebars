@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Recuperar contraseña</h1>
-    <p class='fs-4'>Por favor ingrese la dirección de email de su usuario</p>
+    <p class='fs-4', "fw-bold">Por favor ingrese la dirección de email de su usuario</p>
     <form class='container' action='/api/session/restorepass' method='POST'>
         <h6>Email</h6>
         <input
@@ -11,17 +11,9 @@
             aria-label='Email'
         />
         <br />
-        <p class='fs-6'>Le enviaremos un Email a esta casilla con las intrucciones para
+        <p class='fs-6', >Le enviaremos un Email a esta casilla con las intrucciones para
             recuperar su contraseña, tenga en cuenta que el enlace que posee
             solo será válido por una hora</p>
-        {{! <h6> Nuevo Password</h6>
-  <input
-    class="form-control form-control-sm"
-    type="text"
-    name="password"
-    placeholder="Password"
-    aria-label="Password"
-  /> }}
         <br />
         <button type='submit' class='btn btn-warning'>Enviar</button>
     </form>

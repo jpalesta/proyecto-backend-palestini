@@ -1,4 +1,6 @@
 require('dotenv').config()
+const bcrypt = require('bcrypt');
+
 
 const { generateToken } = require('../utils/jwt')
 const { createHash } = require('../utils/bCryptHash')
@@ -6,7 +8,10 @@ const { logger } = require('../utils/logger')
 const UserDto = require('../dto/user.dto')
 const { sendMail } = require('../utils/sendMail')
 const { usersService } = require('../service')
+const RestorePassLinkDaoMongo = require('../dao/db/restorePassLink.mongo')
+const { BulkCountryUpdateInstance } = require('twilio/lib/rest/voice/v1/dialingPermissions/bulkCountryUpdate')
 
+const restorePassLink = new RestorePassLinkDaoMongo
 
 class SessionController {
 
@@ -40,12 +45,12 @@ class SessionController {
         } catch (error) {
             return logger.error(error)
         }
-    }   
+    }
 
-    current =  (req, res) => {
+    current = (req, res) => {
         let user = req.user
         console.log(user.user)
-        let userDto = new UserDto (user)
+        let userDto = new UserDto(user)
         console.log(userDto)
         res.send({
             message: 'Usuario actual',
@@ -66,7 +71,7 @@ class SessionController {
 
     restorepass = async (req, res) => {
         const { email } = req.body
-        if ( !email ) {
+        if (!email) {
             res.status(400).send({
                 status: 'error',
                 message: 'Please complete your email adress'
@@ -80,6 +85,9 @@ class SessionController {
             })
             return
         } else {
+            const newRestorePassLink = await restorePassLink.createRestorePassLink(userDB.email)
+
+            const link = newRestorePassLink._id.toString()
 
             const to = email
 
@@ -87,13 +95,47 @@ class SessionController {
 
             const html = `Siga el siguiente enlace para restabler su contraseña:
             
-            <a href="http://localhost:8080/api/session/restorepasssteptwo">Restablecer contraseña</a>`
+            <a href="http://localhost:8080/restorepasslink/${link}">Restablecer contraseña</a>`
 
             await sendMail(to, mailSubject, html)
-            // userDB.password = createHash(password)
-            // await userDB.save()
+
             res.redirect('/login')
         }
+    }
+
+    restorePassLink = async (req, res) => {
+        const { link } = req.params
+        const { password } = req.body
+
+        if (!password) {
+            res.status(400).send({
+                status: 'error',
+                message: 'Please complete the new password'
+            })
+        }
+        const validateLink = await restorePassLink.getOne(link)
+        if (!validateLink) {
+            logger.error('Invalid restore link or link has expired.',)
+            res.redirect('/restorepass')
+            return
+        }
+        const email = validateLink.email
+        const userDB = await usersService.getOne({ email })
+        bcrypt.compare(password, userDB.password, async (error, result) => {
+            if (error) {
+                logger.error('An error occurred during the password comparison')
+                return
+            }
+            if (result) {
+                logger.info('You can´t use the same password')
+                res.redirect('/restorepass')
+            } else {
+                userDB.password = createHash(password)
+                await userDB.save()
+                logger.info('your password was restored successfully')
+            }
+        })
+        res.redirect('/login')
     }
 }
 

@@ -157,6 +157,14 @@ class ViewsController {
         res.render('restorePass')
     }
 
+    viewRestorePassLink = (req, res) => {
+        const { link } = req.params
+        let testUser = {
+            link: link
+        }
+        res.render('restorePassLink', testUser)
+    }
+
     viewMockingProducts = async (req, res) => {
         try{
             const mockingProducts = await generateProducts(50)

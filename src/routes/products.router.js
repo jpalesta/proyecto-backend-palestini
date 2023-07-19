@@ -19,7 +19,7 @@ router.get('/', isAuthenticated, getAllPaginate)
 router.get('/:pid', getOne)
 
 //Crea un producto por body chequeado con validación de body 
-router.post('/', isAuthenticated ,passportAutorization('admin'), create)
+router.post('/', isAuthenticated ,passportAutorization(['admin', 'premium']), create)
 
 //Modifica un producto por body  
 router.put('/:pid', isAuthenticated ,passportAutorization('admin'), update)

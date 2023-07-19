@@ -4,26 +4,36 @@ const usersCollection = 'users'
 
 const usersSchema = new Schema({
     firstName: {
-        type: String, required: true
+        type: String, 
+        required: true
     },
     lastName: {
-        type: String, required: true
+        type: String, 
+        required: true
     },
     dateOfBirth: {
-        type: Date, required: false
+        type: Date, 
+        required: false
     },
     role: {
-        type: String, default: 'user'
+        type: String, 
+        enum: [ 'user', 'admin', 'premium' ],
+        default: 'user'
     },
     password: {
-        type: String, required: true
+        type: String, 
+        required: true
     },
     email: {
-        type: String, required: true, unique: true
+        type: String, 
+        required: true,
+        unique: true
     },
+    
     cart: {
         id: {
-            type: Schema.Types.ObjectId, ref: 'carts',
+            type: Schema.Types.ObjectId, 
+            ref: 'carts',
             required: true
         },
     },
