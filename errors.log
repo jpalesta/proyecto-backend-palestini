@@ -356,3 +356,25 @@ info: The user role was changed to User
 info: The user role was changed to User
 info: The user role was changed to Premium
 error: The user role was not changed
+info: Conectado a la BD
+info: Listening on port 8080
+fatal: Este es un mensaje de nivel fatal
+error: Este es un mensaje de nivel error
+warning: Este es un mensaje de nivel warning
+info: Este es un mensaje de nivel info
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+fatal: Este es un mensaje de nivel fatal
+error: Este es un mensaje de nivel error
+warning: Este es un mensaje de nivel warning
+info: Este es un mensaje de nivel info
+info: Conectado a la BD
+info: Listening on port 8080
+fatal: Este es un mensaje de nivel fatal
+error: Este es un mensaje de nivel error
+warning: Este es un mensaje de nivel warning
+info: Este es un mensaje de nivel info
+fatal: Este es un mensaje de nivel fatal
+error: Este es un mensaje de nivel error
