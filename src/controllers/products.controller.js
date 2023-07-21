@@ -112,6 +112,8 @@ class ProductController {
         try {
             const newProduct = req.body
             const isValid = productValidate(newProduct);
+            console.log('newProduct', newProduct)
+            console.log('isValid', isValid)
             if (!isValid) {
                 return res.status(400).send({
                     status: 'error',
@@ -120,6 +122,7 @@ class ProductController {
                 });
             }
             let product = await productsService.createProduct(newProduct)
+            console.log('product', product)
             await productsService.emitProductsUpdate()
             res.status(200).send({
                 status: 'success',

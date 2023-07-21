@@ -12,11 +12,11 @@ POST  http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Título Producto Modelo 15" ,
+"title": "Título Producto Modelo 22" ,
 "description": "Descripción Producto Modelo 15"  ,
 "price": 15000 ,
 "thumbnail": "" ,
-"code": "A21",
+"code": "A22",
 "stock": 0,
 "category": "Categoría Modelo",
 "status": true

@@ -356,3 +356,33 @@ info: The user role was changed to User
 info: The user role was changed to User
 info: The user role was changed to Premium
 error: The user role was not changed
+info: Conectado a la BD
+info: Listening on port 8080
+error: error en getUsers getaddrinfo ENOTFOUND ac-3qjb4yy-shard-00-02.x8zgzdu.mongodb.net {"reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":"7fffffff00000000000000a4","maxSetVersion":9,"servers":{},"setName":"atlas-v870al-shard-0","stale":false,"type":"ReplicaSetNoPrimary"},"stack":"MongoServerSelectionError: getaddrinfo ENOTFOUND ac-3qjb4yy-shard-00-02.x8zgzdu.mongodb.net\n    at Timeout._onTimeout (C:\\Users\\JoseLuis\\Desktop\\Coderhouse\\proyecto-backend-palestini\\node_modules\\mongodb\\lib\\sdam\\topology.js:277:38)\n    at listOnTimeout (node:internal/timers:569:17)\n    at process.processTimers (node:internal/timers:512:7)"}
+warning: User doesn´t exist
+info: new client connect
+info: productos enviados a realtime
+info: new client connect
+info: productos enviados a realtime
+info: new client connect
+info: productos enviados a realtime
+info: new client connect
+info: productos enviados a realtime
+info: Conectado a la BD
+info: Listening on port 8080
+info: Conectado a la BD
+info: Listening on port 8080
+info: new client connect
+info: productos enviados a realtime
+info: Conectado a la BD
+info: Listening on port 8080
+info: new client connect
+info: productos enviados a realtime
+info: Conectado a la BD
+info: Listening on port 8080
+info: new client connect
+info: productos enviados a realtime
+info: Conectado a la BD
+info: Listening on port 8080
+info: new client connect
+info: productos enviados a realtime
