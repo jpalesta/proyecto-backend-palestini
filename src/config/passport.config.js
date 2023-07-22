@@ -2,7 +2,6 @@ const passport = require('passport')
 const passportLocal = require('passport-local')
 const GithubStrategy = require('passport-github2')
 const { Strategy, ExtractJwt } = require('passport-jwt')
-const jwt = require('jsonwebtoken')
 
 const { usersService, cartsService } = require('../service')
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
