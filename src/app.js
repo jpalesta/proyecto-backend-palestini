@@ -4,7 +4,7 @@ const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
 require('dotenv').config()
-const {cpus} = require('os')
+
 
 
 const routerApp = require('./routes')
@@ -14,6 +14,7 @@ const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./co
 const { errorHandler } = require('./Middlewares/error.midlewares')
 const { addlogger } = require('./Middlewares/logger.middleware')
 const { logger } = require('./utils/logger')
+const { mode } = require('./config/objectConfig')
 
 //conexión DB Mogoose
 
