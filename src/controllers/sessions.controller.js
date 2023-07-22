@@ -103,39 +103,46 @@ class SessionController {
         }
     }
 
-    restorePassLink = async (req, res) => {
+    restorePassLink = async (req, res, next) => {
         const { link } = req.params
         const { password } = req.body
-
-        if (!password) {
-            res.status(400).send({
-                status: 'error',
-                message: 'Please complete the new password'
-            })
-        }
-        const validateLink = await restorePassLink.getOne(link)
-        if (!validateLink) {
-            logger.error('Invalid restore link or link has expired.',)
-            res.redirect('/restorepass')
-            return
-        }
-        const email = validateLink.email
-        const userDB = await usersService.getOne({ email })
-        bcrypt.compare(password, userDB.password, async (error, result) => {
-            if (error) {
-                logger.error('An error occurred during the password comparison')
+        try {
+            if (!password) {
+                res.status(400).send({
+                    status: 'error',
+                    message: 'Please complete the new password'
+                })
+            }
+            const validateLink = await restorePassLink.getOne(link)
+            if (!validateLink) {
+                res.redirect('/restorepass')
+                logger.error('Invalid restore link or link has expired.',)
                 return
             }
-            if (result) {
-                logger.info('You can´t use the same password')
-                res.redirect('/restorepass')
-            } else {
-                userDB.password = createHash(password)
-                await userDB.save()
-                logger.info('your password was restored successfully')
-            }
-        })
-        res.redirect('/login')
+            const email = validateLink.email
+            const userDB = await usersService.getOne({ email })
+            bcrypt.compare(password, userDB.password, async (error, result) => {
+                if (error) {
+                    logger.error('An error occurred during the password comparison')
+                    return
+                }
+                if (result) {
+                    logger.info('You can´t use the same password')
+                    let testUser = {
+                        link: link
+                    }
+                    res.render('restorePassLink', testUser)
+                } else {
+                    await restorePassLink.delete(link)
+                    userDB.password = createHash(password)
+                    await userDB.save()
+                    logger.info('your password was restored successfully')
+                    res.redirect('/login')
+                }
+            })
+        } catch (error) {
+            logger.error(error)
+        }
     }
 }
 

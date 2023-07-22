@@ -22,6 +22,14 @@ class RestorePassLinkDaoMongo {
         }
     }
 
+    delete = async (link) => {
+        try {
+            return await this.model.deleteOne({_id : link})
+        } catch (error) {
+            return new Error(error)
+        }
+    }
+
 }
 
 module.exports = RestorePassLinkDaoMongo
