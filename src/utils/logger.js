@@ -49,7 +49,7 @@ if (config.mode === 'development') {
             }),
             new winston.transports.File({
                 filename: './errors.log',
-                level: console.loggerLevelFile,
+                level: config.loggerLevelFile,
                 format: winston.format.simple()
             })
         ]
