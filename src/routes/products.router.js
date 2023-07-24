@@ -22,10 +22,10 @@ router.get('/:pid', getOne)
 router.post('/', isAuthenticated ,passportAutorization(['admin', 'premium']), create)
 
 //Modifica un producto por body  
-router.put('/:pid', isAuthenticated ,passportAutorization('admin'), update)
+router.put('/:pid', isAuthenticated ,passportAutorization(['admin', 'premium']), update)
 
 //borra un producto por id 
-router.delete('/:pid', isAuthenticated ,passportAutorization('admin'), deleteOne)
+router.delete('/:pid', isAuthenticated ,passportAutorization(['admin', 'premium']), deleteOne)
 
 module.exports = router
 

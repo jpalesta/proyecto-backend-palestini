@@ -35,11 +35,11 @@ const productsSchema = new Schema({
         type: Boolean,
         require: true
     },
-    // owner: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User', 
-    //     default: 'admin'
-    // }
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User', 
+        default: process.env.ADMIN_ID
+    }
 })
 productsSchema.plugin(mongoosePaginate)
 const productsModel = model(productsCollection, productsSchema)

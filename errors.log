@@ -2,3 +2,4 @@ fatal: Este es un mensaje de nivel fatal
 error: Este es un mensaje de nivel error
 error: Invalid restore link or link has expired.
 error: Invalid restore link or link has expired.
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}

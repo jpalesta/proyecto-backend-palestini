@@ -112,8 +112,7 @@ class ProductController {
         try {
             const newProduct = req.body
             const isValid = productValidate(newProduct);
-            console.log('newProduct', newProduct)
-            console.log('isValid', isValid)
+            console.log('req.user en create', req.user)
             if (!isValid) {
                 return res.status(400).send({
                     status: 'error',
@@ -121,6 +120,12 @@ class ProductController {
                     error: productValidate.errors[0].message
                 });
             }
+            const creatorRole = req.user.user.role
+            if (creatorRole === 'premium') {
+                newProduct.owner = req.user.user._id
+            }
+            console.log('newProduct con owner', newProduct)
+
             let product = await productsService.createProduct(newProduct)
             console.log('product', product)
             await productsService.emitProductsUpdate()
@@ -142,19 +147,47 @@ class ProductController {
                     message: 'Invalid product ID format'
                 })
             }
-            const update = req.body
-            const productUpdated = await productsService.updateProduct(pid, update)
-            if (productUpdated.matchedCount === 0) {
-                res.status(400).send({
-                    status: 'error',
-                    message: `Product ${pid} not found in Data Base`
+            const productToUpdate = await productsService.getProduct({ _id: pid })
+            const productToUpdateOwnerID = productToUpdate.owner.toString()
+            const userProductToUpdate = req.user.user._id
+
+            if (userProductToUpdate === productToUpdateOwnerID) {
+                const update = req.body
+                const productUpdated = await productsService.updateProduct(pid, update)
+                if (productUpdated.matchedCount === 0) {
+                    res.status(400).send({
+                        status: 'error',
+                        message: `Product ${pid} not found in Data Base`
+                    })
+                }
+                await productsService.emitProductsUpdate()
+                res.status(200).send({
+                    status: 'success',
+                    payload: productUpdated
                 })
             }
-            await productsService.emitProductsUpdate()
-            res.status(200).send({
-                status: 'success',
-                payload: productUpdated
-            })
+            const userToUpdateRole = req.user.user.role
+
+            if (userToUpdateRole === 'admin') {
+                const update = req.body
+                const productUpdated = await productsService.updateProduct(pid, update)
+                if (productUpdated.matchedCount === 0) {
+                    res.status(400).send({
+                        status: 'error',
+                        message: `Product ${pid} not found in Data Base`
+                    })
+                }
+                await productsService.emitProductsUpdate()
+                res.status(200).send({
+                    status: 'success',
+                    payload: productUpdated
+                })
+            } else {
+                res.status(401).send({
+                    status: 'error',
+                    message: 'You don´t have permission to update or delete this product'
+                })
+            }
         } catch (error) {
             logger.error(error)
         }
@@ -169,18 +202,45 @@ class ProductController {
                     message: 'Invalid product ID format'
                 })
             }
-            const product = await productsService.deleteOne({ _id: pid })
-            if (product.deletedCount === 0) {
-                res.status(400).send({
-                    status: 'error',
-                    message: `Product ${pid} not found in Data Base`
+            const productToDelete = await productsService.getProduct({ _id: pid })
+            const productToDeleteOwnerID = productToDelete.owner.toString()
+            const userProductToDelete = req.user.user._id
+
+            if (userProductToDelete === productToDeleteOwnerID) {
+                const product = await productsService.deleteOne({ _id: pid })
+                if (product.deletedCount === 0) {
+                    res.status(400).send({
+                        status: 'error',
+                        message: `Product ${pid} not found in Data Base`
+                    })
+                }
+                await emitProductsUpdate()
+                res.status(200).send({
+                    status: 'success',
+                    payload: product
                 })
             }
-            await emitProductsUpdate()
-            res.status(200).send({
-                status: 'success',
-                payload: product
-            })
+            const userToDeleteRole = req.user.user.role
+
+            if (userToDeleteRole === 'admin') {
+                const product = await productsService.deleteOne({ _id: pid })
+                if (product.deletedCount === 0) {
+                    res.status(400).send({
+                        status: 'error',
+                        message: `Product ${pid} not found in Data Base`
+                    })
+                }
+                await emitProductsUpdate()
+                res.status(200).send({
+                    status: 'success',
+                    payload: product
+                })
+            } else {
+                res.status(401).send({
+                    status: 'error',
+                    message: 'You don´t have permission to update or delete this product'
+                })
+            }
         } catch (error) {
             logger.error(error)
         }

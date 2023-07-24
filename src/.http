@@ -12,21 +12,21 @@ POST  http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Título Producto Modelo 22" ,
-"description": "Descripción Producto Modelo 15"  ,
+"title": "Título Producto Modelo 25" ,
+"description": "Descripción Producto Modelo 25"  ,
 "price": 15000 ,
 "thumbnail": "" ,
-"code": "A22",
+"code": "25",
 "stock": 0,
 "category": "Categoría Modelo",
 "status": true
 }
 ### PUT Modifica un producto por body chequeado OK (falta validación de body)
-put http://localhost:8080/api/products/645fdc7b30fab603d13ba3f6
+put http://localhost:8080/api/products/64bdbca40c0fe6abe3835861
 Content-Type: application/json
 
 {
-    "stock": 100
+    "stock": 230
 }
 
 ### DELETE borra un producto por ID chequeado OK
@@ -158,7 +158,7 @@ Content-Type: application/json
 }
 
 ###POST Cambio de ROLE de Premium a User o viceversa
-post http://localhost:8080/api/users/premium/64a88bcab7eb5bfcfc1359d8
+post http://localhost:8080/api/users/premium/64b6e971d789534fc34c3528
 
 ###POST Crea un usuario desde SESSION/REGISTER VER COMO ADAPTAR EL MANEJO DE ERRORES EN EL PASSPORT REGISTER
 post http://localhost:8080/api/session/register
