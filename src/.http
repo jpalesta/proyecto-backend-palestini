@@ -1,3 +1,34 @@
+###POST Cambio de ROLE de Premium a User o viceversa
+post http://localhost:8080/api/users/premium/64a88bcab7eb5bfcfc1359d8
+
+### LOGIN USER
+post http://localhost:8080/api/session/login
+Content-Type: application/json
+
+{
+        "email": "jose.palestini@gmail.com",
+        "password": "123456"
+}
+### LOGIN ADMIN
+post http://localhost:8080/api/session/login
+Content-Type: application/json
+
+{
+        "email": "adminCoder@coder.com",
+        "password": "123456"
+}
+
+### LOGIN PREMIUM
+post http://localhost:8080/api/session/login
+Content-Type: application/json
+
+{
+        "email": "jose.pal1estini@gmail.com",
+        "password": "123456"
+}
+
+
+
 //PRODUCTS
 
 
@@ -5,32 +36,32 @@
 GET http://localhost:8080/api/products/?page=1&limit=5
 
 ### GET de productos por ID check ok
-GET  http://localhost:8080/api/products/645fdc7b30fab603d13ba3f6
+GET  http://localhost:8080/api/products/64bdbca40c0fe6abe3835861
 
 ### POST crea un producto a partir de un body, chequeado con validación OK
 POST  http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Título Producto Modelo 26" ,
-"description": "Descripción Producto Modelo 26"  ,
-"price": 15000 ,
+"title": "Título Producto Modelo 6" ,
+"description": "Descripción Producto Modelo 6"  ,
+"price": 10000 ,
 "thumbnail": "" ,
-"code": "26",
-"stock": 150,
+"code": "A06",
+"stock": 300,
 "category": "Categoría Modelo",
 "status": true
 }
 ### PUT Modifica un producto por body chequeado OK (falta validación de body)
-put http://localhost:8080/api/products/64bdbca40c0fe6abe3835861
+put http://localhost:8080/api/products/64c68e8ad3c5cb65ab48faf1
 Content-Type: application/json
 
 {
-    "stock": 230
+    "stock": 100
 }
 
 ### DELETE borra un producto por ID chequeado OK
-delete http://localhost:8080/api/products/6467db9c27cc042809b09f44
+delete http://localhost:8080/api/products/64c68e8ad3c5cb65ab48faf1
 
 
 
@@ -108,31 +139,6 @@ Content-Type: application/json
 ### GET PRUEBA CURRENT
 get http://localhost:8080/api/session/current
 
-### LOGIN USER
-post http://localhost:8080/api/session/login
-Content-Type: application/json
-
-{
-        "email": "jose.palestini@gmail.com",
-        "password": "123456"
-}
-### LOGIN ADMIN
-post http://localhost:8080/api/session/login
-Content-Type: application/json
-
-{
-        "email": "adminCoder@coder.com",
-        "password": "123456"
-}
-
-### LOGIN PREMIUM
-post http://localhost:8080/api/session/login
-Content-Type: application/json
-
-{
-        "email": "prueba6@desde12r34est.com",
-        "password": "123456"
-}
 
 ### GET PRUEBA logout
 post http://localhost:8080/api/session/logout
@@ -157,8 +163,6 @@ Content-Type: application/json
         "role": "premium"
 }
 
-###POST Cambio de ROLE de Premium a User o viceversa
-post http://localhost:8080/api/users/premium/64b6e971d789534fc34c3528
 
 ###POST Crea un usuario desde SESSION/REGISTER VER COMO ADAPTAR EL MANEJO DE ERRORES EN EL PASSPORT REGISTER
 post http://localhost:8080/api/session/register

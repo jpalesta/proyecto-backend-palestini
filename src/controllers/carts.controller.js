@@ -104,7 +104,7 @@ class CartController {
                     message: 'Invalid product ID format',
                 })
             }
-            console.log(pid)
+            console.log('pid', pid)
 
             cart = await cartsService.updateQuantityProductInCart(cid, pid, 1)
             console.log('cart', cart)
