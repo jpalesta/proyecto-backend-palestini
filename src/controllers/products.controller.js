@@ -5,7 +5,6 @@ const { productsService } = require('../service/index.js')
 const { logger } = require('../utils/logger')
 
 class ProductController {
-    //Problemas con Paginate
     getAllPaginate = async (req, res) => {
         try {
             let page = req.query.page
@@ -100,7 +99,6 @@ class ProductController {
         }
     }
 
-    //Check ok mongo (falta file)
     getOne = async (req, res) => {
         try {
             const pid = req.params.pid
@@ -166,6 +164,12 @@ class ProductController {
             const productToUpdate = await productsService.getProduct({
                 _id: pid,
             })
+            if (!productToUpdate) {
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'The product doesn´t exist',
+                })
+            }
             const productToUpdateOwnerID = productToUpdate.owner.toString()
 
             const userProductToUpdate = req.user.user._id
@@ -231,6 +235,13 @@ class ProductController {
             const productToDelete = await productsService.getProduct({
                 _id: pid,
             })
+            if (!productToDelete) {
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'The product doesn´t exist',
+                })
+            }
+
             const productToDeleteOwnerID = productToDelete.owner.toString()
 
             const userProductToDelete = req.user.user._id
@@ -241,7 +252,6 @@ class ProductController {
                 const product = await productsService.deleteOne({
                     _id: pid,
                 })
-                console.log('product en delete', product._id)
 
                 if (product.deletedCount === 0) {
                     res.status(400).send({
@@ -249,14 +259,15 @@ class ProductController {
                         message: `Product ${pid} not found in Data Base`,
                     })
                 }
+                await productsService.emitProductsUpdate()
+                res.status(200).send({
+                    status: 'success',
+                    payload: product,
+                })
             }
-            await productsService.emitProductsUpdate()
-            res.status(200).send({
-                status: 'success',
-                payload: product,
-            })
             if (userToDeleteRole === 'admin') {
                 const product = await productsService.deleteOne({ _id: pid })
+
                 if (product.deletedCount === 0) {
                     res.status(400).send({
                         status: 'error',

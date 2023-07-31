@@ -1,14 +1,14 @@
 ###POST Cambio de ROLE de Premium a User o viceversa
-post http://localhost:8080/api/users/premium/64a88bcab7eb5bfcfc1359d8
+post http://localhost:8080/api/users/premium/64ac7286cbff681003e77165
 
 ### LOGIN USER
 post http://localhost:8080/api/session/login
-Content-Type: application/json
+    Content-Type: application/json
 
-{
-        "email": "jose.palestini@gmail.com",
-        "password": "123456"
-}
+    {
+            "email": "jose.palestini@gmail.com",
+            "password": "1234567"
+    }
 ### LOGIN ADMIN
 post http://localhost:8080/api/session/login
 Content-Type: application/json
@@ -23,15 +23,19 @@ post http://localhost:8080/api/session/login
 Content-Type: application/json
 
 {
-        "email": "jose.pal1estini@gmail.com",
+        "email": "jose.pal12estini@gmail.com",
         "password": "123456"
 }
 
+//CARTS
+### POST Agrega o incrementa un producto en un carrito, ambos pasan por params check ok
+post http://localhost:8080/api/carts/6464ac19de6d7432d24c1304/products/64c6fda999eed300ab6d43c6
+Content-Type: application/json
 
-
+{
+    "quantity": 150
+}
 //PRODUCTS
-
-
 ### GET de productos con pagintate y querys check ok
 GET http://localhost:8080/api/products/?page=1&limit=5
 
@@ -53,15 +57,15 @@ Content-Type: application/json
 "status": true
 }
 ### PUT Modifica un producto por body chequeado OK (falta validación de body)
-put http://localhost:8080/api/products/64c68e8ad3c5cb65ab48faf1
+put http://localhost:8080/api/products/64c7976122e8c64cac3f504b
 Content-Type: application/json
 
 {
-    "stock": 100
+    "stock": 150
 }
 
 ### DELETE borra un producto por ID chequeado OK
-delete http://localhost:8080/api/products/64c68e8ad3c5cb65ab48faf1
+delete http://localhost:8080/api/products/64c7976122e8c64cac3f504b
 
 
 
@@ -101,8 +105,6 @@ Content-Type: application/json
     ]
 }
 
-### POST Agrega o incrementa un producto en un carrito, ambos pasan por params check ok
-post http://localhost:8080/api/carts/6462272ed9cf3a62517025bf/products/64627f45f01a831a08937d2f
 
 ### DELETE Vacía un carrito por id check ok
 delete http://localhost:8080/api/carts/64622c96f3e73d823d6ddd

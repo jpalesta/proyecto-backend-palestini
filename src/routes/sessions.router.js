@@ -11,11 +11,15 @@ const {
     restorepass,
     restorePassLink,
 } = require('../controllers/sessions.controller')
+
 const { passportAutorization } = require('../Middlewares/passportAutorization')
+
 const {
     passportAuthentication,
 } = require('../Middlewares/passportAuthentication')
+
 const { generateToken } = require('../utils/jwt')
+
 const { logger } = require('../utils/logger')
 
 router.post(
@@ -50,6 +54,7 @@ router.get(
     '/github',
     passport.authenticate('github', { scope: ['user: email'], session: false })
 )
+
 router.get(
     '/githubcallback',
     passport.authenticate('github', {

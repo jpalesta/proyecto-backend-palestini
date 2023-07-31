@@ -1,8 +1,7 @@
-const cartsModel = require("./models/cart.model")
-const { logger } = require('../../utils/logger');
+const cartsModel = require('./models/cart.model')
+const { logger } = require('../../utils/logger')
 
 class CartManagerDB {
-
     constructor() {
         this.model = cartsModel
     }
@@ -25,8 +24,10 @@ class CartManagerDB {
 
     getCartByIdPopulate = async (cid) => {
         try {
-            return await this.model.findOne(cid)
-                .populate('products.product').lean()
+            return await this.model
+                .findOne(cid)
+                .populate('products.product')
+                .lean()
         } catch (error) {
             logger.error(error)
         }
@@ -54,20 +55,22 @@ class CartManagerDB {
             if (!cart) {
                 throw new Error(`Cart with ID ${cid} not found`)
             }
-            const productIndex = cart.products.findIndex((p) => p.product.toString() === pid);
+            const productIndex = cart.products.findIndex(
+                (p) => p.product.toString() === pid
+            )
             if (productIndex === -1) {
                 const newProduct = {
                     product: pid,
-                    quantity: quantity
+                    quantity: quantity,
                 }
                 cart.products.push(newProduct)
-            } else{
-            cart.products[productIndex].quantity = quantity;
+            } else {
+                cart.products[productIndex].quantity = quantity
             }
-            await cart.save();
+            await cart.save()
             return cart
         } catch (error) {
-            return new error (error)
+            logger.error(error)
         }
     }
 
@@ -77,7 +80,10 @@ class CartManagerDB {
             if (!cart) {
                 throw new Error(`Cart with ID ${cid} not found`)
             }
-            return await this.model.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } })
+            return await this.model.findByIdAndUpdate(
+                { _id: cid },
+                { $set: { products: [] } }
+            )
         } catch (error) {
             logger.error(error)
         }
@@ -89,7 +95,10 @@ class CartManagerDB {
             if (!cart) {
                 throw new Error(`Cart with ID ${cid} not found`)
             }
-            return await this.model.updateOne({ _id: cid }, { $pull: { products: { product: pid } } })
+            return await this.model.updateOne(
+                { _id: cid },
+                { $pull: { products: { product: pid } } }
+            )
         } catch (error) {
             return new Error(error)
         }

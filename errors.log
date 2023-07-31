@@ -1,74 +1,11 @@
-fatal: Este es un mensaje de nivel fatal
-error: Este es un mensaje de nivel error
-error: Invalid restore link or link has expired.
-error: Invalid restore link or link has expired.
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined
 error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
 error: undefined
 error: undefined
 error: undefined
 error: undefined
 error: undefined
+error: undefined {"_message":"carts validation failed","errors":{"products.1.quantity":{"kind":"Number","message":"Cast to Number failed for value \"{}\" (type Object) at path \"quantity\"","name":"CastError","path":"quantity","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"{}\"","value":{},"valueType":"Object"}}}
 error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined
-error: undefined
-error: undefined
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined
-error: undefined
-error: undefined
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined
-error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
-error: undefined
-error: undefined
-error: undefined
+error: undefined {"_message":"carts validation failed","errors":{"products.1.quantity":{"kind":"Number","message":"Cast to Number failed for value \"{}\" (type Object) at path \"quantity\"","name":"CastError","path":"quantity","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"{}\"","value":{},"valueType":"Object"}}}
+error: undefined {"_message":"carts validation failed","errors":{"products.2.quantity":{"kind":"Number","message":"Cast to Number failed for value \"{}\" (type Object) at path \"quantity\"","name":"CastError","path":"quantity","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"{}\"","value":{},"valueType":"Object"}}}
+error: undefined {"_message":"carts validation failed","errors":{"products.2.quantity":{"kind":"Number","message":"Cast to Number failed for value \"{}\" (type Object) at path \"quantity\"","name":"CastError","path":"quantity","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"{}\"","value":{},"valueType":"Object"}}}

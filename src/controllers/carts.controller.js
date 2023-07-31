@@ -72,10 +72,10 @@ class CartController {
                 res.status(400).send({
                     status: 'error',
                     message:
-                    'The product ID is wrong, please check your information',
+                        'The product ID is wrong, please check your information',
                 })
             }
-            
+
             res.status(200).send({
                 status: 'success',
                 payload: cart,
@@ -84,38 +84,110 @@ class CartController {
             logger.error(error)
         }
     }
-    
+
     update = async (req, res) => {
         try {
             const cid = req.params.cid
-            const userId = req.user.user._id
-            console.log('userId', userId)
+            console.log('cid', cid);
             if (!mongoose.Types.ObjectId.isValid(cid)) {
                 return res.status(400).send({
                     status: 'error',
                     message: 'Invalid cart ID format',
-                }) 
+                })
             }
-            console.log(cid)
+
             const pid = req.params.pid
+            console.log('pid', pid);
             if (!mongoose.Types.ObjectId.isValid(pid)) {
                 return res.status(400).send({
                     status: 'error',
                     message: 'Invalid product ID format',
                 })
             }
-            console.log('pid', pid)
 
-            cart = await cartsService.updateQuantityProductInCart(cid, pid, 1)
-            console.log('cart', cart)
+            const userId = req.user.user._id
+            console.log('userId', userId);
+
+            let quantity = req.body.quantity
+            if (!quantity) {
+                quantity = 1
+            }
+            console.log('quantity', quantity);
+
+            const cartToUpdate = await cartsService.getCart({ _id: cid })
+            console.log('cartToUpdate', cartToUpdate);
+            if (!cartToUpdate) {
+                return res.status(401).send({
+                    status: 'error',
+                    message:
+                        'The cart selected doesn´t exist, please check the cart number',
+                })
+            }
+
+            const productToUpdate = await productsService.getProduct({
+                _id: pid,
+            })
+            console.log('productToUpdate', productToUpdate);
+            const productToUpdateOwner = productToUpdate.owner.toString()
+            console.log('productToUpdateOwner', productToUpdateOwner);
+            if (productToUpdateOwner === userId) {
+                return res.status(401).send({
+                    status: 'error',
+                    message: 'You can´t add your own products to the cart',
+                })
+            }
+
+            const cart = await cartsService.updateQuantityProductInCart(
+                cid,
+                pid,
+                quantity
+            )
+            console.log('cart', cart);
+
             res.status(200).send({
                 status: 'success',
                 payload: cart,
             })
         } catch (error) {
             logger.error(error)
+            console.log('error en modificacion de cart', error);
         }
     }
+    // update = async (req, res) => {
+    //     try {
+    //         const cid = req.params.cid
+    //         console.log(cid)
+    //         const userId = req.user.user._id
+    //         console.log('userId', userId)
+    //         if (!mongoose.Types.ObjectId.isValid(cid)) {
+    //             return res.status(400).send({
+    //                 status: 'error',
+    //                 message: 'Invalid cart ID format',
+    //             })
+    //         }
+    //         const pid = req.params.pid
+    //         console.log('pid', pid)
+    //         if (!mongoose.Types.ObjectId.isValid(pid)) {
+    //             return res.status(400).send({
+    //                 status: 'error',
+    //                 message: 'Invalid product ID format',
+    //             })
+    //         }
+    //         const productToUpdate = await productsService.getProduct({ _id: pid })
+    //         console.log('product to update', productToUpdate);
+    //         const productToUpdateOwner = productToUpdate.owner.toString()
+    //         console.log('product to update owner', productToUpdateOwner);
+
+    //         cart = await cartsService.updateQuantityProductInCart(cid, pid, 1)
+    //         console.log('cart', cart)
+    //         res.status(200).send({
+    //             status: 'success',
+    //             payload: cart,
+    //         })
+    //     } catch (error) {
+    //         logger.error(error)
+    //     }
+    // }
 
     deleteAll = async (req, res) => {
         try {
