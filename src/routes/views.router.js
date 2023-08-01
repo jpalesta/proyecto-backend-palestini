@@ -43,7 +43,7 @@ router.get('/products', isAuthenticatedView, viewAllProducts)
 
 router.get('/cart/:cid', viewOneCart)
 
-router.get('/realtimeproducts', passportAutorization('user'), viewProductsRealtime)
+router.get('/realtimeproducts', viewProductsRealtime)
 
 router.get('/chat', isAuthenticatedView, passportAutorization('user'), viewChat)
 

@@ -7,12 +7,23 @@ const cartsRouter = require('./carts.router.js')
 const viewsRouter = require('./views.router.js')
 const sessionsRouter = require('./sessions.router.js')
 
+const swaggerJsDoc = require ('swagger-jsdoc')
+const swaggerUiExpress = require ('swagger-ui-express')
+
+const {swaggerOptions} = require('../utils/swagger.js')
+
 //configuracion de routers
 router.use('/', viewsRouter)
 router.use('/api/products', productsRouter)
 router.use('/api/users', usersRouter)
 router.use('/api/carts', cartsRouter)
 router.use('/api/session', sessionsRouter)
+
+//configuracion swagger
+const specs = swaggerJsDoc(swaggerOptions)
+
+//Pregunta, le puedo poner un middleware de autorización solo a admin?
+router.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 //pregunta - esto está bien puesto acá?
 router.get('*', async(req, res) =>{

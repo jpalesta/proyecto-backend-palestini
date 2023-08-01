@@ -9,3 +9,38 @@ error: undefined
 error: undefined {"_message":"carts validation failed","errors":{"products.1.quantity":{"kind":"Number","message":"Cast to Number failed for value \"{}\" (type Object) at path \"quantity\"","name":"CastError","path":"quantity","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"{}\"","value":{},"valueType":"Object"}}}
 error: undefined {"_message":"carts validation failed","errors":{"products.2.quantity":{"kind":"Number","message":"Cast to Number failed for value \"{}\" (type Object) at path \"quantity\"","name":"CastError","path":"quantity","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"{}\"","value":{},"valueType":"Object"}}}
 error: undefined {"_message":"carts validation failed","errors":{"products.2.quantity":{"kind":"Number","message":"Cast to Number failed for value \"{}\" (type Object) at path \"quantity\"","name":"CastError","path":"quantity","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"{}\"","value":{},"valueType":"Object"}}}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: log error mid
+error: undefined {"body":"{\n  \"product\": \"ObjectId('64c6fd8e99eed300ab6d43c2')\",\n  \"quantity\": 123\n}\n{\n  \"product\": \"ObjectId('64c6fd8e99eed300ab6d43c2')\",\n  \"quantity\": 123\n}","expose":true,"status":400,"statusCode":400,"type":"entity.parse.failed"}
+error: undefined
+error: undefined
+error: undefined
+error: {
+  _id: new ObjectId("64c9713a5a8d999d15ce0976"),
+  products: [
+    {
+      product: new ObjectId("645fdc7b30fab603d13ba3f6"),
+      quantity: 2,
+      _id: new ObjectId("64c9713a5a8d999d15ce0977")
+    },
+    {
+      product: new ObjectId("64627f45f01a831a08937d2f"),
+      quantity: 1000,
+      _id: new ObjectId("64c9713a5a8d999d15ce0978")
+    },
+    {
+      product: new ObjectId("64627faaf01a831a08937d43"),
+      quantity: 30,
+      _id: new ObjectId("64c9713a5a8d999d15ce0979")
+    },
+    {
+      product: new ObjectId("649b5c8ec0f35ad725e2cef2"),
+      quantity: 10,
+      _id: new ObjectId("64c9713a5a8d999d15ce097a")
+    }
+  ],
+  __v: 0
+}
+error: undefined
+error: undefined
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}

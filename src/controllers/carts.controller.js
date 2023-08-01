@@ -198,7 +198,7 @@ class CartController {
                     message: 'Invalid cart ID format',
                 })
             }
-            const cart = await cartsService.deleteCartById(cid)
+            const cart = await cartsService.deleteOne(cid)
             logger.error(cart)
             if (cart === undefined) {
                 return res.status(404).send({
@@ -213,6 +213,7 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
+            console.log('error en deleteAll', error);
         }
     }
 

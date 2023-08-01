@@ -5,8 +5,6 @@ const { logger } = require('../utils/logger');
 class ViewsController {
 
     loginRedirect =  (req, res) => {
-        // req.logger.warning('alerta')
-        // res.send({message: 'prueba de logger'})
         res.redirect('/login')
     }
 

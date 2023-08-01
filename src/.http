@@ -57,7 +57,7 @@ Content-Type: application/json
 "status": true
 }
 ### PUT Modifica un producto por body chequeado OK (falta validación de body)
-put http://localhost:8080/api/products/64c7976122e8c64cac3f504b
+put http://localhost:8080/api/products/64c6fd8e99eed300ab6d43c2
 Content-Type: application/json
 
 {

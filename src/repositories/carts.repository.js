@@ -25,7 +25,7 @@ class CartsRepository {
     }
 
     deleteOne(pid){
-        return this.dao.deleteCart(pid)
+        return this.dao.deleteCartById(pid)
 
     }
 
