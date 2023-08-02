@@ -11,9 +11,13 @@ const swaggerOptions = {
     },
     // apis: [path.resolve(__dirname, `../../docs/**/*.yaml`)],
     //pregunta, cómo consigo tener la ruta relativa desde cualquier lugar
-    apis: [path.resolve('C:/Users/josep/proyecto-backend-palestini/src/docs/**/*.yaml')],
+    apis: [
+        path.resolve(
+            'C:/Users/josep/proyecto-backend-palestini/src/docs/**/*.yaml'
+        ),
+    ],
 }
 
 module.exports = {
-    swaggerOptions
+    swaggerOptions,
 }

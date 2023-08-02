@@ -1,10 +1,9 @@
 //Socket
-const io = require("socket.io-client")
+const io = require('socket.io-client')
 
 const productsModel = require('./models/product.model')
 
 class ProductsDaoMongo {
-
     constructor() {
         this.model = productsModel
     }
@@ -19,14 +18,12 @@ class ProductsDaoMongo {
 
     getProductsPaginate = async (page, limit, sortOptions, query) => {
         try {
-            return await this.model.paginate(
-                query
-                , {
-                    limit: limit,
-                    page: page,
-                    lean: true,
-                    sort: sortOptions
-                })
+            return await this.model.paginate(query, {
+                limit: limit,
+                page: page,
+                lean: true,
+                sort: sortOptions,
+            })
         } catch (error) {
             return new Error(error)
         }
@@ -65,7 +62,7 @@ class ProductsDaoMongo {
     }
 
     emitProductsUpdate = async function () {
-        const socket = io("ws://localhost:8080")
+        const socket = io('ws://localhost:8080')
         const products = await this.model.find()
         socket.emit('productsUpdated', products.docs)
     }

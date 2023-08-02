@@ -1,7 +1,6 @@
 const ticketsModel = require('./models/ticket.model')
 
 class TicketsDaoMongo {
-
     constructor() {
         this.model = ticketsModel
     }
@@ -13,7 +12,6 @@ class TicketsDaoMongo {
             return new Error(error)
         }
     }
-
 }
 
 module.exports = TicketsDaoMongo

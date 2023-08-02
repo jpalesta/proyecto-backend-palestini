@@ -1,5 +1,5 @@
-const {Router} = require ('express')
-const router = Router ()
+const { Router } = require('express')
+const router = Router()
 
 const productsRouter = require('./products.router.js')
 const usersRouter = require('./users.router.js')
@@ -7,10 +7,10 @@ const cartsRouter = require('./carts.router.js')
 const viewsRouter = require('./views.router.js')
 const sessionsRouter = require('./sessions.router.js')
 
-const swaggerJsDoc = require ('swagger-jsdoc')
-const swaggerUiExpress = require ('swagger-ui-express')
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUiExpress = require('swagger-ui-express')
 
-const {swaggerOptions} = require('../utils/swagger.js')
+const { swaggerOptions } = require('../utils/swagger.js')
 
 //configuracion de routers
 router.use('/', viewsRouter)
@@ -26,7 +26,7 @@ const specs = swaggerJsDoc(swaggerOptions)
 router.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 //pregunta - esto está bien puesto acá?
-router.get('*', async(req, res) =>{
+router.get('*', async (req, res) => {
     res.status(404).send('Cannot get the specified route')
 })
 

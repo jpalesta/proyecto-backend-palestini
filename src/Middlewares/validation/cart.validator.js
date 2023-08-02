@@ -8,14 +8,13 @@ const cartsSchema = {
             items: {
                 type: 'object',
                 properties: {
-                    product: { type: 'string', minLength: 24 }, // Utilizar 'string' en lugar de 'ObjectId' OJO 
-                    quantity: { type: 'number' }
+                    product: { type: 'string', minLength: 24 }, // Utilizar 'string' en lugar de 'ObjectId' OJO
+                    quantity: { type: 'number' },
                 },
-
-            }
-        }
+            },
+        },
     },
-    required: ['products']
+    required: ['products'],
 }
 
 const ajv = new Ajv()

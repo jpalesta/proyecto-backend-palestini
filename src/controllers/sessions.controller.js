@@ -1,6 +1,5 @@
 require('dotenv').config()
-const bcrypt = require('bcrypt');
-
+const bcrypt = require('bcrypt')
 
 const { generateToken } = require('../utils/jwt')
 const { createHash } = require('../utils/bCryptHash')
@@ -9,12 +8,13 @@ const UserDto = require('../dto/user.dto')
 const { sendMail } = require('../utils/sendMail')
 const { usersService } = require('../service')
 const RestorePassLinkDaoMongo = require('../dao/db/restorePassLink.mongo')
-const { BulkCountryUpdateInstance } = require('twilio/lib/rest/voice/v1/dialingPermissions/bulkCountryUpdate')
+const {
+    BulkCountryUpdateInstance,
+} = require('twilio/lib/rest/voice/v1/dialingPermissions/bulkCountryUpdate')
 
-const restorePassLink = new RestorePassLinkDaoMongo
+const restorePassLink = new RestorePassLinkDaoMongo()
 
 class SessionController {
-
     register = async (req, res) => {
         try {
             logger.info('User register successfull')
@@ -25,7 +25,6 @@ class SessionController {
     }
 
     login = (req, res) => {
-
         try {
             const { user } = req
             if (!user) {
@@ -40,7 +39,6 @@ class SessionController {
                     httpOnly: true,
                 })
                 res.redirect('/products')
-
             }
         } catch (error) {
             return logger.error(error)
@@ -54,7 +52,7 @@ class SessionController {
         console.log(userDto)
         res.send({
             message: 'Usuario actual',
-            userDto
+            userDto,
         })
     }
 
@@ -74,18 +72,20 @@ class SessionController {
         if (!email) {
             res.status(400).send({
                 status: 'error',
-                message: 'Please complete your email adress'
+                message: 'Please complete your email adress',
             })
         }
         const userDB = await usersService.getOne({ email })
         if (!userDB) {
             res.status(404).send({
                 status: 'error',
-                message: 'Username does not exist, please check your email or register'
+                message:
+                    'Username does not exist, please check your email or register',
             })
             return
         } else {
-            const newRestorePassLink = await restorePassLink.createRestorePassLink(userDB.email)
+            const newRestorePassLink =
+                await restorePassLink.createRestorePassLink(userDB.email)
 
             const link = newRestorePassLink._id.toString()
 
@@ -110,26 +110,28 @@ class SessionController {
             if (!password) {
                 res.status(400).send({
                     status: 'error',
-                    message: 'Please complete the new password'
+                    message: 'Please complete the new password',
                 })
             }
             const validateLink = await restorePassLink.getOne(link)
             if (!validateLink) {
                 res.redirect('/restorepass')
-                logger.error('Invalid restore link or link has expired.',)
+                logger.error('Invalid restore link or link has expired.')
                 return
             }
             const email = validateLink.email
             const userDB = await usersService.getOne({ email })
             bcrypt.compare(password, userDB.password, async (error, result) => {
                 if (error) {
-                    logger.error('An error occurred during the password comparison')
+                    logger.error(
+                        'An error occurred during the password comparison'
+                    )
                     return
                 }
                 if (result) {
                     logger.info('You can´t use the same password')
                     let testUser = {
-                        link: link
+                        link: link,
                     }
                     res.render('restorePassLink', testUser)
                 } else {
@@ -146,4 +148,4 @@ class SessionController {
     }
 }
 
-module.exports = new SessionController
+module.exports = new SessionController()

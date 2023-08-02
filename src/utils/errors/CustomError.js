@@ -1,5 +1,5 @@
 class CustomError {
-    static createError({name = 'Error', cause, message, code = 1 }) {
+    static createError({ name = 'Error', cause, message, code = 1 }) {
         const error = new Error(message)
         error.name = name
         error.code = code
@@ -9,5 +9,5 @@ class CustomError {
 }
 
 module.exports = {
-    CustomError
+    CustomError,
 }

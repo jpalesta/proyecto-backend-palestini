@@ -5,21 +5,21 @@ const {
     isAuthenticatedView,
 } = require('../Middlewares/authentication.middlewares')
 
-const { 
-    passportAutorization 
-} = require('../Middlewares/passportAutorization')
+const { passportAutorization } = require('../Middlewares/passportAutorization')
 
-const { loginRedirect,
-            viewAllProducts,
-            viewOneCart,
-            viewProductsRealtime,
-            viewChat, viewFormCookies,
-            viewRegister,
-            viewLogin,
-            viewRestorePass,
-            viewRestorePassLink,
-            viewMockingProducts 
-        } = require('../controllers/views.controller')
+const {
+    loginRedirect,
+    viewAllProducts,
+    viewOneCart,
+    viewProductsRealtime,
+    viewChat,
+    viewFormCookies,
+    viewRegister,
+    viewLogin,
+    viewRestorePass,
+    viewRestorePassLink,
+    viewMockingProducts,
+} = require('../controllers/views.controller')
 
 //ruta de prueba de logs
 router.get('/loggertest', (req, res) => {
@@ -31,13 +31,12 @@ router.get('/loggertest', (req, res) => {
     req.logger.debug('Este es un mensaje de nivel debug')
     res.send({
         status: 200,
-        message: 'Prueba de loggers'
+        message: 'Prueba de loggers',
     })
-});
-
+})
 
 //te redirecciona automáticamente al login
-router.get('/', loginRedirect);
+router.get('/', loginRedirect)
 
 router.get('/products', isAuthenticatedView, viewAllProducts)
 

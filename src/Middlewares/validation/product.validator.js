@@ -12,7 +12,15 @@ const productSchema = {
         category: { type: 'string' },
         status: { type: 'boolean' },
     },
-    required: ['title', 'description', 'price', 'code', 'stock', 'category', 'status']
+    required: [
+        'title',
+        'description',
+        'price',
+        'code',
+        'stock',
+        'category',
+        'status',
+    ],
 }
 
 const ajv = new Ajv()

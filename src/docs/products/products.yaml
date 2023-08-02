@@ -1,231 +1,224 @@
 paths:
-  /api/products/:
-    get:
-      summary: Obtiene todos los productos // LAS PRUEBAS REQUIEREN LOGIN COMO ADMIN, USER O PREMIUM
-      tags:
-        - Products
-      responses:
-        '200':
-          description: Los productos fueron obtenidos correctamente
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-        '500':
-          description: Error interno del server, no se pudieron recuperar los productos, puede deberse a un error en la conexión con la BD
-    post:
-      summary: Crea un nuevo producto con datos informados por bodie (el código debe ser único) // LAS PRUEBAS REQUIEREN LOGIN COMO ADMIN O PREMIUM
-      tags:
-        - Products
-      requestBody:
-        required: true
-        content: 
-          application/json:
-            schema: 
-              $ref: '#components/requestBodies/newProduct'
-      responses: 
-        '201':
-          description: El producto fue creado correctamente
+    /api/products/:
+        get:
+            summary: Obtiene todos los productos // LAS PRUEBAS REQUIEREN LOGIN COMO ADMIN, USER O PREMIUM
+            tags:
+                - Products
+            responses:
+                '200':
+                    description: Los productos fueron obtenidos correctamente
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Product'
+                '500':
+                    description: Error interno del server, no se pudieron recuperar los productos, puede deberse a un error en la conexión con la BD
+        post:
+            summary: Crea un nuevo producto con datos informados por bodie (el código debe ser único) // LAS PRUEBAS REQUIEREN LOGIN COMO ADMIN O PREMIUM
+            tags:
+                - Products
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#components/requestBodies/newProduct'
+            responses:
+                '201':
+                    description: El producto fue creado correctamente
 
-  /api/products/{pid}:
-    get:
-      summary: Obtiene un producto filtrando por ID
-      tags: 
-        - Products
-      parameters:
-      - name: pid
-        in: path
-        required: true
-        description: ID del producto solicitado
-        schema:
-          $type: String
-      responses:
-        '200':
-          description: El producto fue obtenido correctamente
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: '#/components/schemas/Product'
-        '500':
-          description: Error interno del server, no se pudo recuperar el producto, puede deberse a un error en la conexión con la BD o a un error en el ID suministrado
-    put:
-      summary: Actualiza un parámetro de un producto, por ejemplo stock // LAS PRUEBAS REQUIEREN LOGIN COMO ADMIN O PREMIUM
-      tags:
-        - Products
-      parameters:
-      - name: pid
-        in: path
-        required: true
-        description: ID del producto solicitado
-      requestBody:
-        required: true
-        content: 
-          application/json:
-            schema: 
-              $ref: '#components/requestBodies/updateProduct'
-      responses:
-        '200':
-          description: El producto fue modificado correctamente
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: '#/components/schemas/Product'
-        '500':
-          description: Error interno del server, no se pudo recuperar el producto, puede deberse a un error en la conexión con la BD o a un error en el ID suministrado
-    delete:
-      summary: Elimina un producto filtrando por ID // LAS PRUEBAS REQUIEREN LOGIN COMO ADMIN O PREMIUM
-      tags: 
-        - Products
-      parameters:
-      - name: pid
-        in: path
-        required: true
-        description: ID del producto solicitado
-        schema:
-          $type: String
-      responses:
-        '200':
-          description: El producto fue eliminado correctamente
-        '500':
-          description: Error interno del server, no se pudo eliminar el producto, puede deberse a un error en la conexión con la BD o a un error en el ID suministrado
-  
-  
+    /api/products/{pid}:
+        get:
+            summary: Obtiene un producto filtrando por ID
+            tags:
+                - Products
+            parameters:
+                - name: pid
+                  in: path
+                  required: true
+                  description: ID del producto solicitado
+                  schema:
+                      $type: String
+            responses:
+                '200':
+                    description: El producto fue obtenido correctamente
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    $ref: '#/components/schemas/Product'
+                '500':
+                    description: Error interno del server, no se pudo recuperar el producto, puede deberse a un error en la conexión con la BD o a un error en el ID suministrado
+        put:
+            summary: Actualiza un parámetro de un producto, por ejemplo stock // LAS PRUEBAS REQUIEREN LOGIN COMO ADMIN O PREMIUM
+            tags:
+                - Products
+            parameters:
+                - name: pid
+                  in: path
+                  required: true
+                  description: ID del producto solicitado
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#components/requestBodies/updateProduct'
+            responses:
+                '200':
+                    description: El producto fue modificado correctamente
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    $ref: '#/components/schemas/Product'
+                '500':
+                    description: Error interno del server, no se pudo recuperar el producto, puede deberse a un error en la conexión con la BD o a un error en el ID suministrado
+        delete:
+            summary: Elimina un producto filtrando por ID // LAS PRUEBAS REQUIEREN LOGIN COMO ADMIN O PREMIUM
+            tags:
+                - Products
+            parameters:
+                - name: pid
+                  in: path
+                  required: true
+                  description: ID del producto solicitado
+                  schema:
+                      $type: String
+            responses:
+                '200':
+                    description: El producto fue eliminado correctamente
+                '500':
+                    description: Error interno del server, no se pudo eliminar el producto, puede deberse a un error en la conexión con la BD o a un error en el ID suministrado
 
 components:
-  schemas:
-    Product:
-      type: object
-      required:
-        - title
-        - description
-        - price
-        - code
-        - stock
-        - category
-        - status
-      properties:
-        title:
-          type: string
-          description: Título del producto
-        description:
-          type: string
-          description: Descripción del producto
-        price:
-          type: number
-          format: double
-          description: Precio del producto
-        thumbnail:
-          type: string
-          description: URL de la imagen del producto
-        code:
-          type: string
-          description: Código alfanumérico ATENCION este campo es único 
-        stock:
-          type: integer
-          description: Cantidad de stock disponible del producto
-        category:
-          type: string
-          description: Categoría a la que pertenece el producto
-        status:
-          type: boolean
-          description: Estado del producto (activo o inactivo)
-        owner:
-          type: string
-          format: uuid
-          description: ID del propietario del producto (referencia al esquema User) En caso de estar vacío se coloca el ID del admin
-      example:
-        title: "Producto de ejemplo"
-        description: "Este es un producto de ejemplo"
-        price: 10
-        thumbnail: "https://www.bing.com/images/search?view=detailV2&ccid=AuJQq3%2fR&id=0C402C9B79747A067B8C764E8D3F139B77198955&thid=OIP.AuJQq3_Rl0ZVITV6LlrFmAHaJU&mediaurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.02e250ab7fd197465521357a2e5ac598%3frik%3dVYkZd5sTP41Odg%26riu%3dhttp%253a%252f%252f1.bp.blogspot.com%252f-OLfvfoX7MVY%252fV66H_1nhuRI%252fAAAAAAAAD44%252fOimbvQ5ML-Ibt5U9F82gh-AoxCixjDLLACK4B%252fs1600%252foutput_q5kzmg.gif%26ehk%3dRdxDVN49oQAA6EehSpQxkBXKhqMN1gIBdCNB6%252flU6do%253d%26risl%3d%26pid%3dImgRaw%26r%3d0&exph=1418&expw=1126&q=imagen+de+pregunta&simid=607991589547560145&FORM=IRPRST&ck=1252504A1ABDA04C53717738A1FAB249&selectedIndex=9"
-        code: "A01"
-        stock: 100
-        category: "Prueba"
-        status: true
-        owner: "64627faaf01a831a08937d43"
+    schemas:
+        Product:
+            type: object
+            required:
+                - title
+                - description
+                - price
+                - code
+                - stock
+                - category
+                - status
+            properties:
+                title:
+                    type: string
+                    description: Título del producto
+                description:
+                    type: string
+                    description: Descripción del producto
+                price:
+                    type: number
+                    format: double
+                    description: Precio del producto
+                thumbnail:
+                    type: string
+                    description: URL de la imagen del producto
+                code:
+                    type: string
+                    description: Código alfanumérico ATENCION este campo es único
+                stock:
+                    type: integer
+                    description: Cantidad de stock disponible del producto
+                category:
+                    type: string
+                    description: Categoría a la que pertenece el producto
+                status:
+                    type: boolean
+                    description: Estado del producto (activo o inactivo)
+                owner:
+                    type: string
+                    format: uuid
+                    description: ID del propietario del producto (referencia al esquema User) En caso de estar vacío se coloca el ID del admin
+            example:
+                title: 'Producto de ejemplo'
+                description: 'Este es un producto de ejemplo'
+                price: 10
+                thumbnail: 'https://www.bing.com/images/search?view=detailV2&ccid=AuJQq3%2fR&id=0C402C9B79747A067B8C764E8D3F139B77198955&thid=OIP.AuJQq3_Rl0ZVITV6LlrFmAHaJU&mediaurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.02e250ab7fd197465521357a2e5ac598%3frik%3dVYkZd5sTP41Odg%26riu%3dhttp%253a%252f%252f1.bp.blogspot.com%252f-OLfvfoX7MVY%252fV66H_1nhuRI%252fAAAAAAAAD44%252fOimbvQ5ML-Ibt5U9F82gh-AoxCixjDLLACK4B%252fs1600%252foutput_q5kzmg.gif%26ehk%3dRdxDVN49oQAA6EehSpQxkBXKhqMN1gIBdCNB6%252flU6do%253d%26risl%3d%26pid%3dImgRaw%26r%3d0&exph=1418&expw=1126&q=imagen+de+pregunta&simid=607991589547560145&FORM=IRPRST&ck=1252504A1ABDA04C53717738A1FAB249&selectedIndex=9'
+                code: 'A01'
+                stock: 100
+                category: 'Prueba'
+                status: true
+                owner: '64627faaf01a831a08937d43'
 
-  requestBodies:
-    newProduct:
-      type: object
-      required:
-        - title
-        - description
-        - price
-        - code
-        - stock
-        - category
-        - status
-      properties:
-        title:
-          type: string
-          description: Título del producto
-        description:
-          type: string
-          description: Descripción del producto
-        price:
-          type: number
-          format: double
-          description: Precio del producto
-        thumbnail:
-          type: string
-          description: URL de la imagen del producto
-        code:
-          type: string
-          description: Código alfanumérico ATENCION este campo es único 
-        stock:
-          type: integer
-          description: Cantidad de stock disponible del producto
-        category:
-          type: string
-          description: Categoría a la que pertenece el producto
-        status:
-          type: boolean
-          description: Estado del producto (activo o inactivo)
-        owner:
-          type: string
-          format: uuid
-          description: ID del propietario del producto (referencia al esquema User) En caso de estar vacío se coloca el ID del admin
-      example:
-        title: "Título Producto Modelo 6"
-        description: "Descripción Producto Modelo 6"
-        price: 10000
-        thumbnail: ""
-        code: "A06"
-        stock: 300
-        category: "Categoría Modelo"
-        status: true
-    updateProduct:
-      type: object
-      properties:
-        price:
-          type: number
-          format: double
-          description: Precio del producto
-        thumbnail:
-          type: string
-          description: URL de la imagen del producto
-        stock:
-          type: integer
-          description: Cantidad de stock disponible del producto
-        category:
-          type: string
-          description: Categoría a la que pertenece el producto
-        status:
-          type: boolean
-          description: Estado del producto (activo o inactivo)
-      example:
-        price: 10000
-        stock: 300
-        category: "Categoría Modificada"
-        status: false
-      
-
-
-
-
+    requestBodies:
+        newProduct:
+            type: object
+            required:
+                - title
+                - description
+                - price
+                - code
+                - stock
+                - category
+                - status
+            properties:
+                title:
+                    type: string
+                    description: Título del producto
+                description:
+                    type: string
+                    description: Descripción del producto
+                price:
+                    type: number
+                    format: double
+                    description: Precio del producto
+                thumbnail:
+                    type: string
+                    description: URL de la imagen del producto
+                code:
+                    type: string
+                    description: Código alfanumérico ATENCION este campo es único
+                stock:
+                    type: integer
+                    description: Cantidad de stock disponible del producto
+                category:
+                    type: string
+                    description: Categoría a la que pertenece el producto
+                status:
+                    type: boolean
+                    description: Estado del producto (activo o inactivo)
+                owner:
+                    type: string
+                    format: uuid
+                    description: ID del propietario del producto (referencia al esquema User) En caso de estar vacío se coloca el ID del admin
+            example:
+                title: 'Título Producto Modelo 6'
+                description: 'Descripción Producto Modelo 6'
+                price: 10000
+                thumbnail: ''
+                code: 'A06'
+                stock: 300
+                category: 'Categoría Modelo'
+                status: true
+        updateProduct:
+            type: object
+            properties:
+                price:
+                    type: number
+                    format: double
+                    description: Precio del producto
+                thumbnail:
+                    type: string
+                    description: URL de la imagen del producto
+                stock:
+                    type: integer
+                    description: Cantidad de stock disponible del producto
+                category:
+                    type: string
+                    description: Categoría a la que pertenece el producto
+                status:
+                    type: boolean
+                    description: Estado del producto (activo o inactivo)
+            example:
+                price: 10000
+                stock: 300
+                category: 'Categoría Modificada'
+                status: false

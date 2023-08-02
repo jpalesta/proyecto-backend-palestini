@@ -1,42 +1,39 @@
 class CartsRepository {
-    
-    constructor(dao){
+    constructor(dao) {
         this.dao = dao
     }
 
-    getCarts(){
+    getCarts() {
         return this.dao.getCarts()
     }
 
-    getCart(pid){
+    getCart(pid) {
         return this.dao.getCartById(pid)
     }
 
-    getCartPopulate(cid){
+    getCartPopulate(cid) {
         return this.dao.getCartByIdPopulate(cid)
     }
 
-    createCart(newProduct){
+    createCart(newProduct) {
         return this.dao.createCart(newProduct)
     }
 
-    updateCart(pid, update){
+    updateCart(pid, update) {
         return this.dao.updateCart(pid, update)
     }
 
-    deleteOne(pid){
+    deleteOne(pid) {
         return this.dao.deleteCartById(pid)
-
     }
 
     deleteProduct(cid, pid) {
         return this.dao.deleteProductInCart(cid, pid)
     }
 
-    updateQuantityProductInCart (cid, pid, quantity) {
+    updateQuantityProductInCart(cid, pid, quantity) {
         return this.dao.updateQuantityProductInCart(cid, pid, quantity)
     }
-
 }
 
 module.exports = CartsRepository

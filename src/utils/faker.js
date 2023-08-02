@@ -14,7 +14,7 @@ exports.generateProducts = (quantity) => {
             code: faker.string.alphanumeric(10),
             stock: faker.number.int(1000),
             category: faker.commerce.productAdjective(),
-            status: 'active'
+            status: 'active',
         }
         mockingProducts.push(product)
     }

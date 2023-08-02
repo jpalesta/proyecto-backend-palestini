@@ -11,11 +11,9 @@ class UsersRepository {
         return this.dao.getUser(uid)
     }
 
-
     create(newUser) {
         return this.dao.createUser(newUser)
     }
-
 }
 
 module.exports = UsersRepository

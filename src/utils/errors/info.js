@@ -1,4 +1,3 @@
-
 exports.generateUserInfo = (user) => {
     return `One or more properties were incomplete or not valid.
     List of propoerties:

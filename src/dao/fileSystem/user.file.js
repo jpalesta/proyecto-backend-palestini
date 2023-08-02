@@ -2,7 +2,6 @@ const { promises } = require('fs')
 const fs = promises
 
 class UsersDaoFile {
-
     constructor() {
         this.users = []
         this.path = './assets/users.json'
@@ -29,10 +28,9 @@ class UsersDaoFile {
     }
 
     getUser = (uid) => {
-        
         this.read()
 
-        let user = this.users.find(prod => prod.id === pid)
+        let user = this.users.find((prod) => prod.id === pid)
         if (!user) {
             throw 'Product not found'
         } else {
@@ -41,10 +39,9 @@ class UsersDaoFile {
     }
 
     createUser = async (newUser) => {
-
         await this.read()
 
-        let user = this.user.find(user => user.code === newUser.code)
+        let user = this.user.find((user) => user.code === newUser.code)
 
         if (user) {
             throw 'This product already exist'
@@ -54,15 +51,12 @@ class UsersDaoFile {
             this.users.push({ id: 1, ...newUser })
         } else {
             this.users.push({
-                id: this.users[this.users.length - 1].id + 1, ...newUser
+                id: this.users[this.users.length - 1].id + 1,
+                ...newUser,
             })
         }
         await this.write()
     }
-    
 }
 
-
-
-
-module.exports = UsersDaoFile;
+module.exports = UsersDaoFile

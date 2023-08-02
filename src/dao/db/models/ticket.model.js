@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const {Schema, model} = mongoose
+const { Schema, model } = mongoose
 
 const ticketsCollection = 'tickets'
 
@@ -8,23 +8,22 @@ const ticketsSchema = new mongoose.Schema({
     code: {
         type: String,
         unique: true,
-        required: true
+        required: true,
     },
     purchase_datetime: {
         type: Date,
         default: Date.now,
-        required: true
+        required: true,
     },
     amount: {
         type: Number,
-        required: true
+        required: true,
     },
     purchaser: {
         type: String,
-        required: true
-    }
-});
-
+        required: true,
+    },
+})
 
 const ticketsModel = model(ticketsCollection, ticketsSchema)
 

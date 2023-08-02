@@ -8,11 +8,14 @@ require('dotenv').config()
 const routerApp = require('./routes')
 const uploader = require('./utils/multer.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
-const { initPassportGithub, initPassportLocal, initPassportJWT } = require('./config/passport.config')
+const {
+    initPassportGithub,
+    initPassportLocal,
+    initPassportJWT,
+} = require('./config/passport.config')
 const { errorHandler } = require('./Middlewares/error.midlewares')
 const { addlogger } = require('./Middlewares/logger.middleware')
 const { logger } = require('./utils/logger')
-
 
 //configuracion express + socketserver
 const app = express()
@@ -23,15 +26,13 @@ app.use(addlogger)
 
 //configuración de socke.io
 const server = app.listen(port, () => {
-    logger.info(`Listening on port ${port}`);
-});
-const io = new Server(server);
-
+    logger.info(`Listening on port ${port}`)
+})
+const io = new Server(server)
 
 //configuracion para que express reconozca formatos
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
 
 //Inicialización cookie-parser
 app.use(cookieParser())
@@ -45,7 +46,6 @@ initPassportLocal()
 
 //init passport JWT
 initPassportJWT()
-
 
 //importacion de rutas de index routes
 app.use(routerApp)
@@ -86,4 +86,3 @@ io.on('connection', (socket) => {
         logger.info('logs', logs)
     })
 })
-

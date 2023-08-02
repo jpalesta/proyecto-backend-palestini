@@ -2,7 +2,6 @@ const { promises } = require('fs')
 const fs = promises
 
 class TicketsDaoFile {
-
     constructor() {
         this.tickets = []
         this.path = './assets/tickets.json'
@@ -24,10 +23,10 @@ class TicketsDaoFile {
     }
 
     createTicket = async (newTicket) => {
-
         await this.read()
 
-        if (!newTicket.code ||
+        if (
+            !newTicket.code ||
             !newTicket.purchase_datetime ||
             !newTicket.amount ||
             !newTicket.purchaser
@@ -35,7 +34,9 @@ class TicketsDaoFile {
             throw 'all fields must be completed'
         }
 
-        let ticket = this.tickets.find(ticket => ticket.code === newTicket.code)
+        let ticket = this.tickets.find(
+            (ticket) => ticket.code === newTicket.code
+        )
 
         if (ticket) {
             throw 'This ticket already exist'
@@ -45,12 +46,12 @@ class TicketsDaoFile {
             this.tickets.push({ id: 1, ...newTicket })
         } else {
             this.tickets.push({
-                id: this.tickets[this.tickets.length - 1].id + 1, ...newTicket
+                id: this.tickets[this.tickets.length - 1].id + 1,
+                ...newTicket,
             })
         }
         await this.write()
     }
-
 }
 
-module.exports = TicketsDaoFile;
+module.exports = TicketsDaoFile

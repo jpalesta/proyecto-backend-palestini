@@ -88,7 +88,7 @@ class CartController {
     update = async (req, res) => {
         try {
             const cid = req.params.cid
-            console.log('cid', cid);
+            console.log('cid', cid)
             if (!mongoose.Types.ObjectId.isValid(cid)) {
                 return res.status(400).send({
                     status: 'error',
@@ -97,7 +97,7 @@ class CartController {
             }
 
             const pid = req.params.pid
-            console.log('pid', pid);
+            console.log('pid', pid)
             if (!mongoose.Types.ObjectId.isValid(pid)) {
                 return res.status(400).send({
                     status: 'error',
@@ -106,16 +106,16 @@ class CartController {
             }
 
             const userId = req.user.user._id
-            console.log('userId', userId);
+            console.log('userId', userId)
 
             let quantity = req.body.quantity
             if (!quantity) {
                 quantity = 1
             }
-            console.log('quantity', quantity);
+            console.log('quantity', quantity)
 
             const cartToUpdate = await cartsService.getCart({ _id: cid })
-            console.log('cartToUpdate', cartToUpdate);
+            console.log('cartToUpdate', cartToUpdate)
             if (!cartToUpdate) {
                 return res.status(401).send({
                     status: 'error',
@@ -127,9 +127,9 @@ class CartController {
             const productToUpdate = await productsService.getProduct({
                 _id: pid,
             })
-            console.log('productToUpdate', productToUpdate);
+            console.log('productToUpdate', productToUpdate)
             const productToUpdateOwner = productToUpdate.owner.toString()
-            console.log('productToUpdateOwner', productToUpdateOwner);
+            console.log('productToUpdateOwner', productToUpdateOwner)
             if (productToUpdateOwner === userId) {
                 return res.status(401).send({
                     status: 'error',
@@ -142,7 +142,7 @@ class CartController {
                 pid,
                 quantity
             )
-            console.log('cart', cart);
+            console.log('cart', cart)
 
             res.status(200).send({
                 status: 'success',
@@ -150,44 +150,9 @@ class CartController {
             })
         } catch (error) {
             logger.error(error)
-            console.log('error en modificacion de cart', error);
+            console.log('error en modificacion de cart', error)
         }
     }
-    // update = async (req, res) => {
-    //     try {
-    //         const cid = req.params.cid
-    //         console.log(cid)
-    //         const userId = req.user.user._id
-    //         console.log('userId', userId)
-    //         if (!mongoose.Types.ObjectId.isValid(cid)) {
-    //             return res.status(400).send({
-    //                 status: 'error',
-    //                 message: 'Invalid cart ID format',
-    //             })
-    //         }
-    //         const pid = req.params.pid
-    //         console.log('pid', pid)
-    //         if (!mongoose.Types.ObjectId.isValid(pid)) {
-    //             return res.status(400).send({
-    //                 status: 'error',
-    //                 message: 'Invalid product ID format',
-    //             })
-    //         }
-    //         const productToUpdate = await productsService.getProduct({ _id: pid })
-    //         console.log('product to update', productToUpdate);
-    //         const productToUpdateOwner = productToUpdate.owner.toString()
-    //         console.log('product to update owner', productToUpdateOwner);
-
-    //         cart = await cartsService.updateQuantityProductInCart(cid, pid, 1)
-    //         console.log('cart', cart)
-    //         res.status(200).send({
-    //             status: 'success',
-    //             payload: cart,
-    //         })
-    //     } catch (error) {
-    //         logger.error(error)
-    //     }
-    // }
 
     deleteAll = async (req, res) => {
         try {
@@ -213,7 +178,7 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
-            console.log('error en deleteAll', error);
+            console.log('error en deleteAll', error)
         }
     }
 
@@ -233,7 +198,7 @@ class CartController {
                     message: 'Invalid product ID format',
                 })
             }
-            const cartById = await cartsService.getCartById({ _id: cid })
+            const cartById = await cartsService.getCart({ _id: cid })
             if (!cartById) {
                 return res.status(404).send({
                     status: 'error',
@@ -260,6 +225,7 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
+            console.log('error en deleteProduct', error);
         }
     }
 
@@ -448,6 +414,7 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
+            console.log('error en purchase', error);
         }
     }
 }

@@ -1,24 +1,22 @@
-const {ProductsDao} = require('../dao/factory')
-const ProductRepository = require ('../repositories/products.repository')
-const productsService = new ProductRepository( new ProductsDao())
+const { ProductsDao } = require('../dao/factory')
+const ProductRepository = require('../repositories/products.repository')
+const productsService = new ProductRepository(new ProductsDao())
 
-const {UsersDao}    = require('../dao/factory')
+const { UsersDao } = require('../dao/factory')
 const UsersRepository = require('../repositories/user.repository')
-const usersService = new UsersRepository(new UsersDao)
+const usersService = new UsersRepository(new UsersDao())
 
-const {CartsDao} = require('../dao/factory')
-const CartRepository = require ('../repositories/carts.repository')
-const cartsService = new CartRepository( new CartsDao())
+const { CartsDao } = require('../dao/factory')
+const CartRepository = require('../repositories/carts.repository')
+const cartsService = new CartRepository(new CartsDao())
 
-const {TicketsDao} = require('../dao/factory')
-const TicketRepository = require ('../repositories/tickets.repository')
-const ticketsService = new TicketRepository( new TicketsDao())
-
-
+const { TicketsDao } = require('../dao/factory')
+const TicketRepository = require('../repositories/tickets.repository')
+const ticketsService = new TicketRepository(new TicketsDao())
 
 module.exports = {
     usersService,
     productsService,
     cartsService,
-    ticketsService
+    ticketsService,
 }

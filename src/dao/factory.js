@@ -20,7 +20,7 @@ switch (config.persistence) {
         CartsDao = CartsDaoMongo
         TicketsDao = TicketsDaoMongo
 
-        break;
+        break
     case 'FILE':
         const UsersDaoFile = require('../dao/fileSystem/user.file')
         const ProductsDaoFile = require('../dao/fileSystem/product.file')
@@ -31,7 +31,7 @@ switch (config.persistence) {
         ProductsDao = ProductsDaoFile
         CartsDao = CartsDaoFile
         TicketsDao = TicketsDaoFile
-        break;
+        break
 
     default:
         break
@@ -41,5 +41,5 @@ module.exports = {
     UsersDao,
     ProductsDao,
     CartsDao,
-    TicketsDao
+    TicketsDao,
 }

@@ -9,7 +9,7 @@ const CustomLevelsOptions = {
         warning: 2,
         info: 3,
         http: 4,
-        debug: 5
+        debug: 5,
     },
     colors: {
         fatal: 'red',
@@ -17,8 +17,8 @@ const CustomLevelsOptions = {
         warning: 'yellow',
         info: 'blue',
         http: 'white',
-        debug: 'green'
-    }
+        debug: 'green',
+    },
 }
 
 let logger
@@ -30,11 +30,13 @@ if (config.mode === 'development') {
             new winston.transports.Console({
                 level: config.loggerLevelConsole,
                 format: winston.format.combine(
-                    winston.format.colorize({ colors: CustomLevelsOptions.colors }),
+                    winston.format.colorize({
+                        colors: CustomLevelsOptions.colors,
+                    }),
                     winston.format.simple()
-                )
-            })
-        ]
+                ),
+            }),
+        ],
     })
 } else {
     logger = winston.createLogger({
@@ -43,20 +45,21 @@ if (config.mode === 'development') {
             new winston.transports.Console({
                 level: config.loggerLevelConsole,
                 format: winston.format.combine(
-                    winston.format.colorize({ colors: CustomLevelsOptions.colors }),
+                    winston.format.colorize({
+                        colors: CustomLevelsOptions.colors,
+                    }),
                     winston.format.simple()
-                )
+                ),
             }),
             new winston.transports.File({
                 filename: './errors.log',
                 level: config.loggerLevelFile,
-                format: winston.format.simple()
-            })
-        ]
+                format: winston.format.simple(),
+            }),
+        ],
     })
 }
 
-
 module.exports = {
-    logger
+    logger,
 }

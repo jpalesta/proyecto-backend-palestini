@@ -11,7 +11,7 @@ const cartsSchema = new Schema({
             },
             quantity: {
                 type: Number,
-                default: 0,
+                default: 1,
             },
         },
     ],

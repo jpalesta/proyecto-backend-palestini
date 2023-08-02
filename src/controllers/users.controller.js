@@ -5,9 +5,7 @@ const { generateUserInfo } = require('../utils/errors/info')
 const { CustomError } = require('../utils/errors/CustomError')
 const { createHash } = require('../utils/bCryptHash')
 
-
 class UserControler {
-
     getAll = async (req, res) => {
         try {
             let users = await usersService.get()
@@ -19,13 +17,26 @@ class UserControler {
 
     create = async (req, res, next) => {
         try {
-            let { firstName, lastName, email, dateOfBirth, password, role } = req.body
-            if (!firstName || !lastName || !email || !dateOfBirth || !password ) {
+            let { firstName, lastName, email, dateOfBirth, password, role } =
+                req.body
+            if (
+                !firstName ||
+                !lastName ||
+                !email ||
+                !dateOfBirth ||
+                !password
+            ) {
                 CustomError.createError({
                     name: 'User Creation Error',
-                    cause: generateUserInfo({ firstName, lastName, email, dateOfBirth, password, }),
+                    cause: generateUserInfo({
+                        firstName,
+                        lastName,
+                        email,
+                        dateOfBirth,
+                        password,
+                    }),
                     message: 'Error trying to create User',
-                    code: EErrors.INVALID_TIPES_ERROR
+                    code: EErrors.INVALID_TIPES_ERROR,
                 })
             } else {
                 const cart = await cartsService.createCart({ products: [] })
@@ -34,10 +45,10 @@ class UserControler {
                     firstName,
                     lastName,
                     email,
-                    password: passwordHashed, 
+                    password: passwordHashed,
                     dateOfBirth,
                     cart: { id: cart._id },
-                    role
+                    role,
                 })
                 res.send({ status: 'success', payload: result })
             }
@@ -54,7 +65,7 @@ class UserControler {
             console.log('currentUser', currentUser)
             const currentUserRole = currentUser.role
             console.log('currentUserRole', currentUserRole)
-            
+
             if (!currentUserRole) {
                 logger.error('Cannot get users with mongoose')
             }
@@ -75,4 +86,4 @@ class UserControler {
     }
 }
 
-module.exports = new UserControler
+module.exports = new UserControler()

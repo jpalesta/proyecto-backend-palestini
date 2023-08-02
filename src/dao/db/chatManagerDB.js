@@ -1,8 +1,6 @@
-const chatsModel = require("./models/chat.model")
-
+const chatsModel = require('./models/chat.model')
 
 class ChatManagerDB {
-
     async getmessages() {
         try {
             return await chatsModel.find({})
@@ -20,4 +18,4 @@ class ChatManagerDB {
     }
 }
 
-module.exports = new ChatManagerDB
+module.exports = new ChatManagerDB()

@@ -1,17 +1,21 @@
-<div class="container">
+<div class='container'>
     <h1>Recuperar contraseña</h1>
 
     <p class='fs-4'>Por favor ingrese la nueva contraseña</p>
-    
-    <form class='container' action='/api/session/restorepasslink/{{link}}' method='POST'>
+
+    <form
+        class='container'
+        action='/api/session/restorepasslink/{{link}}'
+        method='POST'
+    >
 
         <h6> Nuevo Password</h6>
         <input
-            class="form-control form-control-sm"
-            type="text"
-            name="password"
-            placeholder="Password"
-            aria-label="Password"
+            class='form-control form-control-sm'
+            type='text'
+            name='password'
+            placeholder='Password'
+            aria-label='Password'
         />
         <br />
         <button type='submit' class='btn btn-warning'>Enviar</button>

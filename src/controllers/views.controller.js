@@ -1,10 +1,9 @@
 const { productsService, cartsService } = require('../service/index.js')
 const { generateProducts } = require('../utils/faker.js')
-const { logger } = require('../utils/logger');
+const { logger } = require('../utils/logger')
 
 class ViewsController {
-
-    loginRedirect =  (req, res) => {
+    loginRedirect = (req, res) => {
         res.redirect('/login')
     }
 
@@ -34,9 +33,12 @@ class ViewsController {
             }
             const query = {}
             if (category) {
-                const existingCategory = await productsService.distinct('category', {
-                    category,
-                })
+                const existingCategory = await productsService.distinct(
+                    'category',
+                    {
+                        category,
+                    }
+                )
                 if (existingCategory.length === 0) {
                     throw new Error('The specified category does not exist')
                 }
@@ -67,7 +69,8 @@ class ViewsController {
                 sortOptions,
                 query
             )
-            const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = products
+            const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } =
+                products
             const currentURL =
                 req.protocol + '://' + req.get('host') + req.originalUrl
             const prevLink = hasPrevPage
@@ -76,9 +79,9 @@ class ViewsController {
             const nextLink = hasNextPage
                 ? createLink(currentURL, page, nextPage)
                 : null
-  
+
             let userLoged = req.user
-            
+
             let testUser = {
                 firstName: userLoged.user.firstName,
                 lastName: userLoged.user.lastName,
@@ -158,22 +161,22 @@ class ViewsController {
     viewRestorePassLink = (req, res) => {
         const { link } = req.params
         let testUser = {
-            link: link
+            link: link,
         }
         res.render('restorePassLink', testUser)
     }
 
     viewMockingProducts = async (req, res) => {
-        try{
+        try {
             const mockingProducts = await generateProducts(50)
             let testUser = {
-                products: mockingProducts
+                products: mockingProducts,
             }
             res.render('mockingProducts', testUser)
-        } catch (error){
+        } catch (error) {
             logger.error(error)
         }
     }
 }
 
-module.exports = new ViewsController
+module.exports = new ViewsController()

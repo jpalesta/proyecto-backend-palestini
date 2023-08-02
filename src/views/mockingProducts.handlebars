@@ -3,22 +3,22 @@
 
 <div class="container">
   <div class="row">
-{{#each products}}
-    <div class="col">
-      <div class="card" style="width: 14rem;">
-        <img src={{this.thumbnail}} class="card-img-top" alt="numeral de ejemplo" />
-        <div class="card-body">
-          <h6 class="card-title">{{this.title}}</h6>
-          <p class="card-text">{{this.description}}</p>
-          <p class="card-text">Category: {{this.category}}</p>
-          <p class="card-text">Code: {{this.code}}</p>
-          <p class="card-text">Stock: {{this.stock}}</p>
-          <p class="card-text">Price: {{this.price}}</p>
-          <p class="card-text">Status: {{this.status}}</p>
+    {{#each products}}
+        <div class="col">
+          <div class="card" style="width: 14rem;">
+            <img src={{this.thumbnail}} class="card-img-top" alt="numeral de ejemplo" />
+            <div class="card-body">
+              <h6 class="card-title">{{this.title}}</h6>
+              <p class="card-text">{{this.description}}</p>
+              <p class="card-text">Category: {{this.category}}</p>
+              <p class="card-text">Code: {{this.code}}</p>
+              <p class="card-text">Stock: {{this.stock}}</p>
+              <p class="card-text">Price: {{this.price}}</p>
+              <p class="card-text">Status: {{this.status}}</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-{{/each}}
+    {{/each}}
   </div>
 </div>
 

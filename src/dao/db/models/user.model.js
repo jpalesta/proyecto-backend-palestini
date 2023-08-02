@@ -1,59 +1,59 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require('mongoose')
 
 const usersCollection = 'users'
 
 const usersSchema = new Schema({
     firstName: {
-        type: String, 
-        required: true
+        type: String,
+        required: true,
     },
     lastName: {
-        type: String, 
-        required: true
+        type: String,
+        required: true,
     },
     dateOfBirth: {
-        type: Date, 
-        required: false
+        type: Date,
+        required: false,
     },
     role: {
-        type: String, 
-        enum: [ 'user', 'admin', 'premium' ],
-        default: 'user'
+        type: String,
+        enum: ['user', 'admin', 'premium'],
+        default: 'user',
     },
     password: {
-        type: String, 
-        required: true
+        type: String,
+        required: true,
     },
     email: {
-        type: String, 
+        type: String,
         required: true,
-        unique: true
+        unique: true,
     },
-    
+
     cart: {
         id: {
-            type: Schema.Types.ObjectId, 
+            type: Schema.Types.ObjectId,
             ref: 'carts',
-            required: true
+            required: true,
         },
     },
     age: {
-        type: Number
-    }
+        type: Number,
+    },
 })
 
 usersSchema.pre('save', function (next) {
     if (this.dateOfBirth) {
         const currentDate = new Date()
-        const age = currentDate.getFullYear() - this.dateOfBirth.getFullYear();
+        const age = currentDate.getFullYear() - this.dateOfBirth.getFullYear()
         this.age = age
     } else {
-        this.dateOfBirth = ""
-        this.age = ""
+        this.dateOfBirth = ''
+        this.age = ''
     }
     next()
 })
 
 const usersModel = model(usersCollection, usersSchema)
 
-module.exports = usersModel 
+module.exports = usersModel
