@@ -13,7 +13,7 @@ const swaggerOptions = {
     //pregunta, cómo consigo tener la ruta relativa desde cualquier lugar
     apis: [
         path.resolve(
-            'C:/Users/josep/proyecto-backend-palestini/src/docs/**/*.yaml'
+            './**/*.yaml'
         ),
     ],
 }

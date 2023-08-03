@@ -112,10 +112,8 @@ class CartController {
             if (!quantity) {
                 quantity = 1
             }
-            console.log('quantity', quantity)
 
             const cartToUpdate = await cartsService.getCart({ _id: cid })
-            console.log('cartToUpdate', cartToUpdate)
             if (!cartToUpdate) {
                 return res.status(401).send({
                     status: 'error',
@@ -127,9 +125,7 @@ class CartController {
             const productToUpdate = await productsService.getProduct({
                 _id: pid,
             })
-            console.log('productToUpdate', productToUpdate)
             const productToUpdateOwner = productToUpdate.owner.toString()
-            console.log('productToUpdateOwner', productToUpdateOwner)
             if (productToUpdateOwner === userId) {
                 return res.status(401).send({
                     status: 'error',

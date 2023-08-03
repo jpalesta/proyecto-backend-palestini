@@ -10,7 +10,7 @@ const sessionsRouter = require('./sessions.router.js')
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUiExpress = require('swagger-ui-express')
 
-const { swaggerOptions } = require('../utils/swagger.js')
+const { swaggerOptions } = require('../docs/swagger.js')
 
 //configuracion de routers
 router.use('/', viewsRouter)

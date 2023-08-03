@@ -52,6 +52,28 @@ paths:
                                     $ref: '#/components/schemas/Cart'
                 '500':
                     description: Error interno del server, no se pudo recuperar el carrito, puede deberse a un error en la conexión con la BD o a un error en el ID suministrado
+        put:
+            summary: Modifica los ítems de un carrito por ID, los ítems los recibe por body
+            tags:
+                - Carts
+            parameters:
+                - name: cid
+                  in: path
+                  required: true
+                  description: ID del carrito a modificar
+                  schema:
+                      $type: String
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#components/requestBodies/newCart'
+            responses:
+                '200':
+                    description: El carrito fue modificado correctamente
+                '500':
+                    description: Error interno del server, no se pudo modificar el carrito, puede deberse a un error en la conexión con la BD, a un error en el ID suministrado o al formato del body
         delete:
             summary: Borra todos los ítems de un carrito por ID
             tags:
@@ -150,6 +172,7 @@ paths:
                     description: Producto eliminado del carrito exitosamente
                 '500':
                     description: Error interno del servidor, no se pudo eliminar el producto en el carrito
+
     /api/carts/{cid}/purchase:
         post:
             summary: Genera el ticket de la compra en base a un carrito chequeando los productos con stock y lo envía por email, también informa los productos faltantes y los deja en el carrito // REQUIERE AUTENTICACION CON JWT
