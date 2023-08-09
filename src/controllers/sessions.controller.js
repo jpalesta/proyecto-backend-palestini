@@ -8,9 +8,6 @@ const UserDto = require('../dto/user.dto')
 const { sendMail } = require('../utils/sendMail')
 const { usersService } = require('../service')
 const RestorePassLinkDaoMongo = require('../dao/db/restorePassLink.mongo')
-const {
-    BulkCountryUpdateInstance,
-} = require('twilio/lib/rest/voice/v1/dialingPermissions/bulkCountryUpdate')
 
 const restorePassLink = new RestorePassLinkDaoMongo()
 
@@ -47,9 +44,7 @@ class SessionController {
 
     current = (req, res) => {
         let user = req.user
-        console.log(user.user)
         let userDto = new UserDto(user)
-        console.log(userDto)
         res.send({
             message: 'Usuario actual',
             userDto,
@@ -132,6 +127,7 @@ class SessionController {
                     logger.info('You can´t use the same password')
                     let testUser = {
                         link: link,
+                        passRepeated: 'No puedes usar la última contraseña utilizada, intenta nuevamente por favor'
                     }
                     res.render('restorePassLink', testUser)
                 } else {

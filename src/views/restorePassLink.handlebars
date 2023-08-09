@@ -3,6 +3,8 @@
 
     <p class='fs-4'>Por favor ingrese la nueva contraseña</p>
 
+    <div class="text-danger">{{passRepeated}}</div>
+    <br />
     <form
         class='container'
         action='/api/session/restorepasslink/{{link}}'
