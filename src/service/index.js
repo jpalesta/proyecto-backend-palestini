@@ -14,9 +14,14 @@ const { TicketsDao } = require('../dao/factory')
 const TicketRepository = require('../repositories/tickets.repository')
 const ticketsService = new TicketRepository(new TicketsDao())
 
+const { RestorePassLinkDao } = require('../dao/factory')
+const ResorePassLinkRepository = require('../repositories/restorePassLink.repository')
+const restorePassLinksService = new ResorePassLinkRepository(new RestorePassLinkDao())
+
 module.exports = {
     usersService,
     productsService,
     cartsService,
     ticketsService,
+    restorePassLinksService
 }

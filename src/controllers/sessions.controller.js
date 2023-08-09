@@ -6,10 +6,7 @@ const { createHash } = require('../utils/bCryptHash')
 const { logger } = require('../utils/logger')
 const UserDto = require('../dto/user.dto')
 const { sendMail } = require('../utils/sendMail')
-const { usersService } = require('../service')
-const RestorePassLinkDaoMongo = require('../dao/db/restorePassLink.mongo')
-
-const restorePassLink = new RestorePassLinkDaoMongo()
+const { usersService, restorePassLinksService } = require('../service')
 
 class SessionController {
     register = async (req, res) => {
@@ -80,7 +77,7 @@ class SessionController {
             return
         } else {
             const newRestorePassLink =
-                await restorePassLink.createRestorePassLink(userDB.email)
+                await restorePassLinksService.createRestorePassLink(userDB.email)
 
             const link = newRestorePassLink._id.toString()
 
@@ -108,7 +105,7 @@ class SessionController {
                     message: 'Please complete the new password',
                 })
             }
-            const validateLink = await restorePassLink.getOne(link)
+            const validateLink = await restorePassLinksService.getOne(link)
             if (!validateLink) {
                 res.redirect('/restorepass')
                 logger.error('Invalid restore link or link has expired.')
@@ -131,7 +128,7 @@ class SessionController {
                     }
                     res.render('restorePassLink', testUser)
                 } else {
-                    await restorePassLink.delete(link)
+                    await restorePassLinksService.delete(link)
                     userDB.password = createHash(password)
                     await userDB.save()
                     logger.info('your password was restored successfully')

@@ -5,6 +5,7 @@ let UsersDao
 let ProductsDao
 let CartsDao
 let TicketsDao
+let RestorePassLinkDao
 
 switch (config.persistence) {
     case 'MONGO':
@@ -14,11 +15,13 @@ switch (config.persistence) {
         const ProductsDaoMongo = require('../dao/db/product.mongo')
         const CartsDaoMongo = require('../dao/db/cart.mongo')
         const TicketsDaoMongo = require('../dao/db/ticket.mongo')
+        const RestorePassLinkDaoMongo = require('../dao/db/restorePassLink.mongo')
 
         UsersDao = UsersDaoMongo
         ProductsDao = ProductsDaoMongo
         CartsDao = CartsDaoMongo
         TicketsDao = TicketsDaoMongo
+        RestorePassLinkDao = RestorePassLinkDaoMongo
 
         break
     case 'FILE':
@@ -26,11 +29,13 @@ switch (config.persistence) {
         const ProductsDaoFile = require('../dao/fileSystem/product.file')
         const CartsDaoFile = require('../dao/fileSystem/cart.file')
         const TicketsDaoFile = require('../dao/fileSystem/ticket.file')
+        const RestorePassLinkFile = require('../dao/fileSystem/restoresPassLink.file')
 
         UsersDao = UsersDaoFile
         ProductsDao = ProductsDaoFile
         CartsDao = CartsDaoFile
         TicketsDao = TicketsDaoFile
+        RestorePassLinkDao = RestorePassLinkFile
         break
 
     default:
@@ -42,4 +47,5 @@ module.exports = {
     ProductsDao,
     CartsDao,
     TicketsDao,
+    RestorePassLinkDao
 }
