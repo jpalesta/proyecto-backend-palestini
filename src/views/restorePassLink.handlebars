@@ -7,16 +7,30 @@
         class='container'
         action='/api/session/restorepasslink/{{link}}'
         method='POST'
+        onsubmit='return validateForm()'
     >
 
         <h6> Nuevo Password</h6>
         <input
             class='form-control form-control-sm'
-            type='text'
+            type='password'
             name='password'
+            id='password'
             placeholder='Password'
             aria-label='Password'
         />
+        <br />
+
+        <h6>Confirmar Nuevo Password</h6>
+        <input
+            class='form-control form-control-sm'
+            type='password'
+            id='confirmPassword'
+            name='confirmPassword'
+            placeholder='Confirmar Password'
+            aria-label='Confirmar Password'
+        />
+        <div id="error-message" class="text-danger"></div>
         <br />
         <button type='submit' class='btn btn-warning'>Enviar</button>
     </form>
@@ -27,3 +41,19 @@
     integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM'
     crossorigin='anonymous'
 ></script>
+
+<script>
+    function validateForm() { 
+        let password = document.getElementById('password').value
+        let confirmPassword = document.getElementById('confirmPassword').value
+        let errorMessage = document.getElementById('error-message')
+
+        if (password !== confirmPassword) { 
+                errorMessage.textContent = 'Las contraseñas no coinciden. Por favor, inténtalo de nuevo.';
+        return false;
+    } else {
+        errorMessage.textContent = ''
+        return true;
+    }
+    }
+</script>
