@@ -18,9 +18,9 @@ const initPassportLocal = () => {
         new LocalStrategy(
             { passReqToCallback: true, usernameField: 'email' },
             async (req, username, password, done) => {
-                const { firstName, lastName, email, dateOfBirth } = req.body
+                const { firstName, lastName, email, dateOfBirth, role } = req.body
                 try {
-                    let user = await usersService.getOne({ email: username })
+                    let user = await usersService.getUser({ email: username })
                     if (user) {
                         throw new Error('User already exists')
                         //lo comenté porque no funciona después del throw
@@ -32,6 +32,7 @@ const initPassportLocal = () => {
                         lastName,
                         email,
                         dateOfBirth,
+                        role,
                         password: createHash(password),
                         cart: { id: cart._id },
                     }
@@ -48,7 +49,7 @@ const initPassportLocal = () => {
         done(null, user._id)
     })
     passport.deserializeUser(async (id, done) => {
-        let user = await usersService.getOne({ _id: id })
+        let user = await usersService.getUser({ _id: id })
         done(null, user)
     })
 
@@ -63,14 +64,13 @@ const initPassportLocal = () => {
                         username === process.env.ADMIN_EMAIL &&
                         password === process.env.ADMIN_PASSWORD
                     ) {
-                        const user = await usersService.getOne({
+                        const user = await usersService.getUser({
                             email: username,
                         })
                         user.role = 'admin'
                         return done(null, user)
                     }
-                    const user = await usersService.getOne({ email: username })
-                    console.log(user)
+                    const user = await usersService.getUser({ email: username })
                     if (!user) {
                         logger.warning('User doesn´t exist')
                         return done(null, false)
@@ -99,7 +99,7 @@ const initPassportGithub = () => {
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
-                    let user = await usersService.getOne({
+                    let user = await usersService.getUser({
                         email: profile._json.email,
                     })
                     if (!user) {

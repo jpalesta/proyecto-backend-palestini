@@ -58,6 +58,19 @@ class CartController {
 
     create = async (req, res) => {
         try {
+            const newCart = []
+            const cart = await cartsService.createCart(newCart)
+            res.status(200).send({
+                status: 'success',
+                payload: cart,
+            })
+        } catch (error) {
+            logger.error(error)
+        }
+    }
+
+    createWithBody = async (req, res) => {
+        try {
             const newCart = req.body
             const isValid = cartValidate(newCart)
             if (!isValid) {
@@ -86,6 +99,56 @@ class CartController {
     }
 
     update = async (req, res) => {
+        try {
+            const cid = req.params.cid
+            if (!mongoose.Types.ObjectId.isValid(cid)) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'Invalid cart ID format',
+                })
+            }
+
+            const pid = req.params.pid
+            if (!mongoose.Types.ObjectId.isValid(pid)) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'Invalid product ID format',
+                })
+            }
+
+            const cartToUpdate = await cartsService.getCart({ _id: cid })
+            if (!cartToUpdate) {
+                return res.status(401).send({
+                    status: 'error',
+                    message:
+                        'The cart selected doesn´t exist, please check the cart number',
+                })
+            }
+
+            const productToUpdate = await productsService.getProduct({ _id: pid })
+            if (!productToUpdate) {
+                return res.status(401).send({
+                    status: 'error',
+                    message:
+                        'The product selected doesn´t exist, please check the product number',
+                })
+            }
+
+            const cart = await cartsService.updateProductInCart(
+                cid,
+                pid
+            )
+            res.status(200).send({
+                status: 'success',
+                payload: cart
+            })
+        } catch (error) {
+            logger.error(error)
+            console.log('error en modificacion de cart', error)
+        }
+    }
+
+    updateWithBody = async (req, res) => {
         try {
             const cid = req.params.cid
             console.log('cid', cid)

@@ -37,6 +37,14 @@ class ProductsDaoMongo {
         }
     }
 
+    getProductByCode = async (code) => {
+        try {
+            return await this.model.findOne(code)
+        } catch (error) {
+            return new Error(error)
+        }
+    }
+
     addProduct = async (newProduct) => {
         try {
             return await this.model.create(newProduct)
@@ -56,6 +64,14 @@ class ProductsDaoMongo {
     deleteProduct = async (pid) => {
         try {
             return await this.model.deleteOne(pid)
+        } catch (error) {
+            return new Error(error)
+        }
+    }
+
+    deleteProductByCode = async (code) => {
+        try {
+            return await this.model.deleteOne(code)
         } catch (error) {
             return new Error(error)
         }

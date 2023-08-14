@@ -3,6 +3,7 @@ const handlebars = require('express-handlebars')
 const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
+const cors = require ('cors')
 require('dotenv').config()
 
 const routerApp = require('./routes')
@@ -20,6 +21,16 @@ const { logger } = require('./utils/logger')
 //configuracion express + socketserver
 const app = express()
 const port = process.env.PORT
+
+//configuracion de CORS
+
+const corsOptions = {
+    origin: 'http://localhost:8080',
+    methods: 'GET, POST, PUT, DELETE',
+    allowedHeaders: 'Content-Type, Authorization'
+}
+
+app.use(cors(corsOptions))
 
 //midleware de logger
 app.use(addlogger)

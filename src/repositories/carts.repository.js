@@ -34,6 +34,10 @@ class CartsRepository {
     updateQuantityProductInCart(cid, pid, quantity) {
         return this.dao.updateQuantityProductInCart(cid, pid, quantity)
     }
+
+    updateProductInCart(cid, pid) {
+        return this.dao.updateProductInCart(cid, pid)
+    }
 }
 
 module.exports = CartsRepository

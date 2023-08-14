@@ -80,8 +80,11 @@ GET http://localhost:8080/api/carts/
 ### GET trae el carrito por ID con Populate por Id de producto 
 GET  http://localhost:8080/api/carts/64ab42af4b9e74a0d607254d
 
-### POST crea un carrito con producto pasados por body con validación
+### POST crea un carrito vacío
 POST  http://localhost:8080/api/carts/
+
+### PUT crea un carrito con producto pasados por body con validación
+PUT  http://localhost:8080/api/carts/
 Content-Type: application/json
 
 { 
@@ -158,7 +161,7 @@ Content-Type: application/json
 {
         "firstName": 15,
         "lastName": "prueba desde REST",
-        "email": "prueba6@desde12r34est.com",
+        "email": "prueba7@desde12r34est.com",
         "dateOfBirth": "2000-01-01",
         "password": "123456",
         "cart": "64a88ad4977fb3772ee19f25",
@@ -171,11 +174,13 @@ post http://localhost:8080/api/session/register
 Content-Type: application/json
 
 {
-
+        "firstName": 15,
         "lastName": "prueba desde REST",
-        "email": "prueba@desdiere12st.com",
+        "email": "prueba8@desde12r34est.com",
+        "dateOfBirth": "2000-01-01",
         "password": "123456",
-        "dateOfBirth": "2000-01-01"
+        "cart": "64a88ad4977fb3772ee19f25",
+        "role": "premium"
 }
 
 ###GET Ruta de prueba de los loggers

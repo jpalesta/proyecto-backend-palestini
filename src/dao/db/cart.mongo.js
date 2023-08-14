@@ -49,6 +49,31 @@ class CartManagerDB {
         }
     }
 
+    updateProductInCart = async (cid, pid) => {
+        try {
+            const cart = await this.model.findById({ _id: cid })
+            if (!cart) {
+                throw new Error(`Cart with ID ${cid} not found`)
+            }
+            const productIndex = cart.products.findIndex(
+                (p) => p.product.toString() === pid
+            )
+            if (productIndex === -1) {
+                const newProduct = {
+                    product: pid,
+                    quantity: 1,
+                }
+                cart.products.push(newProduct)
+            } else {
+                cart.products[productIndex].quantity += 1 
+            }
+            await cart.save()
+            return cart
+        } catch (error) {
+            logger.error(error)
+        }
+    }
+
     updateQuantityProductInCart = async (cid, pid, quantity) => {
         try {
             const cart = await this.model.findById({ _id: cid })

@@ -7,12 +7,16 @@ class UsersRepository {
         return this.dao.getUsers()
     }
 
-    getOne(uid) {
+    getUser(uid) {
         return this.dao.getUser(uid)
     }
 
     create(newUser) {
         return this.dao.createUser(newUser)
+    }
+
+    delete(email) {
+        return this.dao.deleteUser(email)
     }
 }
 

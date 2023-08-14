@@ -15,6 +15,10 @@ class ProductsRepository {
         return this.dao.getProductById(pid)
     }
 
+    getProductByCode(code) {
+        return this.dao.getProductByCode(code)
+    }
+
     createProduct(newProduct) {
         return this.dao.addProduct(newProduct)
     }
@@ -25,6 +29,10 @@ class ProductsRepository {
 
     deleteOne(pid) {
         return this.dao.deleteProduct(pid)
+    }
+
+    deleteByCode(code) {
+        return this.dao.deleteProductByCode(code)
     }
 
     emitProductsUpdate() {

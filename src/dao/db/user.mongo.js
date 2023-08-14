@@ -26,7 +26,16 @@ class UsersDaoMongo {
         try {
             return await this.model.create(newUser)
         } catch (error) {
-            logger.error('error en getUsers', error)
+            logger.error('error en createUser', error)
+        }
+    }
+
+    deleteUser = async (email) => {
+        try {
+            const deletedUser = await this.model.deleteOne(email)
+            return deletedUser
+        } catch (error) {
+            logger.error('error en deleteUser', error)
         }
     }
 }

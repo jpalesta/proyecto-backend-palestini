@@ -14,7 +14,9 @@ class SessionController {
             logger.info('User register successfull')
             res.redirect('/login')
         } catch (error) {
+            console.log('error en register', error);
             logger.error(error)
+
         }
     }
 
@@ -35,12 +37,15 @@ class SessionController {
                 res.redirect('/products')
             }
         } catch (error) {
-            return logger.error(error)
+            console.log('error en login', error);
+            logger.error(error)
+
         }
     }
 
     current = (req, res) => {
-        let user = req.user
+        let user = req.
+        console.log('user en current', user);
         let userDto = new UserDto(user)
         res.send({
             message: 'Usuario actual',

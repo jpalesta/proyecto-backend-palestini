@@ -27,7 +27,7 @@ router.get('/:pid', getOne)
 router.post(
     '/',
     isAuthenticated,
-    passportAutorization(['admin', 'premium']),
+    passportAutorization(['admin', 'premium', 'user']),
     create
 )
 
