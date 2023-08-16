@@ -1,6 +1,6 @@
 class UserDto {
     constructor(userDto) {
-        ;(this.firstName = userDto.user.firstName),
+            (this.firstName = userDto.user.firstName),
             (this.lastName = userDto.user.lastName),
             (this.dateOfBirth = userDto.user.dateOfBirth),
             (this.role = userDto.user.role),

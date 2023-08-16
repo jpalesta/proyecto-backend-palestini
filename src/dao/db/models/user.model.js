@@ -18,6 +18,7 @@ const usersSchema = new Schema({
     role: {
         type: String,
         enum: ['premium', 'admin', 'user'],
+        default: 'user'
     },
     password: {
         type: String,
@@ -39,6 +40,22 @@ const usersSchema = new Schema({
     age: {
         type: Number,
     },
+    
+    documents: [
+        {
+            name: {
+                type: String
+            },
+            reference: {
+                type: String
+            },
+        },
+    ],
+
+    lastConnection: {
+        type: Date,
+        default: null,
+    }
 })
 
 usersSchema.pre('save', function (next) {

@@ -72,7 +72,12 @@ router.get(
     }
 )
 
-router.get('/logout', logout)
+router.get(
+    '/logout',
+    passportAuthentication('jwt'),
+    passportAutorization(['user', 'admin', 'premium']),
+    logout
+)
 
 router.post('/restorepass', restorepass)
 
@@ -81,7 +86,7 @@ router.post('/restorepasslink/:link', restorePassLink)
 router.get(
     '/current',
     passportAuthentication('jwt'),
-    passportAutorization('user'),
+    passportAutorization('user','admin', 'premium'),
     current
 )
 

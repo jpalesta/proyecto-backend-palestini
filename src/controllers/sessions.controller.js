@@ -20,7 +20,7 @@ class SessionController {
         }
     }
 
-    login = (req, res) => {
+    login = async (req, res) => {
         try {
             const { user } = req
             if (!user) {
@@ -34,6 +34,10 @@ class SessionController {
                     maxAge: 60 * 60 * 10000,
                     httpOnly: true,
                 })
+                const actualDate = new Date()
+                const dateConnection = {lastConnection: actualDate}
+                const uid = user._id.toString()
+                await usersService.updateById(uid, dateConnection)
                 res.redirect('/products')
             }
         } catch (error) {
@@ -44,7 +48,7 @@ class SessionController {
     }
 
     current = (req, res) => {
-        let user = req.
+        let user = req.user
         console.log('user en current', user);
         let userDto = new UserDto(user)
         res.send({
@@ -55,6 +59,11 @@ class SessionController {
 
     logout = async (req, res) => {
         try {
+            const user  = req.user
+            const actualDate = new Date()
+            const dateConnection = {lastConnection: actualDate}
+            const uid = user.user._id.toString()
+            await usersService.updateById(uid, dateConnection)
             res.clearCookie(process.env.JWT_COOKIE_NAME)
             logger.info('Logout successfull')
             res.redirect('/login')

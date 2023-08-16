@@ -7,7 +7,7 @@ post http://localhost:8080/api/session/login
 
     {
             "email": "jose.palestini@gmail.com",
-            "password": "1234567"
+            "password": "123456"
     }
 ### LOGIN ADMIN
 post http://localhost:8080/api/session/login

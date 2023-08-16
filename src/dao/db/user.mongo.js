@@ -30,6 +30,14 @@ class UsersDaoMongo {
         }
     }
 
+    updateUser = async (uid, dateConnection) => {
+        try {
+            return await this.model.findOneAndUpdate( { _id: uid }, { $set: dateConnection })
+        } catch (error) {
+            logger.error('error en update', error)
+        }
+    }
+    
     deleteUser = async (email) => {
         try {
             const deletedUser = await this.model.deleteOne(email)
