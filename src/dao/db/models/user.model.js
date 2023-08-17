@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose')
 
+
 const usersCollection = 'users'
 
 const usersSchema = new Schema({
@@ -44,11 +45,18 @@ const usersSchema = new Schema({
     documents: [
         {
             name: {
-                type: String
+                type: String,
+                required: true
             },
             reference: {
-                type: String
+                type: String,
+                required: true
             },
+            type: {
+                type: String,
+                enum: ['identification', 'proofOfAddress', 'statementOfAccount'],
+                required: true
+            }
         },
     ],
 

@@ -7,7 +7,7 @@ const cors = require ('cors')
 require('dotenv').config()
 
 const routerApp = require('./routes')
-const uploader = require('./utils/multer.js')
+const {uploaderUserDocs, uploaderProfileImage} = require('./utils/multer.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
 const {
     initPassportGithub,
@@ -70,7 +70,10 @@ app.set('view engine', 'handlebars')
 app.use('/static', express.static(__dirname + '/public'))
 
 //Prueba de Multer
-app.post('/single', uploader.single('product.file'), (req, res) => {
+app.post('/single', uploaderProfileImage.single('product.file'), (req, res) => {
+    console.log('req.file', req.file);
+    console.log('req.file.filename', req.file.filename);
+    console.log('req.file.path', req.file.path);
     res.status(200).send({
         status: 'success',
         message: 'product loaded ok',

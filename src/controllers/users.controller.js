@@ -4,12 +4,20 @@ const { EErrors } = require('../utils/errors/enums')
 const { generateUserInfo } = require('../utils/errors/info')
 const { CustomError } = require('../utils/errors/CustomError')
 const { createHash } = require('../utils/bCryptHash')
+const path = require ('path')
 
 class UserControler {
     getAll = async (req, res) => {
         try {
+            console.log('dirnamedirecto', __dirname);
+            const currentDir = path.dirname(__filename)
+            const currentDirMod = path.join(currentDir, '../public/uploader')
+            console.log('sin mod', currentDir);
+            console.log('mod', currentDirMod);
+
+
             let users = await usersService.get()
-            res.send({ result: 'succes', payload: users })
+            res.send({ result: 'success', payload: users })
         } catch (error) {
             logger.error('Cannot get users with mongoose' + error)
         }
@@ -55,6 +63,10 @@ class UserControler {
         } catch (error) {
             next(error)
         }
+    }
+
+    userDocsUpload = async (req, res) => {
+
     }
 
     roleChange = async (req, res, next) => {

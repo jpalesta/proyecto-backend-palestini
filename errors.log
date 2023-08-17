@@ -4,3 +4,7 @@ error: undefined
 error: undefined
 error: undefined
 error: undefined
+error: log error mid
+error: undefined {"code":"ENOENT","errno":-4058,"path":"C:\\Users\\josep\\proyecto-backend-palestini\\src\\utils\\public\\uploads\\WhatsApp Image 2023-08-01 at 16.02.49.jpeg","storageErrors":[],"syscall":"open"}
+error: Cannot get users with mongooseTypeError: Cannot read properties of undefined (reading 'dirname')
+error: error en getUsers Operation `users.find()` buffering timed out after 10000ms {"stack":"MongooseError: Operation `users.find()` buffering timed out after 10000ms\n    at Timeout.<anonymous> (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:185:23)\n    at listOnTimeout (node:internal/timers:569:17)\n    at process.processTimers (node:internal/timers:512:7)"}
