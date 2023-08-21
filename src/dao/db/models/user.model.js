@@ -60,6 +60,17 @@ const usersSchema = new Schema({
         },
     ],
 
+    profileImage: {
+        name: {
+            type: String,
+            required: true
+        },
+        reference: {
+            type: String,
+            required: true
+        }
+    },
+
     lastConnection: {
         type: Date,
         default: null,

@@ -4,10 +4,12 @@ const { Server } = require('socket.io')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const cors = require ('cors')
+const multer = require('multer')
+
 require('dotenv').config()
 
 const routerApp = require('./routes')
-const {uploaderUserDocs, uploaderProfileImage} = require('./utils/multer.js')
+const {uploaderUsers, uploaderProducts, multerUpload} = require('./utils/multer.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
 const {
     initPassportGithub,
@@ -70,15 +72,27 @@ app.set('view engine', 'handlebars')
 app.use('/static', express.static(__dirname + '/public'))
 
 //Prueba de Multer
-app.post('/single', uploaderProfileImage.single('product.file'), (req, res) => {
-    console.log('req.file', req.file);
-    console.log('req.file.filename', req.file.filename);
-    console.log('req.file.path', req.file.path);
-    res.status(200).send({
-        status: 'success',
-        message: 'product loaded ok',
+app.post('/single', (req, res) => {
+    multerUpload (req, res, function (err) {
+        if (err instanceof multer.MulterError){
+            res.send(err)
+        } else if (err) {
+            res.send(err)
+        } 
+        console.log('req.file', req.file);
+        res.status(200).send({
+            status: 'success',
+            message: 'product loaded ok',
+    })
     })
 })
+// app.post('/single', multerUpload.single('identificatio'), (req, res) => {
+//     console.log('req.file', req.file);
+//     res.status(200).send({
+//         status: 'success',
+//         message: 'product loaded ok',
+//     })
+// })
 
 //middleware de manejo de errores
 app.use(errorHandler)

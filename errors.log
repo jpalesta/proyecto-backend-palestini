@@ -8,3 +8,70 @@ error: log error mid
 error: undefined {"code":"ENOENT","errno":-4058,"path":"C:\\Users\\josep\\proyecto-backend-palestini\\src\\utils\\public\\uploads\\WhatsApp Image 2023-08-01 at 16.02.49.jpeg","storageErrors":[],"syscall":"open"}
 error: Cannot get users with mongooseTypeError: Cannot read properties of undefined (reading 'dirname')
 error: error en getUsers Operation `users.find()` buffering timed out after 10000ms {"stack":"MongooseError: Operation `users.find()` buffering timed out after 10000ms\n    at Timeout.<anonymous> (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:185:23)\n    at listOnTimeout (node:internal/timers:569:17)\n    at process.processTimers (node:internal/timers:512:7)"}
+error: log error mid
+error: undefined {"code":"ENOENT","errno":-4058,"path":"C:\\Users\\josep\\proyecto-backend-palestini\\uploads\\profiles\\WhatsApp Image 2023-08-01 at 16.02.49-function now() { [native code] }.jpeg","storageErrors":[],"syscall":"open"}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined {"storageErrors":[]}
+error: log error mid
+error: undefined
+error: log error mid
+error: undefined
+error: log error mid
+error: undefined
+error: log error mid
+error: undefined
+error: log error mid
+error: undefined
+error: log error mid
+error: undefined
+error: error en getUsers Cast to ObjectId failed for value "{ uid: '64696ce916ee6a1a702136d0' }" (type Object) at path "_id" for model "users" {"kind":"ObjectId","path":"_id","reason":{},"stack":"CastError: Cast to ObjectId failed for value \"{ uid: '64696ce916ee6a1a702136d0' }\" (type Object) at path \"_id\" for model \"users\"\n    at ObjectId.cast (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\schema\\objectid.js:248:11)\n    at SchemaType.applySetters (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\schematype.js:1202:12)\n    at SchemaType.castForQuery (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\schematype.js:1613:15)\n    at cast (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\cast.js:290:34)\n    at Query.cast (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\query.js:4800:12)\n    at Query._castConditions (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\query.js:2177:10)\n    at model.Query._findOne (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\query.js:2465:8)\n    at model.Query.exec (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\query.js:4330:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async UsersDaoMongo.getUser (C:\\Users\\josep\\proyecto-backend-palestini\\src\\dao\\db\\user.mongo.js:19:20)","stringValue":"\"{ uid: '64696ce916ee6a1a702136d0' }\"","value":{"uid":"64696ce916ee6a1a702136d0"},"valueType":"Object"}
+error: error en getUsers Cast to ObjectId failed for value "{ uid: '64696ce916ee6a1a702136d0' }" (type Object) at path "_id" for model "users" {"kind":"ObjectId","path":"_id","reason":{},"stack":"CastError: Cast to ObjectId failed for value \"{ uid: '64696ce916ee6a1a702136d0' }\" (type Object) at path \"_id\" for model \"users\"\n    at ObjectId.cast (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\schema\\objectid.js:248:11)\n    at SchemaType.applySetters (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\schematype.js:1202:12)\n    at SchemaType.castForQuery (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\schematype.js:1613:15)\n    at cast (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\cast.js:290:34)\n    at Query.cast (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\query.js:4800:12)\n    at Query._castConditions (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\query.js:2177:10)\n    at model.Query._findOne (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\query.js:2465:8)\n    at model.Query.exec (C:\\Users\\josep\\proyecto-backend-palestini\\node_modules\\mongoose\\lib\\query.js:4330:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async UsersDaoMongo.getUser (C:\\Users\\josep\\proyecto-backend-palestini\\src\\dao\\db\\user.mongo.js:19:20)","stringValue":"\"{ uid: '64696ce916ee6a1a702136d0' }\"","value":{"uid":"64696ce916ee6a1a702136d0"},"valueType":"Object"}
+error: log error mid
+error: undefined
+error: log error mid
+error: undefined

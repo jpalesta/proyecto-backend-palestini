@@ -13,7 +13,6 @@ const {
 } = require('../controllers/sessions.controller')
 
 const { passportAutorization } = require('../Middlewares/passportAutorization')
-
 const {
     passportAuthentication,
 } = require('../Middlewares/passportAuthentication')

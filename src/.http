@@ -1,5 +1,5 @@
 ###POST Cambio de ROLE de Premium a User o viceversa
-post http://localhost:8080/api/users/premium/64ac7286cbff681003e77165
+post http://localhost:8080/api/users/premium/64a88bcab7eb5bfcfc1359d8
 
 ### LOGIN USER
 post http://localhost:8080/api/session/login
