@@ -1,3 +1,7 @@
+###DELETE usuarios inactivos
+DELETE  http://localhost:8080/api/users/
+
+
 ###POST Cambio de ROLE de Premium a User o viceversa
 post http://localhost:8080/api/users/premium/64a88bcab7eb5bfcfc1359d8
 

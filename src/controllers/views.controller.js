@@ -177,6 +177,9 @@ class ViewsController {
             logger.error(error)
         }
     }
+    viewUsersMaintenance =  (req, res) => {
+        res.render('usersMaintenance')
+    }
 }
 
 module.exports = new ViewsController()

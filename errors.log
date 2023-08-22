@@ -75,3 +75,9 @@ error: log error mid
 error: undefined
 error: log error mid
 error: undefined
+error: Cannot get users with mongooseTypeError: Cannot read properties of undefined (reading 'firstName')
+error: Cannot get users with mongooseTypeError: Cannot read properties of undefined (reading 'firstName')
+error: Cannot get users with mongooseTypeError: Cannot read properties of undefined (reading 'firstName')
+error: Cannot get users with mongooseTypeError: Cannot read properties of undefined (reading 'firstName')
+error: undefined {"_message":"users validation failed","errors":{"profileImage.name":{"kind":"required","message":"Path `profileImage.name` is required.","name":"ValidatorError","path":"profileImage.name","properties":{"message":"Path `profileImage.name` is required.","path":"profileImage.name","type":"required"}},"profileImage.reference":{"kind":"required","message":"Path `profileImage.reference` is required.","name":"ValidatorError","path":"profileImage.reference","properties":{"message":"Path `profileImage.reference` is required.","path":"profileImage.reference","type":"required"}}}}
+error: undefined {"_message":"users validation failed","errors":{"profileImage.name":{"kind":"required","message":"Path `profileImage.name` is required.","name":"ValidatorError","path":"profileImage.name","properties":{"message":"Path `profileImage.name` is required.","path":"profileImage.name","type":"required"}},"profileImage.reference":{"kind":"required","message":"Path `profileImage.reference` is required.","name":"ValidatorError","path":"profileImage.reference","properties":{"message":"Path `profileImage.reference` is required.","path":"profileImage.reference","type":"required"}}}}

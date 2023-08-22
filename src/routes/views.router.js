@@ -19,6 +19,7 @@ const {
     viewRestorePass,
     viewRestorePassLink,
     viewMockingProducts,
+    viewUsersMaintenance,
 } = require('../controllers/views.controller')
 
 //ruta de prueba de logs
@@ -57,5 +58,7 @@ router.get('/restorepass', viewRestorePass)
 router.get('/restorepassLink/:link', viewRestorePassLink)
 
 router.get('/mockingproducts', viewMockingProducts)
+
+router.get('/usersmaintenance', viewUsersMaintenance )
 
 module.exports = router

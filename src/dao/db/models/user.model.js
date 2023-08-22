@@ -46,16 +46,16 @@ const usersSchema = new Schema({
         {
             name: {
                 type: String,
-                required: true
+
             },
             reference: {
                 type: String,
-                required: true
+
             },
             type: {
                 type: String,
                 enum: ['identification', 'proofOfAddress', 'statementOfAccount'],
-                required: true
+
             }
         },
     ],
@@ -63,11 +63,11 @@ const usersSchema = new Schema({
     profileImage: {
         name: {
             type: String,
-            required: true
+
         },
         reference: {
             type: String,
-            required: true
+
         }
     },
 

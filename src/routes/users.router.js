@@ -6,6 +6,7 @@ const {
     create,
     roleChange,
     userDocsUpload,
+    deleteInactiveUsers,
 } = require('../controllers/users.controller')
 const { uploaderUsers } = require('../utils/multer')
 const { passportAutorization } = require('../Middlewares/passportAutorization')
@@ -25,6 +26,8 @@ const router = Router()
 router.get('/', getAll)
 
 router.post('/', create)
+
+router.delete('/', deleteInactiveUsers)
 
 router.post(
     '/:uid/documents',

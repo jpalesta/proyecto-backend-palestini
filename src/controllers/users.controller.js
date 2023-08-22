@@ -7,18 +7,14 @@ const { EErrors } = require('../utils/errors/enums')
 const { generateUserInfo } = require('../utils/errors/info')
 const { CustomError } = require('../utils/errors/CustomError')
 const { createHash } = require('../utils/bCryptHash')
+const UserDto = require('../dto/user.dto')
 
 class UserControler {
     getAll = async (req, res) => {
         try {
-            console.log('dirnamedirecto', __dirname)
-            const currentDir = path.dirname(__filename)
-            const currentDirMod = path.join(currentDir, '../public/uploader')
-            console.log('sin mod', currentDir)
-            console.log('mod', currentDirMod)
-
             let users = await usersService.get()
-            res.send({ result: 'success', payload: users })
+            let usersDto = users.map(user => new UserDto(user))
+            res.send({ result: 'success', payload: usersDto })
         } catch (error) {
             logger.error('Cannot get users with mongoose' + error)
         }
@@ -159,6 +155,20 @@ class UserControler {
             next(error)
             console.log(error);
         }
+    }
+
+    deleteInactiveUsers = async (req, res) =>{
+        let users = await usersService.get()
+        let usersToDelete = users.map(user => {
+            let inactiveTime = Date.now () - user.lastConnection
+            if( inactiveTime > (1000*60*60*24*2)) {
+                let inactiveDays = inactiveTime / (1000*60*60*24)
+                console.log(inactiveDays);
+            } else {
+                console.log('usuario activo');
+            }
+        })
+
     }
 }
 
