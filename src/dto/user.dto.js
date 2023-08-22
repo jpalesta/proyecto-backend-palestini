@@ -5,7 +5,8 @@ class UserDto {
             this.role = userDto.role,
             this.email = userDto.email,
             this.age = userDto.age,
-            this.lastConnection = userDto.lastConnection
+            this.lastConnection = userDto.lastConnection,
+            this.profileImage = userDto.profileImage
     }
 }
 

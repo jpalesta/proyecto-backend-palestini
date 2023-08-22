@@ -1,0 +1,32 @@
+<div>
+  <h1>Listado de usuarios</h1>
+</div>
+<div class="container">
+  <div class="row">
+{{#each users}}
+    <div class="col">
+    <div class="card" style="width: 20rem;">
+      <img src="https://th.bing.com/th/id/OIP.adnojoR19AsKm8Zz7M5R9AHaHa?pid=ImgDet&rs=1" class="card-img-top" alt="Imagen de perfil" />
+      <div class="card-body">
+        <h6 class="card-title">{{this.firstName}}</h6>
+        <p class="card-text">{{this.lastName}}</p>
+        <p class="card-text">Role: {{this.role}}</p>
+        <p class="card-text">Age: {{this.age}}</p>
+        <p class="card-text">Email: {{this.email}}</p>
+        <p class="card-text">Last Connection: {{this.lastConnection}}</p>
+      </div>
+      <div class="card-body">
+        <a href="#" class="card-link">Modificar Rol</a>
+        <a href="#" class="card-link">Eliminar</a>
+      </div>
+    </div>
+    </div>
+{{/each}}
+  </div>
+</div>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>

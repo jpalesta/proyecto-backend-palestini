@@ -59,6 +59,6 @@ router.get('/restorepassLink/:link', viewRestorePassLink)
 
 router.get('/mockingproducts', viewMockingProducts)
 
-router.get('/usersmaintenance', viewUsersMaintenance )
+router.get('/usersmaintenance', isAuthenticatedView, passportAutorization('admin'), viewUsersMaintenance )
 
 module.exports = router

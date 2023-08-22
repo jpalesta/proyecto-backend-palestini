@@ -1,4 +1,5 @@
-const { productsService, cartsService } = require('../service/index.js')
+const UserDto = require('../dto/user.dto.js')
+const { productsService, cartsService, usersService } = require('../service/index.js')
 const { generateProducts } = require('../utils/faker.js')
 const { logger } = require('../utils/logger')
 
@@ -177,8 +178,18 @@ class ViewsController {
             logger.error(error)
         }
     }
-    viewUsersMaintenance =  (req, res) => {
-        res.render('usersMaintenance')
+    viewUsersMaintenance =  async (req, res) => {
+        try {
+            let users = await usersService.get()
+            let usersDto = users.map(user => new UserDto(user))
+            console.log(usersDto);
+            let testUser = {
+                users: usersDto
+            }
+            res.render('usersMaintenance', testUser)
+        } catch (error) {
+            logger.error(error)
+        }
     }
 }
 
