@@ -10,7 +10,7 @@ const {
 const { sendMail } = require('../utils/sendMail')
 const { sendSms } = require('../utils/sendSms')
 const { logger } = require('../utils/logger')
-const { createLogger } = require('winston')
+const { createLogger, error } = require('winston')
 
 class CartController {
     getAll = async (req, res) => {
@@ -107,7 +107,7 @@ class CartController {
                     message: 'Invalid cart ID format',
                 })
             }
-
+            
             const pid = req.params.pid
             if (!mongoose.Types.ObjectId.isValid(pid)) {
                 return res.status(400).send({
@@ -133,6 +133,14 @@ class CartController {
                         'The product selected doesn´t exist, please check the product number',
                 })
             }
+            const userId = req.user.user._id
+            const productToUpdateOwner = productToUpdate.owner.toString()
+
+            if (productToUpdateOwner === userId) {
+
+               throw new Error ('You can´t add your own products to the cart')   
+
+            } else {
 
             const cart = await cartsService.updateProductInCart(
                 cid,
@@ -142,16 +150,17 @@ class CartController {
                 status: 'success',
                 payload: cart
             })
-        } catch (error) {
-            logger.error(error)
-            console.log('error en modificacion de cart', error)
+        }} catch (error) {
+            return res.status(400).send({
+                status: 'error',
+                message: error.message, 
+            });
         }
     }
 
     updateWithBody = async (req, res) => {
         try {
             const cid = req.params.cid
-            console.log('cid', cid)
             if (!mongoose.Types.ObjectId.isValid(cid)) {
                 return res.status(400).send({
                     status: 'error',
@@ -160,7 +169,6 @@ class CartController {
             }
 
             const pid = req.params.pid
-            console.log('pid', pid)
             if (!mongoose.Types.ObjectId.isValid(pid)) {
                 return res.status(400).send({
                     status: 'error',
@@ -169,7 +177,6 @@ class CartController {
             }
 
             const userId = req.user.user._id
-            console.log('userId', userId)
 
             let quantity = req.body.quantity
             if (!quantity) {
@@ -201,7 +208,7 @@ class CartController {
                 pid,
                 quantity
             )
-            console.log('cart', cart)
+
 
             res.status(200).send({
                 status: 'success',

@@ -30,7 +30,7 @@ router.post('/', create)
 router.post(
     '/:cid/products/:pid',
     isAuthenticated,
-    passportAutorization(['admin', 'premium']),
+    passportAutorization(['premium', 'user']),
     update
 )
 

@@ -82,11 +82,11 @@ class ViewsController {
                 : null
 
             let userLoged = req.user
-
             let testUser = {
                 firstName: userLoged.user.firstName,
                 lastName: userLoged.user.lastName,
                 role: userLoged.user.role,
+                cart: userLoged.user.cart.id,
                 title: 'Lista de Productos',
                 products: docs,
                 hasPrevPage,
@@ -112,7 +112,7 @@ class ViewsController {
     viewOneCart = async (req, res) => {
         try {
             const cid = req.params.cid
-            const cart = await cartsService.getCartByIdPopulate({ _id: cid })
+            const cart = await cartsService.getCartPopulate({ _id: cid })
             if (cart.products.length === 0) {
                 let testUser = {
                     title: `Cart Number ${cart._id} is empty`,
@@ -178,6 +178,7 @@ class ViewsController {
             logger.error(error)
         }
     }
+    
     viewUsersMaintenance =  async (req, res) => {
         try {
             let users = await usersService.get()

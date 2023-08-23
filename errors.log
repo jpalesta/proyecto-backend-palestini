@@ -89,3 +89,55 @@ error: log error mid
 error: undefined
 error: log error mid
 error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: {
+  _id: new ObjectId("64ac7286cbff681003e77163"),
+  products: [
+    {
+      product: new ObjectId("64c6fd8e99eed300ab6d43c2"),
+      quantity: 9,
+      _id: new ObjectId("64e5f4a25ba438ceb0dba575")
+    },
+    {
+      product: new ObjectId("64c6fda999eed300ab6d43c6"),
+      quantity: 5,
+      _id: new ObjectId("64e5f4a45ba438ceb0dba57c")
+    },
+    {
+      product: new ObjectId("64c80dff2de39dcfadd4ccad"),
+      quantity: 1,
+      _id: new ObjectId("64e5f4a65ba438ceb0dba585")
+    },
+    {
+      product: new ObjectId("64c97d4d7662fd8daaeae1ec"),
+      quantity: 2,
+      _id: new ObjectId("64e5f4a85ba438ceb0dba590")
+    },
+    {
+      product: new ObjectId("64d05198e968426614ac819d"),
+      quantity: 1,
+      _id: new ObjectId("64e5f4a95ba438ceb0dba59d")
+    },
+    {
+      product: new ObjectId("64e21bade5ea9173809dc066"),
+      quantity: 1,
+      _id: new ObjectId("64e5f4ac5ba438ceb0dba5ac")
+    },
+    {
+      product: new ObjectId("64e5f6c46d02e5e1c8a70538"),
+      quantity: 3,
+      _id: new ObjectId("64e5f6ce6d02e5e1c8a7054e")
+    }
+  ],
+  __v: 7
+}
+error: log error mid
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}

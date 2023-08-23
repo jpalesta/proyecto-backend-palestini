@@ -33,7 +33,7 @@ Content-Type: application/json
 
 //CARTS
 ### POST Agrega o incrementa un producto en un carrito, ambos pasan por params check ok
-post http://localhost:8080/api/carts/6464ac19de6d7432d24c1304/products/64c6fda999eed300ab6d43c6
+post http://localhost:8080/api/carts/64b6e971d789534fc34c3526/products/64c6fd8e99eed300ab6d43c2
 Content-Type: application/json
 
 {
@@ -51,11 +51,11 @@ POST  http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Título Producto Modelo 6" ,
-"description": "Descripción Producto Modelo 6"  ,
+"title": "Título Producto Modelo 15" ,
+"description": "Descripción Producto Modelo 15"  ,
 "price": 10000 ,
 "thumbnail": "" ,
-"code": "A06",
+"code": "A15",
 "stock": 300,
 "category": "Categoría Modelo",
 "status": true
@@ -114,7 +114,7 @@ Content-Type: application/json
 
 
 ### DELETE Vacía un carrito por id check ok
-delete http://localhost:8080/api/carts/64622c96f3e73d823d6ddd
+delete http://localhost:8080/api/carts/64ac7286cbff681003e77163
 
 ### DELETE borra un producto de un carrito por id de carrito e id de producto check ok
 delete http://localhost:8080/api/carts/6462272ed9cf3a62517025bf/products/645fdc8a30fab603d13ba3f9
