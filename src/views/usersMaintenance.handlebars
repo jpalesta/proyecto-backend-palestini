@@ -1,32 +1,120 @@
 <div>
-  <h1>Listado de usuarios</h1>
+    <h1>Opciones de administrador</h1>
+    <h3>Listado de usuarios</h3>
+    <button
+        type='button'
+        class='btn btn-primary'
+        onclick="window.location.href='/api/session/logout/'"
+    >Logout</button>
 </div>
-<div class="container">
-  <div class="row">
-{{#each users}}
-    <div class="col">
-    <div class="card" style="width: 20rem;">
-      <img src="https://th.bing.com/th/id/OIP.adnojoR19AsKm8Zz7M5R9AHaHa?pid=ImgDet&rs=1" class="card-img-top" alt="Imagen de perfil" />
-      <div class="card-body">
-        <h6 class="card-title">{{this.firstName}}</h6>
-        <p class="card-text">{{this.lastName}}</p>
-        <p class="card-text">Role: {{this.role}}</p>
-        <p class="card-text">Age: {{this.age}}</p>
-        <p class="card-text">Email: {{this.email}}</p>
-        <p class="card-text">Last Connection: {{this.lastConnection}}</p>
-      </div>
-      <div class="card-body">
-        <a href="#" class="card-link">Modificar Rol</a>
-        <a href="#" class="card-link">Eliminar</a>
-      </div>
+<div class='container'>
+    <div class='row'>
+        {{#each users}}
+            <div class='col'>
+                <div class='card' style='width: 15rem;'>
+                    <img
+                        src='https://th.bing.com/th/id/OIP.adnojoR19AsKm8Zz7M5R9AHaHa?pid=ImgDet&rs=1'
+                        class='card-img-top'
+                        alt='Imagen de perfil'
+                    />
+                    <div class='card-body'>
+                        <h6 class='card-title'>{{this.firstName}}</h6>
+                        <p class='card-text'>{{this.lastName}}</p>
+                        <p class='card-text'>Role: {{this.role}}</p>
+                        <p class='card-text'>Age: {{this.age}}</p>
+                        <p class='card-text'>Email: {{this.email}}</p>
+                        <p class='card-text'>Last Connection:
+                            {{this.lastConnection}}</p>
+                    </div>
+                    <div class='card-body'>
+                        <button
+                            type='button'
+                            class='btn btn-primary modify-role-btn'
+                            data-uid='{{this.id}}'
+                        >Modificar Rol</button>
+                        <button
+                            type='button'
+                            class='btn btn-primary delete-user-btn'
+                            data-uid='{{this.id}}'
+                        >Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
     </div>
-    </div>
-{{/each}}
-  </div>
 </div>
 
 <script
-  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-  crossorigin="anonymous"
+    src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js'
+    integrity='sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM'
+    crossorigin='anonymous'
 ></script>
+
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+
+<script>
+    window.addEventListener('load', () => { 
+      const deleteUserButtons = document.querySelectorAll('.delete-user-btn');
+      deleteUserButtons.forEach(button => { 
+        button.addEventListener('click', async () => { 
+          try {const uid = button.getAttribute('data-uid'); 
+              console.log(uid)
+              const url =`http://localhost:8080/api/users/${uid}` 
+              const response = await fetch(url, { method: 'DELETE' }) 
+              console.log('response afuera del if', response) 
+              if (response.ok) { 
+                console.log('response ok', response)
+                Swal.fire({ 
+                  icon:'success', 
+                  title: 'Usuario eliminado con éxito'}) 
+              } else {
+                console.log('response no ok', response) 
+                const responseData = await response.json(); 
+                Swal.fire({ 
+                  icon: 'error', 
+                  title: 'Error', 
+                  text: responseData.message, }) 
+                } } 
+          catch (error) { 
+            console.error('Error en la solicitud:', error); 
+            } 
+        }); 
+      }); 
+    });
+</script>
+
+<script>
+    window.addEventListener('load', () => { 
+      console.log('página cargada 2') 
+      const modifyRoleUserButtons = document.querySelectorAll('.modify-role-btn');
+      modifyRoleUserButtons.forEach(button => { 
+        button.addEventListener('click', async () => { 
+          try {const uid = button.getAttribute('data-uid'); 
+              console.log(uid)
+              const url =`http://localhost:8080/api/users/premium/${uid}` 
+              const response = await fetch(url, { method: 'POST' }) 
+              if (response.ok) { 
+                const responseData = await response.json(); 
+                Swal.fire({ 
+                  icon:'success', 
+                  title: 'Usuario modificado con éxito',
+                  text: responseData.message,
+                  timer: 2000, 
+                  showConfirmButton: false }) 
+                  setTimeout(() => {
+              window.location.href ='/usersmaintenance/'
+            }, 2000);
+              } else {
+                const responseData = await response.json(); 
+                Swal.fire({ 
+                  icon: 'error', 
+                  title: 'Error', 
+                  text: responseData.message, }) 
+                } } 
+          catch (error) { 
+            console.error('Error en la solicitud:', error); 
+            } 
+        }); 
+      }); 
+    });
+</script>

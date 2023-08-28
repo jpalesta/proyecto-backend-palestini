@@ -38,7 +38,11 @@ class SessionController {
                 const dateConnection = {lastConnection: actualDate}
                 const uid = user._id.toString()
                 await usersService.updateById(uid, dateConnection)
+                if(user.role==='admin') {
+                    res.redirect('/usersmaintenance')
+                } else {
                 res.redirect('/products')
+                }
             }
         } catch (error) {
             console.log('error en login', error);

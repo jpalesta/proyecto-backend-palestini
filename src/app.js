@@ -19,13 +19,30 @@ const {
 const { errorHandler } = require('./Middlewares/error.midlewares')
 const { addlogger } = require('./Middlewares/logger.middleware')
 const { logger } = require('./utils/logger')
+const { socketIoSetup } = require('./utils/socketIo')
+const { default: mongoose } = require('mongoose')
 
 //configuracion express + socketserver
 const app = express()
 const port = process.env.PORT
 
-//configuracion de CORS
+//conexión a Mongo para deploy
+const connection = mongoose.connect(process.env.MONGO_URL)
 
+//configuración de socke.io
+const server = app.listen(port, () => {
+    logger.info(`Listening on port ${port}`)
+})
+const io = new Server(server)
+socketIoSetup(io)
+
+
+
+//midleware de logger
+app.use(addlogger)
+
+
+//configuracion de CORS
 const corsOptions = {
     origin: 'http://localhost:8080',
     methods: 'GET, POST, PUT, DELETE',
@@ -33,15 +50,6 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-
-//midleware de logger
-app.use(addlogger)
-
-//configuración de socke.io
-const server = app.listen(port, () => {
-    logger.info(`Listening on port ${port}`)
-})
-const io = new Server(server)
 
 //configuracion para que express reconozca formatos
 app.use(express.json())
@@ -68,8 +76,8 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
-//configuracion de carpeta public
-app.use('/static', express.static(__dirname + '/public'))
+
+
 
 //Prueba de Multer
 app.post('/single', (req, res) => {
@@ -94,23 +102,7 @@ app.post('/single', (req, res) => {
 //     })
 // })
 
-//middleware de manejo de errores
-app.use(errorHandler)
 
-io.on('connection', (socket) => {
-    logger.info('new client connect')
-    socket.on('productsUpdated', (data) => {
-        io.emit('updatedProductsUi', data)
-        logger.info('productos enviados a realtime', data)
-    })
-    socket.on('newUserConnected', (data) => {
-        socket.broadcast.emit('newUserConnectedToast', data)
-    })
-    socket.on('newMessage', async (newMessage) => {
-        logger.info('clg newMessage', newMessage)
-        await chatManagerDB.addMessage(newMessage)
-        logs = await chatManagerDB.getmessages()
-        io.emit('completeLogs', logs)
-        logger.info('logs', logs)
-    })
-})
+//middleware de manejo de errores
+// app.use(errorHandler)
+

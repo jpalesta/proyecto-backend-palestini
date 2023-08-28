@@ -38,9 +38,9 @@ class UsersDaoMongo {
         }
     }
     
-    deleteUser = async (email) => {
+    deleteUser = async (uid) => {
         try {
-            const deletedUser = await this.model.deleteOne(email)
+            const deletedUser = await this.model.deleteOne({_id: uid})
             return deletedUser
         } catch (error) {
             logger.error('error en deleteUser', error)

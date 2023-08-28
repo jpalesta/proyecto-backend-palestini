@@ -51,11 +51,11 @@ POST  http://localhost:8080/api/products
 Content-Type: application/json
 
 {
-"title": "Título Producto Modelo 15" ,
-"description": "Descripción Producto Modelo 15"  ,
+"title": "Título Producto Modelo 17" ,
+"description": "Descripción Producto Modelo 17"  ,
 "price": 10000 ,
 "thumbnail": "" ,
-"code": "A15",
+"code": "A17",
 "stock": 300,
 "category": "Categoría Modelo",
 "status": true
@@ -172,19 +172,23 @@ Content-Type: application/json
         "role": "premium"
 }
 
+###DELETE Borra un usuario desde USERS
+DELETE  http://localhost:8080/api/users/64e63ec028e052084a17640f
+
+
 
 ###POST Crea un usuario desde SESSION/REGISTER VER COMO ADAPTAR EL MANEJO DE ERRORES EN EL PASSPORT REGISTER
 post http://localhost:8080/api/session/register
 Content-Type: application/json
 
 {
-        "firstName": 15,
+        "firstName": "prueba",
         "lastName": "prueba desde REST",
-        "email": "prueba8@desde12r34est.com",
+        "email": "prueba10@desde12r34est.com",
         "dateOfBirth": "2000-01-01",
         "password": "123456",
         "cart": "64a88ad4977fb3772ee19f25",
-        "role": "premium"
+        "role": "user"
 }
 
 ###GET Ruta de prueba de los loggers

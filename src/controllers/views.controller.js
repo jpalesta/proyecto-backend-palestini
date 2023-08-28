@@ -99,6 +99,7 @@ class ViewsController {
             res.render('index', testUser)
         } catch (error) {
             logger.error(error)
+            console.log(error);
             return res.send({ status: 'error', message: 'something was wrong' })
         }
         function createLink(currentURL, page, newPage) {
@@ -122,6 +123,7 @@ class ViewsController {
             let testUser = {
                 title: `Cart Number ${cart._id}`,
                 products: cart.products,
+                cart: cart._id
             }
             res.render('cart', testUser)
         } catch (error) {
@@ -169,7 +171,7 @@ class ViewsController {
 
     viewMockingProducts = async (req, res) => {
         try {
-            const mockingProducts = await generateProducts(50)
+            const mockingProducts = await generateProducts(10)
             let testUser = {
                 products: mockingProducts,
             }
@@ -183,7 +185,6 @@ class ViewsController {
         try {
             let users = await usersService.get()
             let usersDto = users.map(user => new UserDto(user))
-            console.log(usersDto);
             let testUser = {
                 users: usersDto
             }

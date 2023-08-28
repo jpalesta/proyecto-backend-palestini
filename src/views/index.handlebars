@@ -12,6 +12,16 @@
         <button
             type='button'
             class='btn btn-primary'
+            onclick="window.location.href='/chat/'"
+        >Chat</button>
+        <button
+            type='button'
+            class='btn btn-primary'
+            onclick="window.location.href='/formcookies/'"
+        >Form Cookies</button>
+        <button
+            type='button'
+            class='btn btn-primary'
             onclick="window.location.href='/cart/{{cart}}/'"
         >Ver Carrito</button>
     {{else}}
@@ -86,7 +96,9 @@
                           console.log('Producto agregado al carrito con éxito') 
                           Swal.fire({ 
                             icon:'success', 
-                            title: 'Producto agregado al carrito con éxito'})
+                            title: 'Producto agregado al carrito con éxito',
+                            timer: 2000, 
+                            showConfirmButton: false})
                     } else {
                             const responseData = await response.json();
                             console.error(responseData)

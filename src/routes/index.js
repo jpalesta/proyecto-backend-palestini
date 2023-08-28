@@ -1,4 +1,6 @@
 const { Router } = require('express')
+const express = require('express')
+
 const router = Router()
 
 const productsRouter = require('./products.router.js')
@@ -18,6 +20,9 @@ router.use('/api/products', productsRouter)
 router.use('/api/users', usersRouter)
 router.use('/api/carts', cartsRouter)
 router.use('/api/session', sessionsRouter)
+
+//configuración de carpeta router
+router.use('/static', express.static(__dirname + '../../public'))
 
 //configuracion swagger
 const specs = swaggerJsDoc(swaggerOptions)

@@ -1,16 +1,18 @@
 const mongoose = require('mongoose')
 const { faker } = require('@faker-js/faker')
 
+const { sendMail } = require('../utils/sendMail')
+const { sendSms } = require('../utils/sendSms')
+const { logger } = require('../utils/logger')
+
 const cartValidate = require('../Middlewares/validation/cart.validator')
 const {
     cartsService,
     productsService,
     ticketsService,
 } = require('../service/index.js')
-const { sendMail } = require('../utils/sendMail')
-const { sendSms } = require('../utils/sendSms')
-const { logger } = require('../utils/logger')
-const { createLogger, error } = require('winston')
+
+
 
 class CartController {
     getAll = async (req, res) => {
@@ -477,6 +479,10 @@ class CartController {
                 })
             } else {
                 logger.warning('there are no products for the ticket')
+                res.status(400).send({
+                    status: 'error',
+                    message: 'No hay productos disponibles para facturar',
+                })
             }
         } catch (error) {
             logger.error(error)

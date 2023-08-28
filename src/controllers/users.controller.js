@@ -13,7 +13,7 @@ class UserControler {
     getAll = async (req, res) => {
         try {
             let users = await usersService.get()
-            let usersDto = users.map(user => new UserDto(user))
+            let usersDto = users.map((user) => new UserDto(user))
             res.send({ result: 'success', payload: usersDto })
         } catch (error) {
             logger.error('Cannot get users with mongoose' + error)
@@ -135,40 +135,88 @@ class UserControler {
             const currentUserRole = currentUser.role
             if (!currentUserRole) {
                 logger.error('Cannot get user with mongoose')
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'User not found in Data Base',
+                })
             }
             if (currentUserRole === 'user') {
-                if(currentUser.documents[2]){
-                currentUser.role = 'premium'
-                await currentUser.save()
-                logger.info('The user role was changed to Premium')
-                } else {
-                    logger.info('The user doesn´t have all the documents to upgrade to premium profile, please send all the required documentation')
+                if (currentUser.documents[2]) {
+                    currentUser.role = 'premium'
+                    await currentUser.save()
+                    return res.status(200).send({
+                        status: 'success',
+                        message: 'The user role was changed to Premium',
+                    })
+                } else {                    
+                    return res.status(400).send({
+                        status: 'error',
+                        message: 'The user doesn´t have all the documents to upgrade to premium profile, please send all the required documentation',
+                    })
                 }
             } else if (currentUserRole === 'premium') {
                 currentUser.role = 'user'
                 await currentUser.save()
-                logger.info('The user role was changed to User')
+                return res.status(200).send({
+                    status: 'success',
+                    message: 'The user role was changed to User',
+                })
             } else {
                 logger.error('The user role was not changed')
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'The user role was not changed',
+                })
             }
         } catch (error) {
-            next(error)
-            console.log(error);
+            return res.status(400).send({
+                status: 'error',
+                message: error.message, 
+            });
         }
     }
 
-    deleteInactiveUsers = async (req, res) =>{
+    deleteInactiveUsers = async (req, res) => {
         let users = await usersService.get()
-        let usersToDelete = users.map(user => {
-            let inactiveTime = Date.now () - user.lastConnection
-            if( inactiveTime > (1000*60*60*24*2)) {
-                let inactiveDays = inactiveTime / (1000*60*60*24)
-                console.log(inactiveDays);
+        let usersToDelete = users.map((user) => {
+            let inactiveTime = Date.now() - user.lastConnection
+            if (inactiveTime > 1000 * 60 * 60 * 24 * 2) {
+                let inactiveDays = inactiveTime / (1000 * 60 * 60 * 24)
+                console.log('inactive days',inactiveDays)
             } else {
-                console.log('usuario activo');
+                console.log('usuario activo')
             }
         })
+    }
 
+    deleteUser = async (req, res) => {
+        try {
+            const uid = req.params.uid
+            if (!mongoose.Types.ObjectId.isValid(uid)) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'Invalid user ID format',
+                })
+            }
+            const userToDelete = await usersService.delete(
+                uid
+            )
+                if (userToDelete.deletedCount === 0) {
+                    res.status(400).send({
+                        status: 'error',
+                        message: `User ${uid} not found in Data Base`,
+                    })
+                } else {
+                    res.status(200).send({
+                        status: 'succes',
+                        message: `User deleted for the Data Base`,
+                })}
+        } catch (error) {
+            return res.status(400).send({
+                status: 'error',
+                message: error.message, 
+            });
+        }
     }
 }
 

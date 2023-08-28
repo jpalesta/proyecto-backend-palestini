@@ -45,3 +45,4 @@ router.put('/:cid/products/:pid', updateProductQuantity)
 router.post('/:cid/purchase', passportAuthentication('jwt'), purchase)
 
 module.exports = router
+

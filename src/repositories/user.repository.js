@@ -19,8 +19,8 @@ class UsersRepository {
         return this.dao.updateUser(uid, dateConnection)
     }
     
-    delete(email) {
-        return this.dao.deleteUser(email)
+    delete(uid) {
+        return this.dao.deleteUser(uid)
     }
 }
 
