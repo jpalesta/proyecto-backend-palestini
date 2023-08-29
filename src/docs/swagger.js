@@ -9,8 +9,6 @@ const swaggerOptions = {
                 'Esta es la documentación de uso y administración de un Ecommerce',
         },
     },
-    // apis: [path.resolve(__dirname, `../../docs/**/*.yaml`)],
-    //pregunta, cómo consigo tener la ruta relativa desde cualquier lugar
     apis: [
         path.resolve(
             './**/*.yaml'
