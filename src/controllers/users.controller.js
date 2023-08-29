@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const mongoose = require('mongoose')
 
 const { usersService, cartsService } = require('../service')
