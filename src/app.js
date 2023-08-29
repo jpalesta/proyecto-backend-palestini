@@ -8,7 +8,7 @@ const multer = require('multer')
 
 require('dotenv').config()
 
-// const routerApp = require('./routes')
+const routerApp = require('./routes')
 const {uploaderUsers, uploaderProducts, multerUpload} = require('./utils/multer.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
 const {
@@ -20,14 +20,16 @@ const { errorHandler } = require('./Middlewares/error.midlewares')
 const { addlogger } = require('./Middlewares/logger.middleware')
 const { logger } = require('./utils/logger')
 const { socketIoSetup } = require('./utils/socketIo')
-const { default: mongoose } = require('mongoose')
+
 
 //configuracion express + socketserver
 const app = express()
 const port = process.env.PORT
 
-//conexión a Mongo para deploy
-const connection = mongoose.connect(process.env.MONGO_URL)
+//configuración y prueba de handlebars
+app.engine('handlebars', handlebars.engine())
+app.set('views', __dirname + '/views')
+app.set('view engine', 'handlebars')
 
 //configuración de socke.io
 const server = app.listen(port, () => {
@@ -69,10 +71,6 @@ initPassportJWT()
 //importacion de rutas de index routes
 app.use(routerApp)
 
-//configuración y prueba de handlebars
-app.engine('handlebars', handlebars.engine())
-app.set('views', __dirname + '/views')
-app.set('view engine', 'handlebars')
 
 
 
