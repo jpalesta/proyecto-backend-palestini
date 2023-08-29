@@ -1,12 +1,11 @@
 const { connect } = require('mongoose')
 require('dotenv').config()
 const { program } = require('../utils/commander')
-const dotenv = require('dotenv')
 
 const { mode } = program.opts()
 
 dotenv.config({
-    path: mode === 'development' ? './.env.development' : './.env.production',
+//     path: mode === 'development' ? './.env.development' : './.env.production',
     mode: mode === 'development' ? 'development' : 'production',
 })
 
