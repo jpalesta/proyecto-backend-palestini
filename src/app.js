@@ -8,7 +8,7 @@ const multer = require('multer')
 
 require('dotenv').config()
 
-const routerApp = require('./routes')
+// const routerApp = require('./routes')
 const {uploaderUsers, uploaderProducts, multerUpload} = require('./utils/multer.js')
 const chatManagerDB = require('./dao/db/chatManagerDB')
 const {
