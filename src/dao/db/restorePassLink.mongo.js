@@ -30,4 +30,4 @@ class RestorePassLinkDaoMongo {
     }
 }
 
-module.exports = RestorePassLinkDaoMongo
+module.exports = new RestorePassLinkDaoMongo

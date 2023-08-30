@@ -130,4 +130,4 @@ class CartManagerDB {
     }
 }
 
-module.exports = CartManagerDB
+module.exports = new CartManagerDB

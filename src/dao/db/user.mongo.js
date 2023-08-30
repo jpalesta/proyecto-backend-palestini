@@ -48,4 +48,4 @@ class UsersDaoMongo {
     }
 }
 
-module.exports = UsersDaoMongo
+module.exports = new UsersDaoMongo

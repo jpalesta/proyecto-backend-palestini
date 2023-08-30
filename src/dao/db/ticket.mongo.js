@@ -14,4 +14,4 @@ class TicketsDaoMongo {
     }
 }
 
-module.exports = TicketsDaoMongo
+module.exports = new TicketsDaoMongo
