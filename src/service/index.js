@@ -1,6 +1,6 @@
 const { ProductsDao } = require('../dao/factory')
 const ProductRepository = require('../repositories/products.repository')
-const productsService = new ProductRepository(ProductsDao())
+const productsService = new ProductRepository(ProductsDao)
 
 const { UsersDao } = require('../dao/factory')
 const UsersRepository = require('../repositories/user.repository')
