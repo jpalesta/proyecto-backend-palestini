@@ -84,4 +84,4 @@ class ProductsDaoMongo {
     }
 }
 
-module.exports = ProductsDaoMongo
+module.exports = new ProductsDaoMongo
