@@ -11,9 +11,9 @@ const swaggerOptions = {
     },
     apis: [
         path.resolve(
-            './**/*.yaml'
+           './src/docs','./**/','*.yaml'
         ),
-    ],
+    ]
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 require('dotenv').config()
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const { generateToken } = require('../utils/jwt')
 const { createHash } = require('../utils/bCryptHash')
