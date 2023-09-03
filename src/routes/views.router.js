@@ -13,7 +13,6 @@ const {
     viewOneCart,
     viewProductsRealtime,
     viewChat,
-    viewFormCookies,
     viewRegister,
     viewLogin,
     viewRestorePass,
@@ -46,8 +45,6 @@ router.get('/cart/:cid', viewOneCart)
 router.get('/realtimeproducts', viewProductsRealtime)
 
 router.get('/chat', isAuthenticatedView, passportAutorization('user'), viewChat)
-
-router.get('/formcookies', viewFormCookies)
 
 router.get('/register', viewRegister)
 

@@ -142,13 +142,6 @@ class ViewsController {
         res.render('chat', {})
     }
 
-    viewFormCookies = (req, res) => {
-        let testUser = {
-            title: 'formcookies',
-        }
-        res.render('formcookies', testUser)
-    }
-
     viewRegister = (req, res) => {
         res.render('registerForm')
     }
