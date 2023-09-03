@@ -143,7 +143,7 @@ class ProductController {
 
             let product = await productsService.createProduct(newProduct)
             await productsService.emitProductsUpdate()
-            console.log('producto creado', product);
+            console.log('producto creado', product)
             res.status(200).send({
                 status: 'success',
                 payload: product,
@@ -245,7 +245,9 @@ class ProductController {
 
             const productToDeleteOwnerID = productToDelete.owner.toString()
 
-            const userOwnerProductToDelete = await usersService.getUser({_id: productToDeleteOwnerID})
+            const userOwnerProductToDelete = await usersService.getUser({
+                _id: productToDeleteOwnerID,
+            })
 
             const deleterUser = req.user.user._id
 
@@ -259,7 +261,7 @@ class ProductController {
                 let html = ` <div>
                 <h1>Hemos eliminado el producto $${productToDelete.description} de la base de datos</h1>
                             </div>`
-                await sendMail(userOwnerProductToDelete.email, subject, html )
+                await sendMail(userOwnerProductToDelete.email, subject, html)
 
                 if (product.deletedCount === 0) {
                     res.status(400).send({
@@ -280,7 +282,11 @@ class ProductController {
                     let html = ` <div>
                     <h1>Hemos eliminado el producto ${productToDelete.description} de la base de datos</h1>
                                 </div>`
-                    await sendMail(userOwnerProductToDelete.email, subject, html )
+                    await sendMail(
+                        userOwnerProductToDelete.email,
+                        subject,
+                        html
+                    )
                 }
 
                 if (product.deletedCount === 0) {

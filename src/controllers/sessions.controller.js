@@ -12,14 +12,14 @@ class SessionController {
     register = async (req, res) => {
         try {
             let testUser = {
-                optmessage: 'Tu usuario fue generado de manera exitosa, por favor logéate con tus nuevas credenciales'
+                optmessage:
+                    'Tu usuario fue generado de manera exitosa, por favor logéate con tus nuevas credenciales',
             }
             res.render('login', testUser)
             logger.info('User register successfull')
         } catch (error) {
-            console.log('error en register', error);
+            console.log('error en register', error)
             logger.error(error)
-
         }
     }
 
@@ -38,25 +38,24 @@ class SessionController {
                     httpOnly: true,
                 })
                 const actualDate = new Date()
-                const dateConnection = {lastConnection: actualDate}
+                const dateConnection = { lastConnection: actualDate }
                 const uid = user._id.toString()
                 await usersService.updateById(uid, dateConnection)
-                if(user.role==='admin') {
+                if (user.role === 'admin') {
                     res.redirect('/usersmaintenance')
                 } else {
-                res.redirect('/products')
+                    res.redirect('/products')
                 }
             }
         } catch (error) {
-            console.log('error en login', error);
+            console.log('error en login', error)
             logger.error(error)
-
         }
     }
 
     current = (req, res) => {
         let user = req.user
-        console.log('user en current', user);
+        console.log('user en current', user)
         let userDto = new UserDto(user)
         res.send({
             message: 'Usuario actual',
@@ -66,9 +65,9 @@ class SessionController {
 
     logout = async (req, res) => {
         try {
-            const user  = req.user
+            const user = req.user
             const actualDate = new Date()
-            const dateConnection = {lastConnection: actualDate}
+            const dateConnection = { lastConnection: actualDate }
             const uid = user.user._id.toString()
             await usersService.updateById(uid, dateConnection)
             res.clearCookie(process.env.JWT_COOKIE_NAME)
@@ -82,7 +81,7 @@ class SessionController {
 
     restorepass = async (req, res) => {
         const baseUrl = `${req.protocol}://${req.get('host')}`
-        console.log(baseUrl);
+        console.log(baseUrl)
         const { email } = req.body
         if (!email) {
             res.status(400).send({
@@ -100,7 +99,9 @@ class SessionController {
             return
         } else {
             const newRestorePassLink =
-                await restorePassLinksService.createRestorePassLink(userDB.email)
+                await restorePassLinksService.createRestorePassLink(
+                    userDB.email
+                )
 
             const link = newRestorePassLink._id.toString()
 
@@ -132,7 +133,8 @@ class SessionController {
             if (!validateLink) {
                 let testUser = {
                     link: link,
-                    linkExpired: 'Tu link ha expirado, por favor solicita uno nuevo'
+                    linkExpired:
+                        'Tu link ha expirado, por favor solicita uno nuevo',
                 }
                 res.render('restorepass', testUser)
                 logger.error('Invalid restore link or link has expired.')
@@ -151,7 +153,8 @@ class SessionController {
                     logger.info('You can´t use the same password')
                     let testUser = {
                         link: link,
-                        passRepeated: 'No puedes usar la última contraseña utilizada, intenta nuevamente por favor'
+                        passRepeated:
+                            'No puedes usar la última contraseña utilizada, intenta nuevamente por favor',
                     }
                     res.render('restorePassLink', testUser)
                 } else {
@@ -159,7 +162,8 @@ class SessionController {
                     userDB.password = createHash(password)
                     await userDB.save()
                     let testUser = {
-                        optmessage: 'Tu contraseña fue restaurada de manera exitosa, por favor logeate nuevamente'
+                        optmessage:
+                            'Tu contraseña fue restaurada de manera exitosa, por favor logeate nuevamente',
                     }
                     res.render('login', testUser)
                     logger.info('your password was restored successfully')

@@ -1,5 +1,9 @@
 const UserDto = require('../dto/user.dto.js')
-const { productsService, cartsService, usersService } = require('../service/index.js')
+const {
+    productsService,
+    cartsService,
+    usersService,
+} = require('../service/index.js')
 const { generateProducts } = require('../utils/faker.js')
 const { logger } = require('../utils/logger')
 
@@ -99,7 +103,7 @@ class ViewsController {
             res.render('index', testUser)
         } catch (error) {
             logger.error(error)
-            console.log(error);
+            console.log(error)
             return res.send({ status: 'error', message: 'something was wrong' })
         }
         function createLink(currentURL, page, newPage) {
@@ -123,7 +127,7 @@ class ViewsController {
             let testUser = {
                 title: `Cart Number ${cart._id}`,
                 products: cart.products,
-                cart: cart._id
+                cart: cart._id,
             }
             res.render('cart', testUser)
         } catch (error) {
@@ -173,13 +177,13 @@ class ViewsController {
             logger.error(error)
         }
     }
-    
-    viewUsersMaintenance =  async (req, res) => {
+
+    viewUsersMaintenance = async (req, res) => {
         try {
             let users = await usersService.get()
-            let usersDto = users.map(user => new UserDto(user))
+            let usersDto = users.map((user) => new UserDto(user))
             let testUser = {
-                users: usersDto
+                users: usersDto,
             }
             res.render('usersMaintenance', testUser)
         } catch (error) {

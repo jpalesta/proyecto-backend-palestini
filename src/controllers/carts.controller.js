@@ -12,8 +12,6 @@ const {
     ticketsService,
 } = require('../service/index.js')
 
-
-
 class CartController {
     getAll = async (req, res) => {
         try {
@@ -109,7 +107,7 @@ class CartController {
                     message: 'Invalid cart ID format',
                 })
             }
-            
+
             const pid = req.params.pid
             if (!mongoose.Types.ObjectId.isValid(pid)) {
                 return res.status(400).send({
@@ -127,7 +125,9 @@ class CartController {
                 })
             }
 
-            const productToUpdate = await productsService.getProduct({ _id: pid })
+            const productToUpdate = await productsService.getProduct({
+                _id: pid,
+            })
             if (!productToUpdate) {
                 return res.status(401).send({
                     status: 'error',
@@ -139,24 +139,19 @@ class CartController {
             const productToUpdateOwner = productToUpdate.owner.toString()
 
             if (productToUpdateOwner === userId) {
-
-               throw new Error ('You can´t add your own products to the cart')   
-
+                throw new Error('You can´t add your own products to the cart')
             } else {
-
-            const cart = await cartsService.updateProductInCart(
-                cid,
-                pid
-            )
-            res.status(200).send({
-                status: 'success',
-                payload: cart
-            })
-        }} catch (error) {
+                const cart = await cartsService.updateProductInCart(cid, pid)
+                res.status(200).send({
+                    status: 'success',
+                    payload: cart,
+                })
+            }
+        } catch (error) {
             return res.status(400).send({
                 status: 'error',
-                message: error.message, 
-            });
+                message: error.message,
+            })
         }
     }
 
@@ -210,7 +205,6 @@ class CartController {
                 pid,
                 quantity
             )
-
 
             res.status(200).send({
                 status: 'success',
@@ -293,7 +287,7 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
-            console.log('error en deleteProduct', error);
+            console.log('error en deleteProduct', error)
         }
     }
 
@@ -486,7 +480,7 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
-            console.log('error en purchase', error);
+            console.log('error en purchase', error)
         }
     }
 }

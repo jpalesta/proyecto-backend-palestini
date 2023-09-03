@@ -185,21 +185,21 @@ class UserControler {
 
             for (let user of users) {
                 let inactiveTime = Date.now() - user.lastConnection
-                if (inactiveTime > 1000 * 60 * 60 * 24 * 2 ) {
+                if (inactiveTime > 1000 * 60 * 60 * 24 * 2) {
                     await usersService.delete(user._id)
-                    usersDeleted.push(user.email)                    
+                    usersDeleted.push(user.email)
                 }
             }
-            if(usersDeleted.length===0){
+            if (usersDeleted.length === 0) {
                 res.status(201).send({
-                    status: 'success'
+                    status: 'success',
                 })
             } else {
                 res.status(200).send({
                     status: 'success',
-                    body: usersDeleted
-                })  
-                console.log('borró + de 1');              
+                    body: usersDeleted,
+                })
+                console.log('borró + de 1')
             }
         } catch (error) {
             console.error('Error al eliminar usuarios inactivos', error)
