@@ -88,9 +88,11 @@
         const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
             addToCartButtons.forEach(button => { 
                 button.addEventListener('click', async () => { 
+                    const currentLocationOrigin = window.location.origin
+                    console.log(currentLocationOrigin)
                     const productId = button.getAttribute('data-productid'); 
                     const cartId = '{{cart}}' 
-                try { const url =`http://localhost:8080/api/carts/${cartId}/products/${productId}` 
+                try { const url =`${currentLocationOrigin}/api/carts/${cartId}/products/${productId}` 
                     const response = await fetch(url, { method: 'POST' }) 
                     if (response.ok) {
                           console.log('Producto agregado al carrito con éxito') 
