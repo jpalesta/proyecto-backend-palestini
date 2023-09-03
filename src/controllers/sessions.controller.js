@@ -127,12 +127,16 @@ class SessionController {
             }
             const validateLink = await restorePassLinksService.getOne(link)
             if (!validateLink) {
-                res.redirect('/restorepass')
+                let testUser = {
+                    link: link,
+                    linkExpired: 'Tu link ha expirado, por favor solicita uno nuevo'
+                }
+                res.render('restorepass', testUser)
                 logger.error('Invalid restore link or link has expired.')
                 return
             }
             const email = validateLink.email
-            const userDB = await usersService.getOne({ email })
+            const userDB = await usersService.getUser({ email })
             bcrypt.compare(password, userDB.password, async (error, result) => {
                 if (error) {
                     logger.error(
@@ -151,12 +155,16 @@ class SessionController {
                     await restorePassLinksService.delete(link)
                     userDB.password = createHash(password)
                     await userDB.save()
+                    let testUser = {
+                        passRestored: 'Tu contraseña fue restaurada de manera exitosa, por favor logeate nuevamente'
+                    }
+                    res.render('login', testUser)
                     logger.info('your password was restored successfully')
-                    res.redirect('/login')
                 }
             })
         } catch (error) {
             logger.error(error)
+            console.log('error en restoreLink', error)
         }
     }
 }

@@ -71,10 +71,6 @@ initPassportJWT()
 //importacion de rutas de index routes
 app.use(routerApp)
 
-
-
-
-
 //Prueba de Multer
 app.post('/single', (req, res) => {
     multerUpload (req, res, function (err) {
@@ -100,5 +96,5 @@ app.post('/single', (req, res) => {
 
 
 //middleware de manejo de errores
-// app.use(errorHandler)
+app.use(errorHandler)
 

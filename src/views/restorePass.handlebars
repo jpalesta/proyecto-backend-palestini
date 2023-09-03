@@ -1,7 +1,11 @@
 <div class="container">
     <h1>Recuperar contraseña</h1>
     <p class='fs-4', "fw-bold">Por favor ingrese la dirección de email de su usuario</p>
+
+    <div class="text-danger">{{linkExpired}}</div>
+
     <form class='container' action='/api/session/restorepass' method='POST'>
+
         <h6>Email</h6>
         <input
             class='form-control form-control-sm'
