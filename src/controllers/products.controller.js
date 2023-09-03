@@ -143,7 +143,6 @@ class ProductController {
 
             let product = await productsService.createProduct(newProduct)
             await productsService.emitProductsUpdate()
-            console.log('producto creado', product)
             res.status(200).send({
                 status: 'success',
                 payload: product,

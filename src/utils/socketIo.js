@@ -6,7 +6,6 @@ function socketIoSetup(io) {
         logger.info('new client connect')
         
         socket.on('productsUpdated', (data) => {
-            console.log('llego el emit de prod', data);
             prods = data
             io.emit('updatedProductsUi', prods)
             logger.info('productos enviados a realtime')

@@ -199,10 +199,8 @@ class UserControler {
                     status: 'success',
                     body: usersDeleted,
                 })
-                console.log('borró + de 1')
             }
         } catch (error) {
-            console.error('Error al eliminar usuarios inactivos', error)
             res.status(500).json({ error: 'Internal error' })
         }
     }

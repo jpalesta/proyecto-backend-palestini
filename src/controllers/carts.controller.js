@@ -212,7 +212,6 @@ class CartController {
             })
         } catch (error) {
             logger.error(error)
-            console.log('error en modificacion de cart', error)
         }
     }
 
@@ -240,7 +239,6 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
-            console.log('error en deleteAll', error)
         }
     }
 
@@ -287,7 +285,6 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
-            console.log('error en deleteProduct', error)
         }
     }
 
@@ -480,7 +477,6 @@ class CartController {
             }
         } catch (error) {
             logger.error(error)
-            console.log('error en purchase', error)
         }
     }
 }

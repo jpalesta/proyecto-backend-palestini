@@ -68,12 +68,9 @@
           try {
               const currentLocationOrigin = window.location.origin
               const uid = button.getAttribute('data-uid'); 
-              console.log(uid)
               const url =`${currentLocationOrigin}/api/users/${uid}` 
               const response = await fetch(url, { method: 'DELETE' }) 
-              console.log('response afuera del if', response) 
               if (response.ok) { 
-                console.log('response ok', response)
                 Swal.fire({ 
                   icon:'success', 
                   title: 'Usuario eliminado con éxito',
@@ -84,7 +81,6 @@
               window.location.href ='/usersmaintenance/'
             }, 2000);
               } else {
-                console.log('response no ok', response) 
                 const responseData = await response.json(); 
                 Swal.fire({ 
                   icon: 'error', 
@@ -92,7 +88,7 @@
                   text: responseData.message, }) 
                 } } 
           catch (error) { 
-            console.error('Error en la solicitud:', error); 
+            logger.error(error); 
             } 
         }); 
       }); 
@@ -101,14 +97,12 @@
 
 <script>
     window.addEventListener('load', () => { 
-      console.log('página cargada 2') 
       const modifyRoleUserButtons = document.querySelectorAll('.modify-role-btn');
       modifyRoleUserButtons.forEach(button => { 
         button.addEventListener('click', async () => { 
           try {
               const currentLocationOrigin = window.location.origin
               const uid = button.getAttribute('data-uid'); 
-              console.log(uid)
               const url =`${currentLocationOrigin}/api/users/premium/${uid}` 
               const response = await fetch(url, { method: 'POST' }) 
               if (response.ok) { 
@@ -130,7 +124,7 @@
                   text: responseData.message, }) 
                 } } 
           catch (error) { 
-            console.error('Error en la solicitud:', error); 
+            logger.error('Error en la solicitud:', error); 
             } 
         }); 
       }); 
@@ -139,14 +133,12 @@
 
 <script>
     window.addEventListener('load', () => { 
-      console.log('página cargada 3') 
       const deleteInactiveUsersButton = document.getElementById('deleteInactiveUsersButton');
         deleteInactiveUsersButton.addEventListener('click', async () => { 
           try {
               const currentLocationOrigin = window.location.origin
               const url =`${currentLocationOrigin}/api/users/` 
               const response = await fetch(url, { method: 'DELETE' }) 
-              console.log(response) 
               if (response.status === 201){
                                 Swal.fire({ 
                   icon:'warning', 
@@ -180,7 +172,7 @@
               }
               }
           } catch (error) { 
-            console.error('Error en la solicitud:', error); 
+            logger.error('Error en la solicitud:', error); 
             } 
         }); 
       }); 

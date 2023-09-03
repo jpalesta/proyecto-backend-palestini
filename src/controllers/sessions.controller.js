@@ -18,7 +18,6 @@ class SessionController {
             res.render('login', testUser)
             logger.info('User register successfull')
         } catch (error) {
-            console.log('error en register', error)
             logger.error(error)
         }
     }
@@ -48,14 +47,12 @@ class SessionController {
                 }
             }
         } catch (error) {
-            console.log('error en login', error)
             logger.error(error)
         }
     }
 
     current = (req, res) => {
         let user = req.user
-        console.log('user en current', user)
         let userDto = new UserDto(user)
         res.send({
             message: 'Usuario actual',
@@ -81,7 +78,6 @@ class SessionController {
 
     restorepass = async (req, res) => {
         const baseUrl = `${req.protocol}://${req.get('host')}`
-        console.log(baseUrl)
         const { email } = req.body
         if (!email) {
             res.status(400).send({
@@ -171,7 +167,6 @@ class SessionController {
             })
         } catch (error) {
             logger.error(error)
-            console.log('error en restoreLink', error)
         }
     }
 }

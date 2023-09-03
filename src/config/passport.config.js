@@ -79,7 +79,6 @@ const initPassportLocal = () => {
                         return done(null, false)
                     return done(null, user)
                 } catch (error) {
-                    console.log(error)
                     return done(error)
                 }
             }
