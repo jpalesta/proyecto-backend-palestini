@@ -68,7 +68,13 @@
                 console.log('response ok', response)
                 Swal.fire({ 
                   icon:'success', 
-                  title: 'Usuario eliminado con éxito'}) 
+                  title: 'Usuario eliminado con éxito',
+                  text: responseData.message,
+                  timer: 2000, 
+                  showConfirmButton: false }) 
+                  setTimeout(() => {
+              window.location.href ='/usersmaintenance/'
+            }, 2000);
               } else {
                 console.log('response no ok', response) 
                 const responseData = await response.json(); 

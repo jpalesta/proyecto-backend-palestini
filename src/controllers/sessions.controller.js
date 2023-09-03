@@ -78,6 +78,7 @@ class SessionController {
     }
 
     restorepass = async (req, res) => {
+        console.log('req en restorepass', req);
         const { email } = req.body
         if (!email) {
             res.status(400).send({
@@ -85,7 +86,7 @@ class SessionController {
                 message: 'Please complete your email adress',
             })
         }
-        const userDB = await usersService.getOne({ email })
+        const userDB = await usersService.getUser({ email })
         if (!userDB) {
             res.status(404).send({
                 status: 'error',
