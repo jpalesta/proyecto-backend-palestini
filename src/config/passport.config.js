@@ -2,7 +2,6 @@ const passport = require('passport')
 const passportLocal = require('passport-local')
 const GithubStrategy = require('passport-github2')
 const { Strategy, ExtractJwt } = require('passport-jwt')
-const jwt = require('jsonwebtoken')
 
 const { usersService, cartsService } = require('../service')
 const { createHash, isValidPassword } = require('../utils/bCryptHash')
@@ -18,13 +17,12 @@ const initPassportLocal = () => {
         new LocalStrategy(
             { passReqToCallback: true, usernameField: 'email' },
             async (req, username, password, done) => {
-                const { firstName, lastName, email, dateOfBirth, role } = req.body
+                const { firstName, lastName, email, dateOfBirth, role } =
+                    req.body
                 try {
                     let user = await usersService.getUser({ email: username })
                     if (user) {
                         throw new Error('User already exists')
-                        //lo comenté porque no funciona después del throw
-                        // return (done, false)
                     }
                     const cart = await cartsService.createCart({ products: [] })
                     const newUser = {
