@@ -11,8 +11,11 @@ const { usersService, restorePassLinksService } = require('../service')
 class SessionController {
     register = async (req, res) => {
         try {
+            let testUser = {
+                optmessage: 'Tu usuario fue generado de manera exitosa, por favor logéate con tus nuevas credenciales'
+            }
+            res.render('login', testUser)
             logger.info('User register successfull')
-            res.redirect('/login')
         } catch (error) {
             console.log('error en register', error);
             logger.error(error)
@@ -156,7 +159,7 @@ class SessionController {
                     userDB.password = createHash(password)
                     await userDB.save()
                     let testUser = {
-                        passRestored: 'Tu contraseña fue restaurada de manera exitosa, por favor logeate nuevamente'
+                        optmessage: 'Tu contraseña fue restaurada de manera exitosa, por favor logeate nuevamente'
                     }
                     res.render('login', testUser)
                     logger.info('your password was restored successfully')

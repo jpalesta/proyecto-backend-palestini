@@ -1,5 +1,21 @@
+###POST Crea un usuario desde USERS
+post http://localhost:8080/api/users/
+Content-Type: application/json
+
+{
+        "firstName": 15,
+        "lastName": "prueba desde REST",
+        "email": "prueba7@desde12r34est.com",
+        "dateOfBirth": "2000-01-01",
+        "password": "123456",
+        "cart": "64a88ad4977fb3772ee19f25",
+        "role": "premium"
+}
+
 ###DELETE usuarios inactivos
-DELETE  http://localhost:8080/api/users/
+DELETE   http://localhost:8080/api/users/
+###DELETE usuarios inactivos
+GET    http://localhost:8080/api/users/
 
 
 ###POST Cambio de ROLE de Premium a User o viceversa
@@ -158,19 +174,6 @@ post http://localhost:8080/api/session/logout
 ###GET todos los usuarios
 get http://localhost:8080/api/users/
 
-###POST Crea un usuario desde USERS
-post http://localhost:8080/api/users/
-Content-Type: application/json
-
-{
-        "firstName": 15,
-        "lastName": "prueba desde REST",
-        "email": "prueba7@desde12r34est.com",
-        "dateOfBirth": "2000-01-01",
-        "password": "123456",
-        "cart": "64a88ad4977fb3772ee19f25",
-        "role": "premium"
-}
 
 ###DELETE Borra un usuario desde USERS
 DELETE  http://localhost:8080/api/users/64e63ec028e052084a17640f

@@ -8,6 +8,7 @@ const { generateUserInfo } = require('../utils/errors/info')
 const { CustomError } = require('../utils/errors/CustomError')
 const { createHash } = require('../utils/bCryptHash')
 const UserDto = require('../dto/user.dto')
+const { response } = require('express')
 
 class UserControler {
     getAll = async (req, res) => {
@@ -148,10 +149,11 @@ class UserControler {
                         status: 'success',
                         message: 'The user role was changed to Premium',
                     })
-                } else {                    
+                } else {
                     return res.status(400).send({
                         status: 'error',
-                        message: 'The user doesn´t have all the documents to upgrade to premium profile, please send all the required documentation',
+                        message:
+                            'The user doesn´t have all the documents to upgrade to premium profile, please send all the required documentation',
                     })
                 }
             } else if (currentUserRole === 'premium') {
@@ -171,22 +173,38 @@ class UserControler {
         } catch (error) {
             return res.status(400).send({
                 status: 'error',
-                message: error.message, 
-            });
+                message: error.message,
+            })
         }
     }
 
     deleteInactiveUsers = async (req, res) => {
-        let users = await usersService.get()
-        let usersToDelete = users.map((user) => {
-            let inactiveTime = Date.now() - user.lastConnection
-            if (inactiveTime > 1000 * 60 * 60 * 24 * 2) {
-                let inactiveDays = inactiveTime / (1000 * 60 * 60 * 24)
-                console.log('inactive days',inactiveDays)
-            } else {
-                console.log('usuario activo')
+        try {
+            let users = await usersService.get()
+            let usersDeleted = []
+
+            for (let user of users) {
+                let inactiveTime = Date.now() - user.lastConnection
+                if (inactiveTime > 1000 * 60 * 60 * 24 * 2 ) {
+                    await usersService.delete(user._id)
+                    usersDeleted.push(user.email)                    
+                }
             }
-        })
+            if(usersDeleted.length===0){
+                res.status(201).send({
+                    status: 'success'
+                })
+            } else {
+                res.status(200).send({
+                    status: 'success',
+                    body: usersDeleted
+                })  
+                console.log('borró + de 1');              
+            }
+        } catch (error) {
+            console.error('Error al eliminar usuarios inactivos', error)
+            res.status(500).json({ error: 'Internal error' })
+        }
     }
 
     deleteUser = async (req, res) => {
@@ -198,24 +216,23 @@ class UserControler {
                     message: 'Invalid user ID format',
                 })
             }
-            const userToDelete = await usersService.delete(
-                uid
-            )
-                if (userToDelete.deletedCount === 0) {
-                    res.status(400).send({
-                        status: 'error',
-                        message: `User ${uid} not found in Data Base`,
-                    })
-                } else {
-                    res.status(200).send({
-                        status: 'succes',
-                        message: `User deleted for the Data Base`,
-                })}
+            const userToDelete = await usersService.delete(uid)
+            if (userToDelete.deletedCount === 0) {
+                res.status(400).send({
+                    status: 'error',
+                    message: `User ${uid} not found in Data Base`,
+                })
+            } else {
+                res.status(200).send({
+                    status: 'succes',
+                    message: `User deleted for the Data Base`,
+                })
+            }
         } catch (error) {
             return res.status(400).send({
                 status: 'error',
-                message: error.message, 
-            });
+                message: error.message,
+            })
         }
     }
 }
