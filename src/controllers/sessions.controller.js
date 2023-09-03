@@ -78,7 +78,8 @@ class SessionController {
     }
 
     restorepass = async (req, res) => {
-        console.log('req en restorepass', req);
+        const baseUrl = `${req.protocol}://${req.get('host')}`
+        console.log(baseUrl);
         const { email } = req.body
         if (!email) {
             res.status(400).send({
@@ -106,7 +107,7 @@ class SessionController {
 
             const html = `Siga el siguiente enlace para restabler su contraseña:
             
-            <a href="http://localhost:8080/restorepasslink/${link}">Restablecer contraseña</a>`
+            <a href="${baseUrl}/restorepasslink/${link}">Restablecer contraseña</a>`
 
             await sendMail(to, mailSubject, html)
 
