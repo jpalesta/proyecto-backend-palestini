@@ -24,7 +24,7 @@ const { socketIoSetup } = require('./utils/socketIo')
 
 //configuracion express + socketserver
 const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 8080
 
 //configuración y prueba de handlebars
 app.engine('handlebars', handlebars.engine())
