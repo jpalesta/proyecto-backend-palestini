@@ -44,7 +44,7 @@ app.use(addlogger)
 
 //configuracion de CORS
 const corsOptions = {
-    origin: 'http://localhost:8080',
+    origin: '*',
     methods: 'GET, POST, PUT, DELETE',
     allowedHeaders: 'Content-Type, Authorization'
 }
