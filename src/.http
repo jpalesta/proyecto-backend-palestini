@@ -1,7 +1,6 @@
 ###POST Crea un usuario desde USERS
 post http://localhost:8080/api/users/
 Content-Type: application/json
-
 {
         "firstName": 15,
         "lastName": "prueba desde REST",

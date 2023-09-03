@@ -70,7 +70,7 @@ describe('Testing de Ecommerce Jose.Palestini', () => {
         })
         it('Debe hacer un logout y borrar la cookie', async () => {
             const response = await requester.get('/api/session/logout')
-            expect(response.headers['set-cookie']).to.not.include('userCookie=')
+            expect(response.headers['set-cookie']).to.be.undefined
         })
     })
 

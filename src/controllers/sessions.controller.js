@@ -53,7 +53,9 @@ class SessionController {
 
     current = (req, res) => {
         let user = req.user
-        let userDto = new UserDto(user)
+        console.log(user);
+        let userDto = new UserDto(user.user)
+        console.log(userDto);
         res.send({
             message: 'Usuario actual',
             userDto,
