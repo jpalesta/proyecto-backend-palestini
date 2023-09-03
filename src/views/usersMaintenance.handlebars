@@ -57,9 +57,11 @@
       const deleteUserButtons = document.querySelectorAll('.delete-user-btn');
       deleteUserButtons.forEach(button => { 
         button.addEventListener('click', async () => { 
-          try {const uid = button.getAttribute('data-uid'); 
+          try {
+              const currentLocationOrigin = window.location.origin
+              const uid = button.getAttribute('data-uid'); 
               console.log(uid)
-              const url =`http://localhost:8080/api/users/${uid}` 
+              const url =`${currentLocationOrigin}/api/users/${uid}` 
               const response = await fetch(url, { method: 'DELETE' }) 
               console.log('response afuera del if', response) 
               if (response.ok) { 
@@ -89,9 +91,11 @@
       const modifyRoleUserButtons = document.querySelectorAll('.modify-role-btn');
       modifyRoleUserButtons.forEach(button => { 
         button.addEventListener('click', async () => { 
-          try {const uid = button.getAttribute('data-uid'); 
+          try {
+              const currentLocationOrigin = window.location.origin
+              const uid = button.getAttribute('data-uid'); 
               console.log(uid)
-              const url =`http://localhost:8080/api/users/premium/${uid}` 
+              const url =`${currentLocationOrigin}/api/users/premium/${uid}` 
               const response = await fetch(url, { method: 'POST' }) 
               if (response.ok) { 
                 const responseData = await response.json(); 

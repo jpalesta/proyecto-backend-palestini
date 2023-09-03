@@ -76,11 +76,12 @@
         const deleteToCartButtons = document.querySelectorAll('.delete-of-cart-btn');
             deleteToCartButtons.forEach(button => { 
                 button.addEventListener('click', async () => { 
+                    const currentLocationOrigin = window.location.origin
                     const productId = button.getAttribute('data-productid'); 
                     console.log(productId)
                     const cartId = '{{cart}}' 
                     console.log(cartId)
-                try { const url =`http://localhost:8080/api/carts/${cartId}/products/${productId}` 
+                try { const url =`${currentLocationOrigin}/api/carts/${cartId}/products/${productId}` 
                     const response = await fetch(url, { method: 'DELETE' }) 
                     if (response.ok) {
                           console.log('Producto eliminado del carrito con éxito') 
@@ -106,8 +107,9 @@
                 }); 
        const endPurchaseButton = document.getElementById('endPurchaseButton');
         endPurchaseButton.addEventListener('click', async () => {
-        const cartId = '{{cart}}' 
-        const url = `http://localhost:8080/api/carts/${cartId}/purchase`;
+          const currentLocationOrigin = window.location.origin
+          const cartId = '{{cart}}' 
+          const url = `${currentLocationOrigin}/api/carts/${cartId}/purchase`;
 
       try {
         const response = await fetch(url, {
