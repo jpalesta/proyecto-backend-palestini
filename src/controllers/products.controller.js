@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 
 const productValidate = require('../Middlewares/validation/product.validator')
-const { productsService } = require('../service/index.js')
+const { productsService, usersService } = require('../service/index.js')
 const { logger } = require('../utils/logger')
+const { sendMail } = require('../utils/sendMail')
 
 class ProductController {
     getAllPaginate = async (req, res) => {
@@ -244,14 +245,21 @@ class ProductController {
 
             const productToDeleteOwnerID = productToDelete.owner.toString()
 
-            const userProductToDelete = req.user.user._id
+            const userOwnerProductToDelete = await usersService.getUser({_id: productToDeleteOwnerID})
 
-            const userToDeleteRole = req.user.user.role
+            const deleterUser = req.user.user._id
 
-            if (userProductToDelete === productToDeleteOwnerID) {
+            const deleterUserRole = req.user.user.role
+
+            if (deleterUser === productToDeleteOwnerID) {
                 const product = await productsService.deleteOne({
                     _id: pid,
                 })
+                let subject = `El producto ${productToDelete.code} ha sido eliminado`
+                let html = ` <div>
+                <h1>Hemos eliminado el producto $${productToDelete.description} de la base de datos</h1>
+                            </div>`
+                await sendMail(userOwnerProductToDelete.email, subject, html )
 
                 if (product.deletedCount === 0) {
                     res.status(400).send({
@@ -265,8 +273,15 @@ class ProductController {
                     payload: product,
                 })
             }
-            if (userToDeleteRole === 'admin') {
+            if (deleterUserRole === 'admin') {
                 const product = await productsService.deleteOne({ _id: pid })
+                if (userOwnerProductToDelete.role === 'premium') {
+                    let subject = `El producto ${productToDelete.code} ha sido eliminado`
+                    let html = ` <div>
+                    <h1>Hemos eliminado el producto ${productToDelete.description} de la base de datos</h1>
+                                </div>`
+                    await sendMail(userOwnerProductToDelete.email, subject, html )
+                }
 
                 if (product.deletedCount === 0) {
                     res.status(400).send({

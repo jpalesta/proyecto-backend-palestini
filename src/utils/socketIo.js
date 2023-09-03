@@ -1,13 +1,15 @@
 const chatManagerDB = require('../dao/db/chatManagerDB')
-const { logger } = require('../utils/logger')
+const  {logger}  = require('../utils/logger')
 
 function socketIoSetup(io) {
     io.on('connection', (socket) => {
         logger.info('new client connect')
         
         socket.on('productsUpdated', (data) => {
-            io.emit('updatedProductsUi', data)
-            logger.info('productos enviados a realtime', data)
+            console.log('llego el emit de prod', data);
+            prods = data
+            io.emit('updatedProductsUi', prods)
+            logger.info('productos enviados a realtime')
         });
         
         socket.on('newUserConnected', async (data) => {

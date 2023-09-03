@@ -80,7 +80,7 @@ class ProductsDaoMongo {
     emitProductsUpdate = async function () {
         const socket = io('ws://localhost:8080')
         const products = await this.model.find()
-        socket.emit('productsUpdated', products.docs)
+        socket.emit('productsUpdated', products)
     }
 }
 

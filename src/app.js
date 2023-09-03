@@ -86,6 +86,7 @@ app.post('/single', (req, res) => {
     })
     })
 })
+
 // app.post('/single', multerUpload.single('identificatio'), (req, res) => {
 //     console.log('req.file', req.file);
 //     res.status(200).send({
@@ -96,5 +97,5 @@ app.post('/single', (req, res) => {
 
 
 //middleware de manejo de errores
-app.use(errorHandler)
+// app.use(errorHandler)
 

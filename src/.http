@@ -71,7 +71,7 @@ Content-Type: application/json
 "description": "Descripción Producto Modelo 17"  ,
 "price": 10000 ,
 "thumbnail": "" ,
-"code": "A17",
+"code": "A36",
 "stock": 300,
 "category": "Categoría Modelo",
 "status": true
@@ -85,7 +85,7 @@ Content-Type: application/json
 }
 
 ### DELETE borra un producto por ID chequeado OK
-delete http://localhost:8080/api/products/64c7976122e8c64cac3f504b
+delete http://localhost:8080/api/products/64f4cef8216a621f9182bc2c
 
 
 
@@ -166,7 +166,7 @@ get http://localhost:8080/api/session/current
 
 
 ### GET PRUEBA logout
-post http://localhost:8080/api/session/logout
+POST   http://localhost:8080/api/session/logout
 
 
 
